@@ -18,8 +18,8 @@ export default function Navbar() {
                 scrollTrigger: {
                     trigger: document.body,
                     start: "top top",
-                    end: "200px top",
-                    scrub: 1, // Smooth scrub
+                    end: "400px top",
+                    scrub: 0.5, // Smoother scrub
                 }
             });
 
@@ -93,30 +93,31 @@ export default function Navbar() {
                     {/* Glass Background Layer */}
                     <div
                         ref={bgRef}
-                        className="absolute inset-0 rounded-full backdrop-blur-xl border border-white/[0.08] shadow-[0_8px_32px_0_rgba(0,0,0,0.36)]"
+                        className="absolute inset-0 rounded-full backdrop-blur-2xl bg-white/15 border border-white/40 shadow-[0_8px_32px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.2)]"
                     />
 
                     {/* Content Layer */}
-                    <div className="relative z-10 flex items-center gap-2 md:gap-10 px-6 py-3 mix-blend-difference">
+                    <div className="relative z-10 flex items-center gap-2 md:gap-10 px-6 py-3">
+                        {/* Logo - no invert effect */}
                         <Link
                             href="/"
                             className="font-migra text-xl font-bold text-[#C0FF00] mr-4"
-                            data-cursor="Home"
+                            data-cursor="home"
                         >
                             InDiiServe
                         </Link>
 
-                        {/* Desktop Links */}
-                        <div className="hidden md:flex gap-8">
+                        {/* Desktop Links - with invert effect */}
+                        <div className="hidden md:flex gap-8" style={{ mixBlendMode: 'difference' }}>
                             {navLinks.map((link) => (
                                 <Link
                                     key={link.href}
                                     href={link.href}
-                                    className="text-sm font-medium text-white hover:text-[#C0FF00] transition-colors relative group"
-                                    data-cursor="Link"
+                                    className="text-sm font-medium text-white hover:opacity-70 transition-opacity relative group"
+                                    data-cursor="link"
                                 >
                                     {link.label}
-                                    <span className="absolute -bottom-1 left-0 w-full h-px bg-[#C0FF00] scale-x-0 group-hover:scale-x-100 transition-transform origin-right group-hover:origin-left duration-300" />
+                                    <span className="absolute -bottom-1 left-0 w-full h-px bg-white scale-x-0 group-hover:scale-x-100 transition-transform origin-right group-hover:origin-left duration-300" />
                                 </Link>
                             ))}
                         </div>

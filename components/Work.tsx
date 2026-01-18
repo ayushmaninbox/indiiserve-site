@@ -13,6 +13,8 @@ const projects = [
         category: "E-Commerce",
         description: "300% increase in online sales through integrated digital strategy",
         gradient: "from-[#667eea] to-[#764ba2]",
+        image: "/Assets/techflowcommerce.jpg",
+        imageScale: "scale-110",
         tags: ["SEO", "PPC", "Social Media"],
     },
     {
@@ -20,6 +22,7 @@ const projects = [
         category: "Healthcare",
         description: "Patient acquisition increased by 250% with targeted campaigns",
         gradient: "from-[#f093fb] to-[#f5576c]",
+        image: "/Assets/medcare.jpg",
         tags: ["Content Marketing", "Lead Gen"],
     },
     {
@@ -27,6 +30,7 @@ const projects = [
         category: "FinTech",
         description: "Brand awareness grew 400% in 6 months through strategic positioning",
         gradient: "from-[#4facfe] to-[#00f2fe]",
+        image: "/Assets/payswift.jpg",
         tags: ["Branding", "PR", "Analytics"],
     },
     {
@@ -34,6 +38,7 @@ const projects = [
         category: "Real Estate",
         description: "Sold out luxury condo units in 3 months via digital launch",
         gradient: "from-[#434343] to-[#000000]",
+        image: "/Assets/urbanarch.jpg",
         tags: ["Social Ads", "Virtual Tours"],
     },
 ];
@@ -155,16 +160,22 @@ export default function Work() {
                     {projects.map((project, index) => (
                         <div
                             key={project.title}
-                            className="work-card group relative w-[80vw] md:w-[600px] h-[60vh] md:h-[500px] flex-shrink-0 rounded-3xl overflow-hidden bg-white shadow-xl transition-all duration-500"
-                            data-cursor="View"
+                            className="work-card group relative w-[80vw] md:w-[600px] h-[60vh] md:h-[500px] flex-shrink-0 rounded-3xl overflow-hidden shadow-xl transition-all duration-500"
+                            data-cursor="view"
                         >
                             <div className="card-inner w-full h-full relative">
                                 {/* Image Background */}
-                                <div className="absolute inset-0 overflow-hidden">
-                                    <div
-                                        className={`absolute inset-0 bg-gradient-to-br ${project.gradient}`}
+                                <div className="absolute inset-0">
+                                    <img
+                                        src={project.image}
+                                        alt={project.title}
+                                        className={`absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 ${project.imageScale || ''}`}
                                     />
-                                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500" />
+                                    {/* Gradient overlay for text readability */}
+                                    <div
+                                        className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"
+                                    />
+                                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-500" />
                                 </div>
 
                                 {/* Content Overlay */}
@@ -189,7 +200,7 @@ export default function Work() {
                                             {project.tags.map((tag) => (
                                                 <span
                                                     key={tag}
-                                                    className="bg-white/20 backdrop-blur-sm px-4 py-1.5 rounded-full text-xs text-white font-medium"
+                                                    className="bg-[#C0FF00]/20 backdrop-blur-sm px-4 py-1.5 rounded-full text-xs text-white font-medium border border-[#C0FF00]/30"
                                                 >
                                                     {tag}
                                                 </span>

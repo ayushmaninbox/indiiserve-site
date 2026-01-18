@@ -190,16 +190,8 @@ export default function Hero() {
                 </div>
             </div>
 
-            {/* Scroll indicator */}
-            <div
-                ref={scrollRef}
-                className="absolute bottom-12 right-5 md:right-20 flex flex-col items-center gap-4 text-xs tracking-[0.15em] uppercase z-20"
-            >
-                <span>Scroll to explore</span>
-                <div className="w-6 h-12 border-2 border-current rounded-full relative">
-                    <span className="absolute top-2 left-1/2 -translate-x-1/2 w-1.5 h-3 bg-[#C0FF00] rounded-full animate-bounce" />
-                </div>
-            </div>
+
+            {/* Scroll indicator removed */}
 
             {/* Marquee */}
             <div className="absolute bottom-0 left-0 w-full overflow-hidden whitespace-nowrap py-4 bg-black/20 backdrop-blur-sm z-10 border-t border-white/5">

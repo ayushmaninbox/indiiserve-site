@@ -123,6 +123,19 @@ export default function Testimonials() {
         });
     }, [currentIndex]);
 
+    // Auto-rotation
+    const [isPaused, setIsPaused] = useState(false);
+
+    useEffect(() => {
+        if (isPaused) return;
+
+        const interval = setInterval(() => {
+            setCurrentIndex((prev) => (prev + 1) % testimonials.length);
+        }, 5000); // Switch every 5 seconds
+
+        return () => clearInterval(interval);
+    }, [isPaused]);
+
     return (
         <section
             ref={sectionRef}
@@ -140,7 +153,11 @@ export default function Testimonials() {
                     </h2>
                 </div>
 
-                <div className="relative h-[500px] flex items-center justify-center perspective-[1200px]">
+                <div
+                    className="relative h-[500px] flex items-center justify-center perspective-[1200px]"
+                    onMouseEnter={() => setIsPaused(true)}
+                    onMouseLeave={() => setIsPaused(false)}
+                >
                     <div ref={trackRef} className="absolute inset-0 flex items-center justify-center w-full h-full">
                         {testimonials.map((testimonial, index) => (
                             <div

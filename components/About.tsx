@@ -8,9 +8,9 @@ import Image from "next/image";
 gsap.registerPlugin(ScrollTrigger);
 
 const stats = [
-    { number: "150+", label: "Projects Delivered" },
-    { number: "98%", label: "Client Retention" },
-    { number: "5x", label: "Average ROI" },
+    { number: 150, suffix: "+", label: "Projects Delivered" },
+    { number: 98, suffix: "%", label: "Client Retention" },
+    { number: 5, suffix: "x", label: "Average ROI" },
 ];
 
 const shapes = [
@@ -40,6 +40,7 @@ export default function About() {
     const statsRef = useRef<HTMLDivElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
     const floatingShapesRef = useRef<HTMLDivElement[]>([]);
+    const numberRefs = useRef<HTMLSpanElement[]>([]);
 
     useEffect(() => {
         const section = sectionRef.current;
@@ -219,10 +220,34 @@ export default function About() {
                     ease: "back.out(1.5)",
                     scrollTrigger: {
                         trigger: statsRef.current,
-                        start: "top 85%",
+                        start: "top 80%",
                     },
                 }
             );
+
+            // Counter animation for numbers
+            numberRefs.current.forEach((numEl, i) => {
+                if (!numEl) return;
+                const target = stats[i].number;
+                const suffix = stats[i].suffix;
+
+                gsap.fromTo(
+                    { val: 0 },
+                    { val: target },
+                    {
+                        duration: 2,
+                        ease: "power2.out",
+                        scrollTrigger: {
+                            trigger: statsRef.current,
+                            start: "top 80%",
+                        },
+                        onUpdate: function () {
+                            const currentVal = Math.round(this.targets()[0].val);
+                            numEl.textContent = currentVal + suffix;
+                        }
+                    }
+                );
+            });
         }
 
         return () => {
@@ -300,10 +325,13 @@ export default function About() {
                             ref={statsRef}
                             className="grid grid-cols-1 sm:grid-cols-3 gap-10 pt-12 border-t border-[#020202]/10"
                         >
-                            {stats.map((stat) => (
+                            {stats.map((stat, i) => (
                                 <div key={stat.label} className="stat-item text-center">
-                                    <span className="block text-[clamp(3rem,6vw,5rem)] font-bold leading-none mb-3 bg-gradient-to-r from-[#8BC34A] to-[#C0FF00] bg-clip-text text-transparent font-migra">
-                                        {stat.number}
+                                    <span
+                                        ref={(el) => { if (el) numberRefs.current[i] = el; }}
+                                        className="block text-[clamp(3rem,6vw,5rem)] font-bold leading-none mb-3 bg-gradient-to-r from-[#8BC34A] to-[#C0FF00] bg-clip-text text-transparent font-migra"
+                                    >
+                                        0{stat.suffix}
                                     </span>
                                     <span className="text-sm uppercase tracking-[0.1em] opacity-60">
                                         {stat.label}
