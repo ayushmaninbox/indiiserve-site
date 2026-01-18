@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
+import SplitType from "split-type";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -33,6 +34,7 @@ const services = [
 
 export default function Services() {
     const sectionRef = useRef<HTMLDivElement>(null);
+    const headingRef = useRef<HTMLHeadingElement>(null);
     const [activeIndex, setActiveIndex] = useState(0);
     const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -61,6 +63,30 @@ export default function Services() {
             },
         });
 
+        // Split text animation for heading
+        let headingText: SplitType | null = null;
+        if (headingRef.current) {
+            headingText = new SplitType(headingRef.current, { types: 'chars' });
+
+            gsap.fromTo(headingText.chars,
+                {
+                    y: 50,
+                    opacity: 0
+                },
+                {
+                    y: 0,
+                    opacity: 1,
+                    duration: 0.8,
+                    stagger: 0.02,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: headingRef.current,
+                        start: "top 80%",
+                    }
+                }
+            );
+        }
+
         // Animate service cards
         cardsRef.current.forEach((card, i) => {
             if (!card) return;
@@ -84,6 +110,7 @@ export default function Services() {
         });
 
         return () => {
+            if (headingText) headingText.revert();
             ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
         };
     }, []);
@@ -95,7 +122,7 @@ export default function Services() {
                     <span className="inline-block text-sm font-medium tracking-[0.15em] uppercase text-[#C0FF00] mb-6">
                         What We Do
                     </span>
-                    <h2 className="text-[clamp(2.5rem,6vw,4rem)] font-semibold font-migra leading-[1.1]">
+                    <h2 ref={headingRef} className="text-[clamp(2.5rem,6vw,4rem)] font-semibold font-migra leading-[1.1]">
                         Comprehensive Digital Solutions for{" "}
                         <span className="text-[#C0FF00]">Modern Businesses</span>
                     </h2>

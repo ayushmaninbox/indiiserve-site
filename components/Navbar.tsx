@@ -1,26 +1,55 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
-    const [scrolled, setScrolled] = useState(false);
+    const navRef = useRef<HTMLElement>(null);
+    const bgRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        const handleScroll = () => {
-            setScrolled(window.scrollY > 50);
-        };
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
+        const ctx = gsap.context(() => {
+            const tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: document.body,
+                    start: "top top",
+                    end: "200px top",
+                    scrub: 1, // Smooth scrub
+                }
+            });
+
+            // 1. Position Animation: Start at Left (based on CSS) -> Animate to Center
+            // The initial CSS sets it to left-5 or left-20.
+            // We animate 'left' to '50%' and 'xPercent' to -50 (centering it).
+            tl.to(navRef.current, {
+                left: "50%",
+                xPercent: -50,
+                duration: 1,
+                ease: "none"
+            });
+
+            // 2. Background Animation: Darken and sharpen border
+            tl.fromTo(bgRef.current,
+                { backgroundColor: "rgba(2, 2, 2, 0.6)", borderColor: "rgba(255, 255, 255, 0.08)" },
+                { backgroundColor: "rgba(2, 2, 2, 0.95)", borderColor: "rgba(255, 255, 255, 0.2)", duration: 1 },
+                "<"
+            );
+
+        }, navRef);
+
+        return () => ctx.revert();
     }, []);
 
+    // Mobile Menu Animation
     useEffect(() => {
         if (isOpen) {
             gsap.to(".mobile-menu", {
                 opacity: 1,
-                y: 0,
                 pointerEvents: "all",
                 duration: 0.5,
                 ease: "power3.out",
@@ -40,7 +69,6 @@ export default function Navbar() {
         } else {
             gsap.to(".mobile-menu", {
                 opacity: 0,
-                y: -10,
                 pointerEvents: "none",
                 duration: 0.4,
                 ease: "power3.in",
@@ -58,65 +86,63 @@ export default function Navbar() {
     return (
         <>
             <nav
-                className={`fixed top-8 left-1/2 -translate-x-1/2 z-[5000] transition-all duration-500 ease-out ${scrolled ? "mobile:w-[90%] md:w-auto" : "w-[95%] md:w-auto"
-                    }`}
+                ref={navRef}
+                className="fixed top-8 left-5 md:left-20 z-[5000] w-auto"
             >
-                <div
-                    className={`flex items-center gap-2 md:gap-10 bg-[#020202]/80 backdrop-blur-md px-6 py-3 rounded-full border border-white/10 shadow-2xl transition-all duration-500 ${scrolled ? "bg-[#020202]/95 border-white/5" : ""
-                        }`}
-                >
-                    <Link
-                        href="/"
-                        className="font-migra text-xl font-bold text-[#C0FF00] mr-4"
-                        data-cursor="Home"
-                    >
-                        InDiiServe
-                    </Link>
+                <div className="relative">
+                    {/* Glass Background Layer */}
+                    <div
+                        ref={bgRef}
+                        className="absolute inset-0 rounded-full backdrop-blur-xl border border-white/[0.08] shadow-[0_8px_32px_0_rgba(0,0,0,0.36)]"
+                    />
 
-                    {/* Desktop Links */}
-                    <div className="hidden md:flex gap-8">
-                        {navLinks.map((link) => (
-                            <Link
-                                key={link.href}
-                                href={link.href}
-                                className="text-sm font-medium text-white/80 hover:text-[#C0FF00] transition-colors relative group"
-                                data-cursor="Link"
-                            >
-                                {link.label}
-                                <span className="absolute -bottom-1 left-0 w-full h-px bg-[#C0FF00] scale-x-0 group-hover:scale-x-100 transition-transform origin-right group-hover:origin-left duration-300" />
-                            </Link>
-                        ))}
-                    </div>
+                    {/* Content Layer */}
+                    <div className="relative z-10 flex items-center gap-2 md:gap-10 px-6 py-3 mix-blend-difference">
+                        <Link
+                            href="/"
+                            className="font-migra text-xl font-bold text-[#C0FF00] mr-4"
+                            data-cursor="Home"
+                        >
+                            InDiiServe
+                        </Link>
 
-                    <Link
-                        href="#contact"
-                        className="hidden md:inline-flex items-center justify-center bg-[#C0FF00] text-[#020202] px-6 py-2.5 rounded-full text-sm font-bold hover:bg-white transition-colors duration-300"
-                        data-cursor="Start"
-                    >
-                        Get Started
-                    </Link>
-
-                    {/* Mobile Toggle */}
-                    <button
-                        className="md:hidden ml-auto p-2"
-                        onClick={() => setIsOpen(!isOpen)}
-                        aria-label="Toggle menu"
-                    >
-                        <div className="w-6 h-5 relative flex flex-col justify-between">
-                            <span
-                                className={`block w-full h-0.5 bg-white transition-all duration-300 ${isOpen ? "rotate-45 translate-y-2.5 bg-[#C0FF00]" : ""
-                                    }`}
-                            />
-                            <span
-                                className={`block w-full h-0.5 bg-white transition-all duration-300 ${isOpen ? "opacity-0" : ""
-                                    }`}
-                            />
-                            <span
-                                className={`block w-full h-0.5 bg-white transition-all duration-300 ${isOpen ? "-rotate-45 -translate-y-2 bg-[#C0FF00]" : ""
-                                    }`}
-                            />
+                        {/* Desktop Links */}
+                        <div className="hidden md:flex gap-8">
+                            {navLinks.map((link) => (
+                                <Link
+                                    key={link.href}
+                                    href={link.href}
+                                    className="text-sm font-medium text-white hover:text-[#C0FF00] transition-colors relative group"
+                                    data-cursor="Link"
+                                >
+                                    {link.label}
+                                    <span className="absolute -bottom-1 left-0 w-full h-px bg-[#C0FF00] scale-x-0 group-hover:scale-x-100 transition-transform origin-right group-hover:origin-left duration-300" />
+                                </Link>
+                            ))}
                         </div>
-                    </button>
+
+                        {/* Mobile Toggle */}
+                        <button
+                            className="md:hidden ml-auto p-2"
+                            onClick={() => setIsOpen(!isOpen)}
+                            aria-label="Toggle menu"
+                        >
+                            <div className="w-6 h-5 relative flex flex-col justify-between">
+                                <span
+                                    className={`block w-full h-0.5 bg-white transition-all duration-300 ${isOpen ? "rotate-45 translate-y-2.5 bg-[#C0FF00]" : ""
+                                        }`}
+                                />
+                                <span
+                                    className={`block w-full h-0.5 bg-white transition-all duration-300 ${isOpen ? "opacity-0" : ""
+                                        }`}
+                                />
+                                <span
+                                    className={`block w-full h-0.5 bg-white transition-all duration-300 ${isOpen ? "-rotate-45 -translate-y-2 bg-[#C0FF00]" : ""
+                                        }`}
+                                />
+                            </div>
+                        </button>
+                    </div>
                 </div>
             </nav>
 
@@ -133,13 +159,7 @@ export default function Navbar() {
                             {link.label}
                         </Link>
                     ))}
-                    <Link
-                        href="#contact"
-                        className="mobile-link text-3xl font-migra font-bold text-[#C0FF00]"
-                        onClick={() => setIsOpen(false)}
-                    >
-                        Get Started
-                    </Link>
+                    {/* Get Started button removed */}
                 </div>
             </div>
         </>

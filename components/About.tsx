@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Image from "next/image";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -12,12 +13,33 @@ const stats = [
     { number: "5x", label: "Average ROI" },
 ];
 
+const shapes = [
+    "/Assets/circle.png",
+    "/Assets/half tri.png",
+    "/Assets/multistar.png",
+    "/Assets/circle.png",
+    "/Assets/half tri.png",
+];
+
+interface Particle {
+    element: HTMLDivElement;
+    x: number;
+    y: number;
+    vx: number;
+    vy: number;
+    rotation: number;
+    vRot: number;
+    radius: number;
+}
+
 export default function About() {
     const sectionRef = useRef<HTMLDivElement>(null);
     const titleRef = useRef<HTMLHeadingElement>(null);
     const text1Ref = useRef<HTMLParagraphElement>(null);
     const text2Ref = useRef<HTMLParagraphElement>(null);
     const statsRef = useRef<HTMLDivElement>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
+    const floatingShapesRef = useRef<HTMLDivElement[]>([]);
 
     useEffect(() => {
         const section = sectionRef.current;
@@ -43,6 +65,108 @@ export default function About() {
                 });
             },
         });
+
+        // Setup Physics Simulation
+        const particles: Particle[] = [];
+        const gravity = 0.4;
+        const friction = 0.99;
+        const bounce = 0.7;
+
+        // Physics Loop defined in outer scope
+        const updatePhysics = () => {
+            if (!containerRef.current) return;
+            const width = containerRef.current.offsetWidth;
+            const height = containerRef.current.offsetHeight;
+
+            particles.forEach(p => {
+                // Apply forces
+                p.vy += gravity;
+                p.vx *= friction;
+                p.vy *= friction;
+
+                // Update position
+                p.x += p.vx;
+                p.y += p.vy;
+                p.rotation += p.vRot;
+
+                // Floor Collision
+                if (p.y + p.radius * 2 > height) {
+                    p.y = height - p.radius * 2;
+                    p.vy *= -bounce;
+                    p.vx *= 0.8; // More friction on ground
+                    p.vRot *= 0.9;
+                }
+
+                // Wall Collision
+                if (p.x + p.radius * 2 > width) {
+                    p.x = width - p.radius * 2;
+                    p.vx *= -bounce;
+                } else if (p.x < 0) {
+                    p.x = 0;
+                    p.vx *= -bounce;
+                }
+
+                // Render
+                gsap.set(p.element, {
+                    x: p.x,
+                    y: p.y,
+                    rotation: p.rotation
+                });
+            });
+        };
+
+        // Initialize particles
+        if (containerRef.current) {
+            const containerWidth = containerRef.current.offsetWidth;
+            const containerHeight = containerRef.current.offsetHeight;
+
+            floatingShapesRef.current.forEach((el, i) => {
+                if (!el) return;
+
+                // Random start position (mostly above viewport)
+                const startX = Math.random() * (containerWidth - 100);
+                const startY = -Math.random() * 500 - 100; // Start above
+
+                particles.push({
+                    element: el,
+                    x: startX,
+                    y: startY,
+                    vx: (Math.random() - 0.5) * 15, // Random horizontal velocity
+                    vy: Math.random() * 10,       // Initial drop velocity
+                    rotation: Math.random() * 360,
+                    vRot: (Math.random() - 0.5) * 10, // Angular velocity
+                    radius: 40 // Approx half size
+                });
+            });
+
+            // Start simulation when section comes into view
+            ScrollTrigger.create({
+                trigger: section,
+                start: "top center",
+                onEnter: () => {
+                    gsap.ticker.add(updatePhysics);
+                },
+                onLeave: () => {
+                    gsap.ticker.remove(updatePhysics);
+                },
+                onEnterBack: () => {
+                    gsap.ticker.add(updatePhysics);
+                },
+                onLeaveBack: () => {
+                    gsap.ticker.remove(updatePhysics);
+                }
+            });
+
+            // Make draggable (interactive physics) - Optional bit of fun
+            // We won't implement full Draggable here without plugin, but we can add push on hover
+            particles.forEach(p => {
+                p.element.addEventListener('mouseenter', () => {
+                    p.vy -= 15; // Jump up
+                    p.vx += (Math.random() - 0.5) * 20; // Spin away
+                    p.vRot += (Math.random() - 0.5) * 50;
+                });
+            });
+        }
 
         // Title animation
         gsap.fromTo(
@@ -102,6 +226,7 @@ export default function About() {
         }
 
         return () => {
+            gsap.ticker.remove(updatePhysics); // Clean up ticker if active
             ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
         };
     }, []);
@@ -110,9 +235,29 @@ export default function About() {
         <section
             ref={sectionRef}
             id="about"
-            className="py-32 md:py-48 bg-[#FBFBF4] text-[#020202]"
+            className="py-32 md:py-48 bg-[#FBFBF4] text-[#020202] relative overflow-hidden"
         >
-            <div className="max-w-[1400px] mx-auto px-5 md:px-20">
+            {/* Physics Container */}
+            <div ref={containerRef} className="absolute inset-0 pointer-events-none z-0">
+                {shapes.map((src, i) => (
+                    <div
+                        key={i}
+                        ref={(el) => { if (el) floatingShapesRef.current[i] = el; }}
+                        className="absolute w-20 h-20 pointer-events-auto cursor-grab active:cursor-grabbing"
+                        style={{ willChange: "transform" }}
+                    >
+                        <Image
+                            src={src}
+                            alt="Floating shape"
+                            width={80}
+                            height={80}
+                            className="w-full h-full object-contain opacity-80"
+                        />
+                    </div>
+                ))}
+            </div>
+
+            <div className="max-w-[1400px] mx-auto px-5 md:px-20 relative z-10">
                 <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-8 md:gap-20 items-start">
                     <div>
                         <span className="inline-block text-sm font-medium tracking-[0.15em] uppercase text-[#4a7c10] mb-6">

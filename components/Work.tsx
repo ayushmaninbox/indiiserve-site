@@ -29,16 +29,26 @@ const projects = [
         gradient: "from-[#4facfe] to-[#00f2fe]",
         tags: ["Branding", "PR", "Analytics"],
     },
+    {
+        title: "Urban Architecture",
+        category: "Real Estate",
+        description: "Sold out luxury condo units in 3 months via digital launch",
+        gradient: "from-[#434343] to-[#000000]",
+        tags: ["Social Ads", "Virtual Tours"],
+    },
 ];
 
 export default function Work() {
     const sectionRef = useRef<HTMLDivElement>(null);
-    const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
+    const containerRef = useRef<HTMLDivElement>(null);
     const headerRef = useRef<HTMLDivElement>(null);
+    const horizontalWrapperRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const section = sectionRef.current;
-        if (!section) return;
+        const container = horizontalWrapperRef.current;
+
+        if (!section || !container) return;
 
         // Background color transition
         ScrollTrigger.create({
@@ -79,52 +89,53 @@ export default function Work() {
             );
         }
 
-        // Staggered card animations
-        cardsRef.current.forEach((card, i) => {
-            if (!card) return;
+        // Horizontal Scroll Animation
+        // Calculate scroll amount: width of container minus viewport width
+        // We add padding to the scroll amount to ensure the last card is fully visible
+        const getScrollAmount = () => {
+            return -(container.scrollWidth - window.innerWidth + 100);
+        };
 
-            gsap.fromTo(
-                card,
-                { opacity: 0, y: 100, scale: 0.95 },
-                {
-                    opacity: 1,
-                    y: 0,
-                    scale: 1,
-                    duration: 1,
-                    delay: i * 0.15,
-                    ease: "power3.out",
-                    scrollTrigger: {
-                        trigger: card,
-                        start: "top 90%",
-                    },
+        const tween = gsap.to(container, {
+            x: getScrollAmount,
+            ease: "none",
+        });
+
+        ScrollTrigger.create({
+            trigger: sectionRef.current,
+            start: "top top",
+            end: () => `+=${getScrollAmount() * -1 + 200}`, // Adjust end based on scroll length
+            pin: true,
+            animation: tween,
+            scrub: 1,
+            invalidateOnRefresh: true,
+        });
+
+        // Loop through cards for internal parallax/animations
+        const cards = gsap.utils.toArray(".work-card");
+        cards.forEach((card: any) => {
+            gsap.to(card.querySelector(".card-inner"), {
+                scale: 0.95,
+                scrollTrigger: {
+                    trigger: card,
+                    containerAnimation: tween,
+                    start: "center center",
+                    end: "right center",
+                    scrub: true,
                 }
-            );
-
-            // Parallax effect inside card
-            const image = card.querySelector(".card-image");
-            if (image) {
-                gsap.to(image, {
-                    yPercent: -15,
-                    ease: "none",
-                    scrollTrigger: {
-                        trigger: card,
-                        start: "top bottom",
-                        end: "bottom top",
-                        scrub: true,
-                    },
-                });
-            }
+            });
         });
 
         return () => {
             ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+            tween.kill();
         };
     }, []);
 
     return (
-        <section ref={sectionRef} id="work" className="py-32 md:py-48 bg-[#FBFBF4] text-[#020202]">
-            <div className="max-w-[1400px] mx-auto px-5 md:px-20">
-                <div ref={headerRef} className="text-center max-w-[900px] mx-auto mb-20">
+        <section ref={sectionRef} id="work" className="bg-[#FBFBF4] text-[#020202] overflow-hidden">
+            <div className="h-screen flex flex-col justify-center relative">
+                <div ref={headerRef} className="container mx-auto px-5 md:px-20 mb-12 flex-shrink-0">
                     <span className="inline-block text-sm font-medium tracking-[0.15em] uppercase text-[#4a7c10] mb-6">
                         Featured Work
                     </span>
@@ -136,59 +147,71 @@ export default function Work() {
                     </h2>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <div
+                    ref={horizontalWrapperRef}
+                    className="flex gap-10 px-5 md:px-20 w-fit items-center"
+                >
+                    {/* Add extra width wrapper for smooth scrolling */}
                     {projects.map((project, index) => (
                         <div
                             key={project.title}
-                            ref={(el) => { cardsRef.current[index] = el; }}
-                            className="work-card group rounded-3xl overflow-hidden bg-white shadow-[0_4px_40px_rgba(0,0,0,0.08)] transition-all duration-700 hover:-translate-y-4 hover:shadow-[0_30px_80px_rgba(0,0,0,0.15)]"
+                            className="work-card group relative w-[80vw] md:w-[600px] h-[60vh] md:h-[500px] flex-shrink-0 rounded-3xl overflow-hidden bg-white shadow-xl transition-all duration-500"
                             data-cursor="View"
                         >
-                            <div className="h-72 relative overflow-hidden">
-                                <div
-                                    className={`card-image absolute inset-0 bg-gradient-to-br ${project.gradient} scale-110`}
-                                />
-                                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-500" />
-                                <div className="absolute top-5 left-5">
-                                    <span className="bg-white/95 backdrop-blur-sm px-5 py-2.5 rounded-full text-xs font-semibold uppercase tracking-[0.05em] shadow-lg">
-                                        {project.category}
-                                    </span>
+                            <div className="card-inner w-full h-full relative">
+                                {/* Image Background */}
+                                <div className="absolute inset-0 overflow-hidden">
+                                    <div
+                                        className={`absolute inset-0 bg-gradient-to-br ${project.gradient}`}
+                                    />
+                                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500" />
                                 </div>
-                            </div>
 
-                            <div className="p-8">
-                                <h3 className="text-xl font-semibold mb-3 group-hover:text-[#4a7c10] transition-colors duration-300">
-                                    {project.title}
-                                </h3>
-                                <p className="text-sm opacity-60 mb-5 leading-relaxed">
-                                    {project.description}
-                                </p>
-                                <div className="flex gap-2 flex-wrap">
-                                    {project.tags.map((tag) => (
-                                        <span
-                                            key={tag}
-                                            className="bg-[#f0f0f0] px-4 py-1.5 rounded-full text-xs font-medium group-hover:bg-[#C0FF00]/20 transition-colors duration-300"
-                                        >
-                                            {tag}
+                                {/* Content Overlay */}
+                                <div className="absolute inset-0 p-10 flex flex-col justify-between">
+                                    <div className="flex justify-between items-start">
+                                        <span className="bg-white/90 backdrop-blur px-5 py-2 rounded-full text-xs font-semibold uppercase tracking-wider">
+                                            {project.category}
                                         </span>
-                                    ))}
+                                        <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
+                                            <span className="text-xl">↗</span>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <h3 className="text-3xl font-bold mb-4 font-migra text-white">
+                                            {project.title}
+                                        </h3>
+                                        <p className="text-white/90 text-lg font-light mb-6">
+                                            {project.description}
+                                        </p>
+                                        <div className="flex gap-2 flex-wrap">
+                                            {project.tags.map((tag) => (
+                                                <span
+                                                    key={tag}
+                                                    className="bg-white/20 backdrop-blur-sm px-4 py-1.5 rounded-full text-xs text-white font-medium"
+                                                >
+                                                    {tag}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     ))}
-                </div>
 
-                <div className="text-center mt-20">
-                    <Link
-                        href="#"
-                        data-cursor="View"
-                        className="group inline-flex items-center justify-center px-10 py-5 bg-transparent text-[#020202] border-2 border-[#020202] rounded-full font-semibold text-lg overflow-hidden relative transition-transform hover:scale-105"
-                    >
-                        <span className="relative z-10 group-hover:text-white transition-colors duration-300">
-                            View All Projects
-                        </span>
-                        <span className="absolute inset-0 bg-[#020202] transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-500" />
-                    </Link>
+                    {/* Call to action card at the end */}
+                    <div className="w-[80vw] md:w-[400px] h-[60vh] md:h-[500px] flex-shrink-0 flex items-center justify-center">
+                        <Link
+                            href="#"
+                            className="group flex flex-col items-center justify-center w-full h-full border-2 border-dashed border-[#020202]/20 rounded-3xl hover:border-[#020202] hover:bg-white transition-all duration-500"
+                            data-cursor="View All"
+                        >
+                            <span className="text-6xl mb-6 group-hover:scale-110 transition-transform duration-300">→</span>
+                            <span className="text-xl font-bold font-migra">View All Projects</span>
+                        </Link>
+                    </div>
                 </div>
             </div>
         </section>

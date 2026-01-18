@@ -17,10 +17,13 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
     useEffect(() => {
         // Initialize Lenis smooth scroll
         const lenis = new Lenis({
-            duration: 1.2,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            duration: 0.7, // Lower duration for snappier feel (was 1.2)
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Keep exponential easing
             orientation: "vertical",
+            gestureOrientation: "vertical",
             smoothWheel: true,
+            wheelMultiplier: 1.2, // Slightly increase wheel speed
+            touchMultiplier: 2,
         });
 
         lenisRef.current = lenis;

@@ -20,9 +20,12 @@
 }
 
 /* Smooth scrolling */
-html {
-  scroll-behavior: smooth;
+/* Smooth scrolling handled by Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
 }
+
 
 body {
   background: var(--color-dark);

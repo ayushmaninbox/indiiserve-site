@@ -1,11 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import SmoothScroll from "@/components/SmoothScroll";
-import PageLoader from "@/components/PageLoader";
-import CustomCursor from "@/components/CustomCursor";
+import { LoaderProvider } from "@/context/LoaderContext";
+import SiteLayout from "@/components/SiteLayout";
 
 const migra = localFont({
   src: [
@@ -68,13 +65,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${migra.variable} antialiased selection:bg-[#C0FF00] selection:text-black font-migra`}>
-        <SmoothScroll>
-          <PageLoader />
-          <CustomCursor />
-          <Navbar />
-          {children}
-          <Footer />
-        </SmoothScroll>
+        <LoaderProvider>
+          <SiteLayout>
+            {children}
+          </SiteLayout>
+        </LoaderProvider>
       </body>
     </html>
   );

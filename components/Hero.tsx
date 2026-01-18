@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
+import SplitType from "split-type";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -16,9 +17,15 @@ export default function Hero() {
     const descRef = useRef<HTMLParagraphElement>(null);
     const ctaRef = useRef<HTMLDivElement>(null);
     const scrollRef = useRef<HTMLDivElement>(null);
+    const marqueeRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        const tl = gsap.timeline({ delay: 2.5 }); // Wait for loader
+        const tl = gsap.timeline({ delay: 0.1 }); // Minimal delay after mount
+
+        // Initialize SplitType
+        const text1 = new SplitType(title1Ref.current!, { types: 'lines,words' });
+        const text2 = new SplitType(title2Ref.current!, { types: 'lines,words' });
+        const text3 = new SplitType(title3Ref.current!, { types: 'lines,words' });
 
         // Set initial states
         gsap.set([taglineRef.current, descRef.current, ctaRef.current, scrollRef.current], {
@@ -26,8 +33,10 @@ export default function Hero() {
             y: 60,
         });
 
-        gsap.set([title1Ref.current, title2Ref.current, title3Ref.current], {
-            yPercent: 100,
+        // Set initial state for lines
+        gsap.set([text1.lines, text2.lines, text3.lines], {
+            y: "100%",
+            opacity: 0
         });
 
         // Animate tagline
@@ -38,17 +47,14 @@ export default function Hero() {
             ease: "power3.out",
         });
 
-        // Animate title lines with stagger
-        tl.to(
-            [title1Ref.current, title2Ref.current, title3Ref.current],
-            {
-                yPercent: 0,
-                duration: 1,
-                ease: "power3.out",
-                stagger: 0.1,
-            },
-            "-=0.4"
-        );
+        // Animate lines with stagger
+        tl.to([text1.lines, text2.lines, text3.lines], {
+            y: 0,
+            opacity: 1,
+            duration: 1.2,
+            stagger: 0.15,
+            ease: "power3.out",
+        }, "-=0.4");
 
         // Animate description
         tl.to(
@@ -86,6 +92,14 @@ export default function Hero() {
             "-=0.3"
         );
 
+        // Marquee Animation
+        gsap.to(marqueeRef.current, {
+            xPercent: -50,
+            repeat: -1,
+            duration: 20,
+            ease: "linear",
+        });
+
         // Parallax effect on scroll
         gsap.to(heroRef.current, {
             yPercent: 30,
@@ -100,6 +114,9 @@ export default function Hero() {
 
         return () => {
             tl.kill();
+            text1.revert();
+            text2.revert();
+            text3.revert();
             ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
         };
     }, []);
@@ -176,11 +193,29 @@ export default function Hero() {
             {/* Scroll indicator */}
             <div
                 ref={scrollRef}
-                className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 text-xs tracking-[0.15em] uppercase"
+                className="absolute bottom-12 right-5 md:right-20 flex flex-col items-center gap-4 text-xs tracking-[0.15em] uppercase z-20"
             >
                 <span>Scroll to explore</span>
                 <div className="w-6 h-12 border-2 border-current rounded-full relative">
                     <span className="absolute top-2 left-1/2 -translate-x-1/2 w-1.5 h-3 bg-[#C0FF00] rounded-full animate-bounce" />
+                </div>
+            </div>
+
+            {/* Marquee */}
+            <div className="absolute bottom-0 left-0 w-full overflow-hidden whitespace-nowrap py-4 bg-black/20 backdrop-blur-sm z-10 border-t border-white/5">
+                <div ref={marqueeRef} className="inline-flex items-center gap-8 animate-marquee will-change-transform">
+                    {[...Array(4)].map((_, i) => (
+                        <div key={i} className="flex items-center gap-8">
+                            <span className="text-white text-sm md:text-base font-migra uppercase tracking-wider">Innovative Expertise</span>
+                            <span className="w-1.5 h-1.5 rounded-full bg-white/30" />
+                            <span className="text-[#C0FF00] text-sm md:text-base font-migra uppercase tracking-wider">Data-Driven Approach</span>
+                            <span className="w-1.5 h-1.5 rounded-full bg-white/30" />
+                            <span className="text-white text-sm md:text-base font-migra uppercase tracking-wider">Tailored Solutions</span>
+                            <span className="w-1.5 h-1.5 rounded-full bg-white/30" />
+                            <span className="text-[#C0FF00] text-sm md:text-base font-migra uppercase tracking-wider">Scalable Innovation</span>
+                            <span className="w-1.5 h-1.5 rounded-full bg-white/30" />
+                        </div>
+                    ))}
                 </div>
             </div>
         </section>
