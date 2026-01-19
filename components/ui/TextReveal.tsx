@@ -20,7 +20,7 @@ export default function TextReveal({
     as: Component = "span",
 }: TextRevealProps) {
     const containerRef = useRef<HTMLDivElement>(null);
-    const textRef = useRef<HTMLSpanElement>(null);
+    const textRef = useRef<HTMLElement>(null);
 
     useEffect(() => {
         if (!containerRef.current || !textRef.current) return;
@@ -46,7 +46,7 @@ export default function TextReveal({
 
     return (
         <div ref={containerRef} className="overflow-hidden">
-            <Component ref={textRef as React.RefObject<HTMLSpanElement>} className={`block ${className}`}>
+            <Component ref={textRef as React.Ref<never>} className={`block ${className}`}>
                 {children}
             </Component>
         </div>

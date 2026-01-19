@@ -9,10 +9,10 @@ import Image from "next/image";
 gsap.registerPlugin(ScrollTrigger);
 
 const textElements = [
-    { src: "/Assets/Text Elements/Build.png", width: 240, height: 80 },
-    { src: "/Assets/Text Elements/Develop.png", width: 280, height: 80 },
-    { src: "/Assets/Text Elements/Expand.png", width: 260, height: 80 },
-    { src: "/Assets/Text Elements/Scale.png", width: 220, height: 80 },
+    { src: "/images/text-elements/Build.png", width: 240, height: 80 },
+    { src: "/images/text-elements/Develop.png", width: 280, height: 80 },
+    { src: "/images/text-elements/Expand.png", width: 260, height: 80 },
+    { src: "/images/text-elements/Scale.png", width: 220, height: 80 },
 ];
 
 interface PhysicsElement {

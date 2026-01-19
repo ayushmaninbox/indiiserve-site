@@ -1,11 +1,8 @@
 "use client";
 
-import { useLoader } from "../context/LoaderContext";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import PageLoader from "@/components/PageLoader";
-import CustomCursor from "@/components/CustomCursor";
-import SmoothScroll from "@/components/SmoothScroll";
+import { useLoader } from "@/context/LoaderContext";
+import { Navbar, Footer } from "@/components/layout";
+import { PageLoader, CustomCursor, SmoothScroll } from "@/components/ui";
 
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
     const { isLoading } = useLoader();

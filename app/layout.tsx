@@ -2,47 +2,47 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { LoaderProvider } from "@/context/LoaderContext";
-import SiteLayout from "@/components/SiteLayout";
+import SiteLayout from "@/components/layout/SiteLayout";
 
 const migra = localFont({
   src: [
     {
-      path: "../public/Assets/Migra-Extralight.woff2",
+      path: "../public/fonts/Migra-Extralight.woff2",
       weight: "200",
       style: "normal",
     },
     {
-      path: "../public/Assets/Migra-Extralight.woff",
+      path: "../public/fonts/Migra-Extralight.woff",
       weight: "200",
       style: "normal",
     },
     {
-      path: "../public/Assets/Migra-Extralight.woff2",
+      path: "../public/fonts/Migra-Extralight.woff2",
       weight: "400",
       style: "normal",
     },
     {
-      path: "../public/Assets/Migra-Extralight.woff",
+      path: "../public/fonts/Migra-Extralight.woff",
       weight: "400",
       style: "normal",
     },
     {
-      path: "../public/Assets/MigraItalic-ExtralightItalic.woff2",
+      path: "../public/fonts/MigraItalic-ExtralightItalic.woff2",
       weight: "200",
       style: "italic",
     },
     {
-      path: "../public/Assets/Migra-Extrabold.woff2",
+      path: "../public/fonts/Migra-Extrabold.woff2",
       weight: "800",
       style: "normal",
     },
     {
-      path: "../public/Assets/Migra-Extrabold.woff",
+      path: "../public/fonts/Migra-Extrabold.woff",
       weight: "800",
       style: "normal",
     },
     {
-      path: "../public/Assets/MigraItalic-ExtraboldItalic.woff2",
+      path: "../public/fonts/MigraItalic-ExtraboldItalic.woff2",
       weight: "800",
       style: "italic",
     },

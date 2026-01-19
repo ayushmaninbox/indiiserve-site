@@ -14,11 +14,11 @@ const stats = [
 ];
 
 const shapes = [
-    "/Assets/circle.png",
-    "/Assets/half tri.png",
-    "/Assets/multistar.png",
-    "/Assets/circle.png",
-    "/Assets/half tri.png",
+    "/images/circle.png",
+    "/images/half tri.png",
+    "/images/multistar.png",
+    "/images/circle.png",
+    "/images/half tri.png",
 ];
 
 interface Particle {

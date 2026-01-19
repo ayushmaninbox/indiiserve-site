@@ -3,12 +3,12 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import Image from "next/image";
-import { useLoader } from "../context/LoaderContext";
+import { useLoader } from "@/context/LoaderContext";
 
 const shapes = [
-    "/Assets/circle.png",
-    "/Assets/multistar.png",
-    "/Assets/half tri.png"
+    "/images/circle.png",
+    "/images/multistar.png",
+    "/images/half tri.png"
 ];
 
 export default function PageLoader() {
@@ -77,12 +77,14 @@ export default function PageLoader() {
             }, "-=0.5");
 
             // 4. Exit Sequence
-            tl.to([numberRef.current, ".loading-text", progressRef.current.parentElement], {
-                opacity: 0,
-                y: -20,
-                duration: 0.4,
-                ease: "power2.in"
-            });
+            if (progressRef.current) {
+                tl.to([numberRef.current, ".loading-text", progressRef.current.parentElement], {
+                    opacity: 0,
+                    y: -20,
+                    duration: 0.4,
+                    ease: "power2.in"
+                });
+            }
 
             tl.to(shapesRef.current, {
                 scale: 0,

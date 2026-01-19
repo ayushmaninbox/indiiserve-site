@@ -13,7 +13,7 @@ const projects = [
         category: "E-Commerce",
         description: "300% increase in online sales through integrated digital strategy",
         gradient: "from-[#667eea] to-[#764ba2]",
-        image: "/Assets/techflowcommerce.jpg",
+        image: "/images/techflowcommerce.jpg",
         imageScale: "scale-110",
         tags: ["SEO", "PPC", "Social Media"],
     },
@@ -22,7 +22,7 @@ const projects = [
         category: "Healthcare",
         description: "Patient acquisition increased by 250% with targeted campaigns",
         gradient: "from-[#f093fb] to-[#f5576c]",
-        image: "/Assets/medcare.jpg",
+        image: "/images/medcare.jpg",
         tags: ["Content Marketing", "Lead Gen"],
     },
     {
@@ -30,7 +30,7 @@ const projects = [
         category: "FinTech",
         description: "Brand awareness grew 400% in 6 months through strategic positioning",
         gradient: "from-[#4facfe] to-[#00f2fe]",
-        image: "/Assets/payswift.jpg",
+        image: "/images/payswift.jpg",
         tags: ["Branding", "PR", "Analytics"],
     },
     {
@@ -38,7 +38,7 @@ const projects = [
         category: "Real Estate",
         description: "Sold out luxury condo units in 3 months via digital launch",
         gradient: "from-[#434343] to-[#000000]",
-        image: "/Assets/urbanarch.jpg",
+        image: "/images/urbanarch.jpg",
         tags: ["Social Ads", "Virtual Tours"],
     },
 ];
