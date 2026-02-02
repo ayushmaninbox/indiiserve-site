@@ -46,14 +46,14 @@ export default function About() {
         const section = sectionRef.current;
         if (!section) return;
 
-        // Background color change
+        // Background stays dark
         ScrollTrigger.create({
             trigger: section,
             start: "top 50%",
             end: "bottom 50%",
             onEnter: () => {
                 gsap.to("body", {
-                    backgroundColor: "#FBFBF4",
+                    backgroundColor: "#020202",
                     duration: 0.5,
                     ease: "power2.out",
                 });
@@ -260,7 +260,7 @@ export default function About() {
         <section
             ref={sectionRef}
             id="about"
-            className="py-32 md:py-48 bg-[#FBFBF4] text-[#020202] relative overflow-hidden"
+            className="py-32 md:py-48 bg-[#020202] text-white relative overflow-hidden"
         >
             {/* Physics Container */}
             <div ref={containerRef} className="absolute inset-0 pointer-events-none z-0">
@@ -285,7 +285,7 @@ export default function About() {
             <div className="max-w-[1400px] mx-auto px-5 md:px-20 relative z-10">
                 <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-8 md:gap-20 items-start">
                     <div>
-                        <span className="inline-block text-sm font-medium tracking-[0.15em] uppercase text-[#4a7c10] mb-6">
+                        <span className="inline-block text-sm font-medium tracking-[0.15em] uppercase text-[#C0FF00] mb-6">
                             Who We Are
                         </span>
                     </div>
@@ -323,7 +323,7 @@ export default function About() {
 
                         <div
                             ref={statsRef}
-                            className="grid grid-cols-1 sm:grid-cols-3 gap-10 pt-12 border-t border-[#020202]/10"
+                            className="grid grid-cols-1 sm:grid-cols-3 gap-10 pt-12 border-t border-white/10"
                         >
                             {stats.map((stat, i) => (
                                 <div key={stat.label} className="stat-item text-center">

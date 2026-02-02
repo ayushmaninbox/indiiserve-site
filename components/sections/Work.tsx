@@ -1,53 +1,35 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
+import { Project, defaultProjects } from "@/data/projects";
 
 gsap.registerPlugin(ScrollTrigger);
-
-const projects = [
-    {
-        title: "TechFlow Commerce",
-        category: "E-Commerce",
-        description: "300% increase in online sales through integrated digital strategy",
-        gradient: "from-[#667eea] to-[#764ba2]",
-        image: "/images/techflowcommerce.jpg",
-        imageScale: "scale-110",
-        tags: ["SEO", "PPC", "Social Media"],
-    },
-    {
-        title: "MedCare Solutions",
-        category: "Healthcare",
-        description: "Patient acquisition increased by 250% with targeted campaigns",
-        gradient: "from-[#f093fb] to-[#f5576c]",
-        image: "/images/medcare.jpg",
-        tags: ["Content Marketing", "Lead Gen"],
-    },
-    {
-        title: "PaySwift Finance",
-        category: "FinTech",
-        description: "Brand awareness grew 400% in 6 months through strategic positioning",
-        gradient: "from-[#4facfe] to-[#00f2fe]",
-        image: "/images/payswift.jpg",
-        tags: ["Branding", "PR", "Analytics"],
-    },
-    {
-        title: "Urban Architecture",
-        category: "Real Estate",
-        description: "Sold out luxury condo units in 3 months via digital launch",
-        gradient: "from-[#434343] to-[#000000]",
-        image: "/images/urbanarch.jpg",
-        tags: ["Social Ads", "Virtual Tours"],
-    },
-];
 
 export default function Work() {
     const sectionRef = useRef<HTMLDivElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
     const headerRef = useRef<HTMLDivElement>(null);
     const horizontalWrapperRef = useRef<HTMLDivElement>(null);
+    const [projects, setProjects] = useState<Project[]>(defaultProjects);
+
+    useEffect(() => {
+        // Load projects from API
+        const loadProjects = async () => {
+            try {
+                const res = await fetch("/api/projects");
+                if (res.ok) {
+                    const data = await res.json();
+                    setProjects(data);
+                }
+            } catch (error) {
+                console.error("Failed to load projects:", error);
+            }
+        };
+        loadProjects();
+    }, []);
 
     useEffect(() => {
         const section = sectionRef.current;
@@ -55,14 +37,14 @@ export default function Work() {
 
         if (!section || !container) return;
 
-        // Background color transition
+        // Background stays dark
         ScrollTrigger.create({
             trigger: section,
             start: "top 50%",
             end: "bottom 50%",
             onEnter: () => {
                 gsap.to("body", {
-                    backgroundColor: "#FBFBF4",
+                    backgroundColor: "#020202",
                     duration: 0.5,
                     ease: "power2.out",
                 });
@@ -138,10 +120,10 @@ export default function Work() {
     }, []);
 
     return (
-        <section ref={sectionRef} id="work" className="bg-[#FBFBF4] text-[#020202] overflow-hidden">
+        <section ref={sectionRef} id="work" className="bg-[#020202] text-white overflow-hidden">
             <div className="h-screen flex flex-col justify-center relative">
                 <div ref={headerRef} className="container mx-auto px-5 md:px-20 mb-12 flex-shrink-0">
-                    <span className="inline-block text-sm font-medium tracking-[0.15em] uppercase text-[#4a7c10] mb-6">
+                    <span className="inline-block text-sm font-medium tracking-[0.15em] uppercase text-[#C0FF00] mb-6">
                         Featured Work
                     </span>
                     <h2 className="text-[clamp(2.5rem,6vw,4rem)] font-semibold font-migra leading-[1.1]">

@@ -6,3 +6,4 @@ export { default as Work } from './Work';
 export { default as Testimonials } from './Testimonials';
 export { default as FAQ } from './FAQ';
 export { default as ContactCTA } from './ContactCTA';
+export { default as ScrollPortfolio } from './ScrollPortfolio';

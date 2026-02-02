@@ -42,14 +42,14 @@ export default function FAQ() {
         const section = sectionRef.current;
         if (!section) return;
 
-        // Background color transition
+        // Background stays dark
         ScrollTrigger.create({
             trigger: section,
             start: "top 50%",
             end: "bottom 50%",
             onEnter: () => {
                 gsap.to("body", {
-                    backgroundColor: "#FBFBF4",
+                    backgroundColor: "#020202",
                     duration: 0.5,
                     ease: "power2.out",
                 });
@@ -90,11 +90,11 @@ export default function FAQ() {
     };
 
     return (
-        <section ref={sectionRef} id="faq" className="py-32 md:py-48 bg-[#FBFBF4] text-[#020202]">
+        <section ref={sectionRef} id="faq" className="py-32 md:py-48 bg-[#020202] text-white">
             <div className="max-w-[1400px] mx-auto px-5 md:px-20">
                 <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-12 md:gap-24 items-start">
                     <div className="sticky top-32">
-                        <span className="inline-block text-sm font-medium tracking-[0.15em] uppercase text-[#4a7c10] mb-6">
+                        <span className="inline-block text-sm font-medium tracking-[0.15em] uppercase text-[#C0FF00] mb-6">
                             FAQs
                         </span>
                         <h2 className="text-[clamp(2.5rem,5vw,4rem)] font-semibold font-migra leading-[1.1]">
@@ -110,12 +110,12 @@ export default function FAQ() {
                             <div
                                 key={index}
                                 className={`faq-item border rounded-2xl overflow-hidden transition-all duration-300 ${openIndex === index
-                                    ? "border-[#8BC34A] bg-white shadow-lg"
-                                    : "border-[#020202]/10 hover:border-[#8BC34A]/50 bg-transparent"
+                                        ? "border-[#C0FF00] bg-white/5 shadow-lg"
+                                        : "border-white/10 hover:border-[#C0FF00]/50 bg-transparent"
                                     }`}
                             >
                                 <button
-                                    className="w-full flex justify-between items-center p-6 md:p-8 text-left font-medium text-lg md:text-xl hover:text-[#4a7c10] transition-colors"
+                                    className="w-full flex justify-between items-center p-6 md:p-8 text-left font-medium text-lg md:text-xl hover:text-[#C0FF00] transition-colors"
                                     onClick={() => toggleFAQ(index)}
                                     data-cursor={openIndex === index ? "Close" : "Open"}
                                 >
