@@ -25,7 +25,6 @@ export default function EnquiryModal({ isOpen, onClose }: EnquiryModalProps) {
         setIsSubmitting(true);
 
         try {
-            // Save to backend API
             await fetch("/api/enquiries", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -35,7 +34,6 @@ export default function EnquiryModal({ isOpen, onClose }: EnquiryModalProps) {
             setIsSubmitting(false);
             setIsSubmitted(true);
 
-            // Reset after 2.5 seconds
             setTimeout(() => {
                 setIsSubmitted(false);
                 setFormData({
@@ -70,7 +68,7 @@ export default function EnquiryModal({ isOpen, onClose }: EnquiryModalProps) {
             />
 
             {/* Modal */}
-            <div className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-2xl border border-white/10 bg-neutral-900/95 p-8 shadow-2xl">
+            <div className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-2xl border border-violet-500/20 bg-neutral-900/95 p-8 shadow-2xl">
                 {/* Close Button */}
                 <button
                     onClick={onClose}
@@ -83,8 +81,8 @@ export default function EnquiryModal({ isOpen, onClose }: EnquiryModalProps) {
 
                 {isSubmitted ? (
                     <div className="py-16 text-center">
-                        <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-lime-400/20">
-                            <svg className="h-8 w-8 text-lime-400" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                        <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-violet-500/20">
+                            <svg className="h-8 w-8 text-violet-400" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                             </svg>
                         </div>
@@ -96,7 +94,7 @@ export default function EnquiryModal({ isOpen, onClose }: EnquiryModalProps) {
                         {/* Header */}
                         <div className="mb-8 text-center">
                             <h2 className="text-2xl font-bold text-white sm:text-3xl">
-                                Start Your <span className="text-lime-400">Journey</span>
+                                Start Your <span className="bg-gradient-to-r from-indigo-400 via-violet-400 to-purple-400 bg-clip-text text-transparent">Journey</span>
                             </h2>
                             <p className="mt-2 text-neutral-400">
                                 Tell us about your project
@@ -114,7 +112,7 @@ export default function EnquiryModal({ isOpen, onClose }: EnquiryModalProps) {
                                         value={formData.name}
                                         onChange={handleChange}
                                         required
-                                        className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-neutral-500 outline-none transition-all focus:border-lime-400/50"
+                                        className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-neutral-500 outline-none transition-all focus:border-violet-500/50"
                                         placeholder="Your name"
                                     />
                                 </div>
@@ -126,7 +124,7 @@ export default function EnquiryModal({ isOpen, onClose }: EnquiryModalProps) {
                                         value={formData.email}
                                         onChange={handleChange}
                                         required
-                                        className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-neutral-500 outline-none transition-all focus:border-lime-400/50"
+                                        className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-neutral-500 outline-none transition-all focus:border-violet-500/50"
                                         placeholder="your@email.com"
                                     />
                                 </div>
@@ -140,7 +138,7 @@ export default function EnquiryModal({ isOpen, onClose }: EnquiryModalProps) {
                                         name="phone"
                                         value={formData.phone}
                                         onChange={handleChange}
-                                        className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-neutral-500 outline-none transition-all focus:border-lime-400/50"
+                                        className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-neutral-500 outline-none transition-all focus:border-violet-500/50"
                                         placeholder="+1 234 567 890"
                                     />
                                 </div>
@@ -151,7 +149,7 @@ export default function EnquiryModal({ isOpen, onClose }: EnquiryModalProps) {
                                         name="company"
                                         value={formData.company}
                                         onChange={handleChange}
-                                        className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-neutral-500 outline-none transition-all focus:border-lime-400/50"
+                                        className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-neutral-500 outline-none transition-all focus:border-violet-500/50"
                                         placeholder="Your company"
                                     />
                                 </div>
@@ -165,7 +163,7 @@ export default function EnquiryModal({ isOpen, onClose }: EnquiryModalProps) {
                                         value={formData.service}
                                         onChange={handleChange}
                                         required
-                                        className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white outline-none transition-all focus:border-lime-400/50"
+                                        className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white outline-none transition-all focus:border-violet-500/50"
                                     >
                                         <option value="" className="bg-neutral-900">Select a service</option>
                                         <option value="web-development" className="bg-neutral-900">Web Development</option>
@@ -182,7 +180,7 @@ export default function EnquiryModal({ isOpen, onClose }: EnquiryModalProps) {
                                         name="budget"
                                         value={formData.budget}
                                         onChange={handleChange}
-                                        className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white outline-none transition-all focus:border-lime-400/50"
+                                        className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white outline-none transition-all focus:border-violet-500/50"
                                     >
                                         <option value="" className="bg-neutral-900">Select budget range</option>
                                         <option value="5k-10k" className="bg-neutral-900">$5,000 - $10,000</option>
@@ -201,7 +199,7 @@ export default function EnquiryModal({ isOpen, onClose }: EnquiryModalProps) {
                                     onChange={handleChange}
                                     required
                                     rows={4}
-                                    className="w-full resize-none rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-neutral-500 outline-none transition-all focus:border-lime-400/50"
+                                    className="w-full resize-none rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-neutral-500 outline-none transition-all focus:border-violet-500/50"
                                     placeholder="Tell us about your project..."
                                 />
                             </div>
@@ -209,7 +207,7 @@ export default function EnquiryModal({ isOpen, onClose }: EnquiryModalProps) {
                             <button
                                 type="submit"
                                 disabled={isSubmitting}
-                                className="w-full rounded-full bg-lime-400 py-4 font-bold text-black transition-all hover:bg-lime-300 disabled:opacity-50"
+                                className="w-full rounded-full bg-gradient-to-r from-indigo-500 to-violet-500 py-4 font-bold text-white transition-all hover:shadow-[0_0_30px_rgba(139,92,246,0.4)] disabled:opacity-50"
                             >
                                 {isSubmitting ? "Sending..." : "Submit Enquiry"}
                             </button>

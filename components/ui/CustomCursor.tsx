@@ -128,16 +128,16 @@ export default function CustomCursor() {
         return null;
     }
 
-    // Trail colors - flowing gradient of neon green
+    // Trail colors - flowing gradient from blue to violet
     const trailColors = [
-        { color: "rgba(192, 255, 0, 0.6)", size: 8, glow: 12 },
-        { color: "rgba(180, 245, 20, 0.5)", size: 7, glow: 10 },
-        { color: "rgba(165, 230, 40, 0.4)", size: 6, glow: 8 },
-        { color: "rgba(150, 215, 60, 0.35)", size: 5, glow: 7 },
-        { color: "rgba(135, 200, 80, 0.3)", size: 5, glow: 6 },
-        { color: "rgba(120, 185, 90, 0.25)", size: 4, glow: 5 },
-        { color: "rgba(105, 170, 100, 0.2)", size: 4, glow: 4 },
-        { color: "rgba(90, 155, 110, 0.15)", size: 3, glow: 3 },
+        { color: "rgba(59, 130, 246, 0.6)", size: 8, glow: 12 },   // blue-500
+        { color: "rgba(79, 112, 229, 0.5)", size: 7, glow: 10 },   // blue-indigo
+        { color: "rgba(99, 102, 241, 0.45)", size: 6, glow: 8 },   // indigo-500
+        { color: "rgba(109, 95, 230, 0.4)", size: 5, glow: 7 },    // indigo-violet
+        { color: "rgba(124, 88, 236, 0.35)", size: 5, glow: 6 },   // indigo-violet
+        { color: "rgba(139, 92, 246, 0.3)", size: 4, glow: 5 },    // violet-500
+        { color: "rgba(147, 85, 239, 0.22)", size: 4, glow: 4 },   // violet
+        { color: "rgba(155, 78, 232, 0.15)", size: 3, glow: 3 },   // violet-purple
     ];
 
     return (
@@ -164,18 +164,18 @@ export default function CustomCursor() {
             <div
                 ref={cursorRef}
                 className={`fixed top-0 left-0 w-12 h-12 -ml-6 -mt-6 pointer-events-none z-[9998] rounded-full border-2 transition-colors duration-300 flex items-center justify-center ${isHovering
-                    ? "border-[#C0FF00] bg-[#C0FF00]/20"
-                    : "border-[#C0FF00]/50 bg-transparent"
+                    ? "border-violet-500 bg-violet-500/20"
+                    : "border-violet-500/50 bg-transparent"
                     }`}
                 style={{
                     mixBlendMode: cursorText ? "normal" : "difference",
                     boxShadow: isHovering
-                        ? "0 0 20px rgba(192, 255, 0, 0.6), 0 0 40px rgba(192, 255, 0, 0.3)"
-                        : "0 0 10px rgba(192, 255, 0, 0.3)",
+                        ? "0 0 20px rgba(139, 92, 246, 0.6), 0 0 40px rgba(139, 92, 246, 0.3)"
+                        : "0 0 10px rgba(139, 92, 246, 0.3)",
                 }}
             >
                 {cursorText && (
-                    <span className="text-[8px] font-medium lowercase tracking-wider text-[#C0FF00]">
+                    <span className="text-[8px] font-medium lowercase tracking-wider text-violet-400">
                         {cursorText}
                     </span>
                 )}
@@ -184,9 +184,9 @@ export default function CustomCursor() {
             {/* Cursor dot with glow */}
             <div
                 ref={cursorDotRef}
-                className="fixed top-0 left-0 w-2 h-2 -ml-1 -mt-1 pointer-events-none z-[9999] rounded-full bg-[#C0FF00]"
+                className="fixed top-0 left-0 w-2 h-2 -ml-1 -mt-1 pointer-events-none z-[9999] rounded-full bg-violet-500"
                 style={{
-                    boxShadow: "0 0 8px rgba(192, 255, 0, 0.8), 0 0 16px rgba(192, 255, 0, 0.5)",
+                    boxShadow: "0 0 8px rgba(139, 92, 246, 0.8), 0 0 16px rgba(139, 92, 246, 0.5)",
                 }}
             />
 

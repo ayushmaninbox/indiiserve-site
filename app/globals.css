@@ -1,31 +1,36 @@
 @import "tailwindcss";
 
-/* Custom CSS Variables */
+/* Custom CSS Variables - Purple/Violet Theme */
 :root {
-  --color-dark: #020202;
-  --color-light: #FBFBF4;
-  --color-accent: #C0FF00;
-  --color-accent-hover: #a8e600;
+  --color-dark: #030014;
+  --color-light: #FFFFFF;
+  --color-accent: #8B5CF6;
+  --color-accent-secondary: #6366F1;
+  --color-accent-hover: #A78BFA;
   --color-gray: #6b6b6b;
   --color-gray-light: #e5e5e5;
+
+  /* Gradient colors */
+  --gradient-blue: #1E3A8A;
+  --gradient-indigo: #4F46E5;
+  --gradient-purple: #7C3AED;
+  --gradient-violet: #8B5CF6;
 }
 
 @theme inline {
   --color-background: var(--color-dark);
   --color-foreground: var(--color-light);
-  --color-accent: #C0FF00;
+  --color-accent: #8B5CF6;
   --font-sans: var(--font-migra);
   --font-heading: var(--font-migra);
   --font-migra: var(--font-migra);
 }
 
-/* Smooth scrolling */
 /* Smooth scrolling handled by Lenis */
 html.lenis,
 html.lenis body {
   height: auto;
 }
-
 
 body {
   background: var(--color-dark);
@@ -35,7 +40,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
   letter-spacing: -0.02em;
-  /* Adjusted spacing for Migra */
 }
 
 /* Typography Overrides */
@@ -46,8 +50,8 @@ h4,
 h5,
 h6 {
   font-weight: 400;
-  /* Retro fonts often look better regular/medium */
   letter-spacing: -0.05em;
+  color: var(--color-light);
 }
 
 p,
@@ -57,7 +61,7 @@ div {
   font-family: var(--font-migra) !important;
 }
 
-/* Custom scrollbar */
+/* Custom scrollbar - Purple theme */
 ::-webkit-scrollbar {
   width: 10px;
 }
@@ -67,12 +71,42 @@ div {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-gray);
+  background: linear-gradient(to bottom, var(--gradient-indigo), var(--gradient-purple));
   border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-accent);
+  background: linear-gradient(to bottom, var(--gradient-purple), var(--gradient-violet));
+}
+
+/* Glassmorphism utilities */
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-dark {
+  background: rgba(3, 0, 20, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Gradient text utility */
+.gradient-text {
+  background: linear-gradient(135deg, #6366F1, #8B5CF6, #A78BFA);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 /* Animation keyframes */
@@ -102,6 +136,40 @@ div {
   }
 }
 
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  25% {
+    transform: translate(10px, -10px);
+  }
+
+  50% {
+    transform: translate(-5px, 15px);
+  }
+
+  75% {
+    transform: translate(-15px, -5px);
+  }
+}
+
+@keyframes pulse-glow {
+
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.7;
+    transform: scale(1.05);
+  }
+}
+
 .animate-fade-in-up {
   animation: fadeInUp 0.8s ease forwards;
   opacity: 0;
@@ -109,6 +177,14 @@ div {
 
 .animate-scroll-bounce {
   animation: scrollBounce 2s infinite;
+}
+
+.animate-float {
+  animation: float 20s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 4s ease-in-out infinite;
 }
 
 /* Reveal animation class */
@@ -121,4 +197,17 @@ div {
 .reveal.active {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* Gradient button */
+.btn-gradient {
+  background: linear-gradient(135deg, #6366F1, #8B5CF6);
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.btn-gradient:hover {
+  background: linear-gradient(135deg, #4F46E5, #7C3AED);
+  transform: scale(1.05);
+  box-shadow: 0 10px 40px rgba(139, 92, 246, 0.3);
 }

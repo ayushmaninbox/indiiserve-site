@@ -38,12 +38,12 @@ export default async function BlogPostPage({ params }: Props) {
     }
 
     return (
-        <main className="min-h-screen bg-black pt-32 pb-20">
+        <main className="min-h-screen bg-transparent pt-32 pb-20">
             <article className="container mx-auto px-4 sm:px-6">
                 {/* Back Link */}
                 <Link
                     href="/blog"
-                    className="mb-8 inline-flex items-center gap-2 text-neutral-400 transition-colors hover:text-lime-400"
+                    className="mb-8 inline-flex items-center gap-2 text-neutral-400 transition-colors hover:text-violet-400"
                 >
                     <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
@@ -63,7 +63,7 @@ export default async function BlogPostPage({ params }: Props) {
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
 
                     {/* Category Badge */}
-                    <span className="absolute top-6 left-6 rounded-full bg-lime-400 px-4 py-1.5 text-sm font-bold text-black">
+                    <span className="absolute top-6 left-6 rounded-full bg-gradient-to-r from-indigo-500 to-violet-500 px-4 py-1.5 text-sm font-bold text-white">
                         {post.category}
                     </span>
                 </div>
@@ -97,8 +97,8 @@ export default async function BlogPostPage({ params }: Props) {
                             prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-4
                             prose-p:text-neutral-300 prose-p:leading-relaxed
                             prose-strong:text-white
-                            prose-ul:text-neutral-300 prose-li:marker:text-lime-400
-                            prose-a:text-lime-400 prose-a:no-underline hover:prose-a:underline"
+                            prose-ul:text-neutral-300 prose-li:marker:text-violet-400
+                            prose-a:text-violet-400 prose-a:no-underline hover:prose-a:underline"
                         dangerouslySetInnerHTML={{ __html: formatContent(post.content) }}
                     />
 

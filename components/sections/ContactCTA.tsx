@@ -12,30 +12,6 @@ export default function ContactCTA() {
     const containerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        const section = sectionRef.current;
-        if (!section) return;
-
-        // Background color transition to dark
-        ScrollTrigger.create({
-            trigger: section,
-            start: "top 50%",
-            end: "bottom 50%",
-            onEnter: () => {
-                gsap.to("body", {
-                    backgroundColor: "#020202",
-                    duration: 0.5,
-                    ease: "power2.out",
-                });
-            },
-            onLeaveBack: () => {
-                gsap.to("body", {
-                    backgroundColor: "#FBFBF4",
-                    duration: 0.5,
-                    ease: "power2.out",
-                });
-            },
-        });
-
         // Animate content
         gsap.fromTo(
             ".contact-reveal",
@@ -62,18 +38,18 @@ export default function ContactCTA() {
         <section
             ref={sectionRef}
             id="contact"
-            className="py-32 md:py-48 bg-[#020202] text-white text-center relative overflow-hidden"
+            className="py-32 md:py-48 bg-transparent text-white text-center relative overflow-hidden"
         >
             <div ref={containerRef} className="max-w-[800px] mx-auto px-5 relative z-10">
-                <span className="contact-reveal inline-block text-sm font-medium tracking-[0.15em] uppercase text-[#C0FF00] mb-8">
+                <span className="contact-reveal inline-block text-sm font-medium tracking-[0.15em] uppercase text-violet-400 mb-8">
                     Let&apos;s Connect
                 </span>
 
-                <h2 className="contact-reveal text-[clamp(3.5rem,10vw,7rem)] font-bold font-migra mb-8 leading-[0.9]">
-                    Ready to <span className="text-[#C0FF00]">Grow?</span>
+                <h2 className="contact-reveal text-[clamp(3.5rem,10vw,7rem)] font-bold font-migra mb-8 leading-[0.9] text-white">
+                    Ready to <span className="bg-gradient-to-r from-indigo-400 via-violet-400 to-purple-400 bg-clip-text text-transparent">Grow?</span>
                 </h2>
 
-                <p className="contact-reveal text-xl md:text-2xl opacity-70 mb-16 max-w-[600px] mx-auto">
+                <p className="contact-reveal text-xl md:text-2xl opacity-70 mb-16 max-w-[600px] mx-auto text-white">
                     Let&apos;s discuss how we can transform your digital presence and
                     drive real business results.
                 </p>
@@ -81,11 +57,11 @@ export default function ContactCTA() {
                 <div className="contact-reveal mb-16">
                     <Link
                         href="mailto:hello@indiiserve.com"
-                        className="group inline-flex items-center justify-center px-12 py-6 bg-[#C0FF00] text-[#020202] rounded-full text-xl font-bold overflow-hidden relative transition-transform hover:scale-105"
+                        className="group inline-flex items-center justify-center px-12 py-6 bg-gradient-to-r from-indigo-500 to-violet-500 text-white rounded-full text-xl font-bold overflow-hidden relative transition-all hover:scale-105 hover:shadow-[0_0_50px_rgba(139,92,246,0.4)]"
                         data-cursor="email"
                     >
                         <span className="relative z-10">Start a Conversation</span>
-                        <span className="absolute inset-0 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-500" />
+                        <span className="absolute inset-0 bg-gradient-to-r from-violet-400 to-purple-400 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-500" />
                         <span className="absolute right-8 opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 z-10">
                             →
                         </span>
@@ -95,14 +71,14 @@ export default function ContactCTA() {
                 <div className="contact-reveal flex justify-center gap-12 flex-wrap text-sm uppercase tracking-widest opacity-60">
                     <Link
                         href="mailto:hello@indiiserve.com"
-                        className="hover:text-[#C0FF00] hover:opacity-100 transition-all"
+                        className="hover:text-violet-400 hover:opacity-100 transition-all text-white"
                         data-cursor="link"
                     >
                         hello@indiiserve.com
                     </Link>
                     <Link
                         href="tel:+1234567890"
-                        className="hover:text-[#C0FF00] hover:opacity-100 transition-all"
+                        className="hover:text-violet-400 hover:opacity-100 transition-all text-white"
                         data-cursor="link"
                     >
                         +1 (234) 567-890
@@ -112,4 +88,3 @@ export default function ContactCTA() {
         </section>
     );
 }
-

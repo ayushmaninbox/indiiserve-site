@@ -9,22 +9,26 @@ const siteLinks = [
 ];
 
 const serviceLinks = [
-    { href: "#services", label: "Digital Strategy" },
-    { href: "#services", label: "Content Marketing" },
-    { href: "#services", label: "Analytics" },
-    { href: "#services", label: "Social Media" },
+    { href: "/services/digital-branding", label: "Digital Branding" },
+    { href: "/services/ai-automation", label: "AI & Automation" },
+    { href: "/services/recruitment", label: "Recruitment" },
+    { href: "/services", label: "All Services" },
 ];
+
 
 export default function Footer() {
     return (
-        <footer className="pt-20 pb-10 bg-[#020202] text-white border-t border-white/10">
-            <div className="max-w-[1400px] mx-auto px-5 md:px-20">
+        <footer className="relative pt-20 pb-10 bg-[#030014] text-white border-t border-violet-500/20">
+            {/* Subtle gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-violet-900/10 via-transparent to-transparent pointer-events-none" />
+
+            <div className="relative max-w-[1400px] mx-auto px-5 md:px-20">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-20 mb-20">
                     {/* Brand */}
                     <div className="space-y-6">
                         <Link
                             href="/"
-                            className="inline-block text-3xl font-bold text-[#C0FF00] font-migra"
+                            className="inline-block text-3xl font-bold bg-gradient-to-r from-indigo-400 via-violet-400 to-purple-400 bg-clip-text text-transparent font-migra"
                         >
                             InDiiServe
                         </Link>
@@ -36,7 +40,7 @@ export default function Footer() {
                                 <Link
                                     key={social}
                                     href="#"
-                                    className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-[#C0FF00] hover:border-[#C0FF00] hover:text-black transition-all duration-300"
+                                    className="w-10 h-10 rounded-full border border-violet-500/30 flex items-center justify-center hover:bg-gradient-to-r hover:from-indigo-500 hover:to-violet-500 hover:border-transparent transition-all duration-300"
                                     aria-label={social}
                                 >
                                     <span className="sr-only">{social}</span>
@@ -48,7 +52,7 @@ export default function Footer() {
 
                     {/* Site Index */}
                     <div>
-                        <h4 className="text-xs font-bold uppercase tracking-[0.2em] mb-8 text-[#C0FF00]">
+                        <h4 className="text-xs font-bold uppercase tracking-[0.2em] mb-8 text-violet-400">
                             Menu
                         </h4>
                         <ul className="space-y-3">
@@ -56,7 +60,7 @@ export default function Footer() {
                                 <li key={link.href}>
                                     <Link
                                         href={link.href}
-                                        className="text-sm opacity-60 hover:opacity-100 hover:translate-x-1 hover:text-[#C0FF00] transition-all inline-block"
+                                        className="text-sm opacity-60 hover:opacity-100 hover:translate-x-1 hover:text-violet-400 transition-all inline-block"
                                     >
                                         {link.label}
                                     </Link>
@@ -67,7 +71,7 @@ export default function Footer() {
 
                     {/* Services */}
                     <div>
-                        <h4 className="text-xs font-bold uppercase tracking-[0.2em] mb-8 text-[#C0FF00]">
+                        <h4 className="text-xs font-bold uppercase tracking-[0.2em] mb-8 text-violet-400">
                             Services
                         </h4>
                         <ul className="space-y-3">
@@ -75,7 +79,7 @@ export default function Footer() {
                                 <li key={idx}>
                                     <Link
                                         href={link.href}
-                                        className="text-sm opacity-60 hover:opacity-100 hover:translate-x-1 hover:text-[#C0FF00] transition-all inline-block"
+                                        className="text-sm opacity-60 hover:opacity-100 hover:translate-x-1 hover:text-violet-400 transition-all inline-block"
                                     >
                                         {link.label}
                                     </Link>
@@ -86,7 +90,7 @@ export default function Footer() {
 
                     {/* Newsletter */}
                     <div>
-                        <h4 className="text-xs font-bold uppercase tracking-[0.2em] mb-8 text-[#C0FF00]">
+                        <h4 className="text-xs font-bold uppercase tracking-[0.2em] mb-8 text-violet-400">
                             Newsletter
                         </h4>
                         <p className="text-sm opacity-50 mb-6">
@@ -96,11 +100,11 @@ export default function Footer() {
                             <input
                                 type="email"
                                 placeholder="Email address"
-                                className="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#C0FF00] transition-colors"
+                                className="flex-1 bg-white/5 border border-violet-500/20 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-violet-500 transition-colors"
                             />
                             <button
                                 type="submit"
-                                className="bg-[#C0FF00] text-black px-4 py-3 rounded-lg font-medium hover:bg-white transition-colors"
+                                className="bg-gradient-to-r from-indigo-500 to-violet-500 text-white px-4 py-3 rounded-lg font-medium hover:from-indigo-400 hover:to-violet-400 transition-all"
                                 aria-label="Subscribe"
                             >
                                 →
@@ -110,11 +114,11 @@ export default function Footer() {
                 </div>
 
                 {/* Bottom */}
-                <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-white/10 text-xs opacity-40 uppercase tracking-widest gap-4">
+                <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-violet-500/20 text-xs opacity-40 uppercase tracking-widest gap-4">
                     <p>&copy; 2026 InDiiServe. All rights reserved.</p>
                     <div className="flex gap-8">
-                        <Link href="#" className="hover:text-white transition-colors">Privacy Policy</Link>
-                        <Link href="#" className="hover:text-white transition-colors">Terms of Service</Link>
+                        <Link href="#" className="hover:text-violet-400 transition-colors">Privacy Policy</Link>
+                        <Link href="#" className="hover:text-violet-400 transition-colors">Terms of Service</Link>
                     </div>
                 </div>
             </div>

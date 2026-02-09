@@ -143,7 +143,7 @@ export default function PageLoader() {
                 <div className="relative mb-2">
                     <span
                         ref={numberRef}
-                        className="text-[8rem] md:text-[12rem] font-bold text-[#C0FF00] font-migra leading-none"
+                        className="text-[8rem] md:text-[12rem] font-bold bg-gradient-to-r from-indigo-400 via-violet-400 to-purple-400 bg-clip-text text-transparent font-migra leading-none"
                     >
                         0
                     </span>
@@ -154,7 +154,7 @@ export default function PageLoader() {
                 <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden mt-8 mb-4">
                     <div
                         ref={progressRef}
-                        className="h-full bg-[#C0FF00] shadow-[0_0_20px_rgba(192,255,0,0.5)] w-0"
+                        className="h-full bg-gradient-to-r from-indigo-500 to-violet-500 shadow-[0_0_20px_rgba(139,92,246,0.5)] w-0"
                     />
                 </div>
 

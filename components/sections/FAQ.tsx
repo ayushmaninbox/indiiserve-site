@@ -39,30 +39,6 @@ export default function FAQ() {
     const [openIndex, setOpenIndex] = useState<number | null>(null);
 
     useEffect(() => {
-        const section = sectionRef.current;
-        if (!section) return;
-
-        // Background stays dark
-        ScrollTrigger.create({
-            trigger: section,
-            start: "top 50%",
-            end: "bottom 50%",
-            onEnter: () => {
-                gsap.to("body", {
-                    backgroundColor: "#020202",
-                    duration: 0.5,
-                    ease: "power2.out",
-                });
-            },
-            onLeaveBack: () => {
-                gsap.to("body", {
-                    backgroundColor: "#020202",
-                    duration: 0.5,
-                    ease: "power2.out",
-                });
-            },
-        });
-
         // Staggered items reveal
         gsap.fromTo(
             ".faq-item",
@@ -90,16 +66,16 @@ export default function FAQ() {
     };
 
     return (
-        <section ref={sectionRef} id="faq" className="py-32 md:py-48 bg-[#020202] text-white">
+        <section ref={sectionRef} id="faq" className="py-32 md:py-48 bg-transparent text-white">
             <div className="max-w-[1400px] mx-auto px-5 md:px-20">
                 <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-12 md:gap-24 items-start">
                     <div className="sticky top-32">
-                        <span className="inline-block text-sm font-medium tracking-[0.15em] uppercase text-[#C0FF00] mb-6">
+                        <span className="inline-block text-sm font-medium tracking-[0.15em] uppercase text-violet-400 mb-6">
                             FAQs
                         </span>
-                        <h2 className="text-[clamp(2.5rem,5vw,4rem)] font-semibold font-migra leading-[1.1]">
+                        <h2 className="text-[clamp(2.5rem,5vw,4rem)] font-semibold font-migra leading-[1.1] text-white">
                             Questions?{" "}
-                            <span className="bg-gradient-to-r from-[#8BC34A] to-[#C0FF00] bg-clip-text text-transparent">
+                            <span className="bg-gradient-to-r from-indigo-400 via-violet-400 to-purple-400 bg-clip-text text-transparent">
                                 We&apos;ve got answers
                             </span>
                         </h2>
@@ -109,13 +85,13 @@ export default function FAQ() {
                         {faqs.map((faq, index) => (
                             <div
                                 key={index}
-                                className={`faq-item border rounded-2xl overflow-hidden transition-all duration-300 ${openIndex === index
-                                        ? "border-[#C0FF00] bg-white/5 shadow-lg"
-                                        : "border-white/10 hover:border-[#C0FF00]/50 bg-transparent"
+                                className={`faq-item glass-card rounded-2xl overflow-hidden transition-all duration-300 ${openIndex === index
+                                    ? "border-violet-500/50 bg-violet-500/10 shadow-[0_0_30px_rgba(139,92,246,0.15)]"
+                                    : "hover:border-violet-500/30"
                                     }`}
                             >
                                 <button
-                                    className="w-full flex justify-between items-center p-6 md:p-8 text-left font-medium text-lg md:text-xl hover:text-[#C0FF00] transition-colors"
+                                    className="w-full flex justify-between items-center p-6 md:p-8 text-left font-medium text-lg md:text-xl hover:text-violet-400 transition-colors text-white"
                                     onClick={() => toggleFAQ(index)}
                                     data-cursor={openIndex === index ? "Close" : "Open"}
                                 >
@@ -132,7 +108,7 @@ export default function FAQ() {
                                     className={`overflow-hidden transition-all duration-500 ease-in-out ${openIndex === index ? "max-h-64 opacity-100" : "max-h-0 opacity-0"
                                         }`}
                                 >
-                                    <p className="px-6 pb-6 md:px-8 md:pb-8 text-base md:text-lg leading-relaxed opacity-70">
+                                    <p className="px-6 pb-6 md:px-8 md:pb-8 text-base md:text-lg leading-relaxed opacity-70 text-white">
                                         {faq.answer}
                                     </p>
                                 </div>

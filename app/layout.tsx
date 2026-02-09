@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { LoaderProvider } from "@/context/LoaderContext";
 import SiteLayout from "@/components/layout/SiteLayout";
+import FloatingGradients from "@/components/ui/FloatingGradients";
 
 const migra = localFont({
   src: [
@@ -64,7 +65,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${migra.variable} antialiased selection:bg-[#C0FF00] selection:text-black font-migra`}>
+      <body className={`${migra.variable} antialiased selection:bg-violet-500 selection:text-white font-migra bg-[#030014]`}>
+        <FloatingGradients />
         <LoaderProvider>
           <SiteLayout>
             {children}
@@ -74,3 +76,4 @@ export default function RootLayout({
     </html>
   );
 }
+

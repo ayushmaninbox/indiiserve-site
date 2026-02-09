@@ -1,0 +1,201 @@
+export interface DigitalBrandingService {
+    id: string;
+    title: string;
+    tagline: string;
+    description: string;
+    features: string[];
+    benefits: string[];
+    icon: string;
+}
+
+export const digitalBrandingServices: DigitalBrandingService[] = [
+    {
+        id: "branding",
+        title: "Branding",
+        tagline: "Build Your Identity",
+        description: "Create a powerful brand identity that resonates with your audience. We develop comprehensive branding strategies that differentiate you from competitors and create lasting impressions.",
+        features: [
+            "Brand Strategy Development",
+            "Brand Positioning",
+            "Brand Voice & Messaging",
+            "Visual Identity Systems",
+            "Brand Guidelines",
+            "Rebranding Services",
+        ],
+        benefits: [
+            "Stand out in crowded markets",
+            "Build customer loyalty and trust",
+            "Increase brand recognition by 80%",
+            "Create consistent brand experiences",
+        ],
+        icon: "✦",
+    },
+    {
+        id: "social-media-promotion",
+        title: "Social Media Promotion",
+        tagline: "Engage & Grow",
+        description: "Amplify your brand presence across all major social platforms. We create engaging content strategies and manage communities that drive real business results.",
+        features: [
+            "Platform Strategy & Setup",
+            "Content Calendar Planning",
+            "Community Management",
+            "Influencer Collaborations",
+            "Social Media Advertising",
+            "Analytics & Reporting",
+        ],
+        benefits: [
+            "Increase follower engagement by 200%",
+            "Build authentic communities",
+            "Drive website traffic from social",
+            "Generate qualified leads",
+        ],
+        icon: "📱",
+    },
+    {
+        id: "seo-aeo",
+        title: "SEO/AEO",
+        tagline: "Rank & Discover",
+        description: "Dominate search rankings with our comprehensive SEO and Answer Engine Optimization strategies. We ensure your content surfaces where your customers are searching.",
+        features: [
+            "Technical SEO Audits",
+            "Keyword Research & Strategy",
+            "On-Page Optimization",
+            "Link Building",
+            "Answer Engine Optimization (AEO)",
+            "Local SEO",
+        ],
+        benefits: [
+            "Increase organic traffic by 300%",
+            "Rank for high-intent keywords",
+            "Appear in AI-powered search results",
+            "Build long-term search authority",
+        ],
+        icon: "🔍",
+    },
+    {
+        id: "performance-marketing",
+        title: "Performance Marketing",
+        tagline: "Meta & Google Ads",
+        description: "Maximize ROI with data-driven paid advertising campaigns across Meta (Facebook, Instagram) and Google platforms. Every rupee spent is tracked and optimized.",
+        features: [
+            "Google Ads Management",
+            "Meta Ads (Facebook & Instagram)",
+            "Campaign Strategy & Setup",
+            "A/B Testing & Optimization",
+            "Conversion Tracking",
+            "Retargeting Campaigns",
+        ],
+        benefits: [
+            "Lower cost per acquisition",
+            "Scale campaigns profitably",
+            "Real-time performance insights",
+            "Transparent ROI reporting",
+        ],
+        icon: "📈",
+    },
+    {
+        id: "product-photography",
+        title: "Product Photography",
+        tagline: "Capture Excellence",
+        description: "Showcase your products with stunning professional photography that converts browsers into buyers. From e-commerce to lifestyle shots, we capture it all.",
+        features: [
+            "E-commerce Product Shots",
+            "Lifestyle Photography",
+            "360° Product Photography",
+            "Food & Beverage Photography",
+            "White Background Shots",
+            "Image Retouching & Editing",
+        ],
+        benefits: [
+            "Increase conversion rates by 40%",
+            "Build customer trust visually",
+            "Stand out on marketplaces",
+            "Create shareable content assets",
+        ],
+        icon: "📷",
+    },
+    {
+        id: "video-editing",
+        title: "Video Editing",
+        tagline: "Stories in Motion",
+        description: "Transform raw footage into captivating visual stories. Our video editing services bring your brand narrative to life with professional polish and creative flair.",
+        features: [
+            "Social Media Video Editing",
+            "Promotional Videos",
+            "Product Demo Videos",
+            "Motion Graphics Integration",
+            "Color Grading",
+            "Audio Enhancement",
+        ],
+        benefits: [
+            "Increase engagement by 1200%",
+            "Improve message retention",
+            "Create shareable content",
+            "Build emotional connections",
+        ],
+        icon: "🎬",
+    },
+    {
+        id: "catalogues",
+        title: "Catalogues",
+        tagline: "Showcase Elegantly",
+        description: "Design beautiful digital and print catalogues that showcase your products professionally. From layout to delivery, we handle the complete catalogue creation process.",
+        features: [
+            "Catalogue Design & Layout",
+            "Product Organization",
+            "Digital Catalogue Creation",
+            "Print-Ready Files",
+            "Interactive PDF Catalogues",
+            "E-catalogue Publishing",
+        ],
+        benefits: [
+            "Present products professionally",
+            "Easy sharing with distributors",
+            "Consistent brand presentation",
+            "Increase wholesale inquiries",
+        ],
+        icon: "📑",
+    },
+    {
+        id: "logo-design",
+        title: "Logo Design",
+        tagline: "Mark of Excellence",
+        description: "Create iconic logos that become the face of your brand. Our logo design process combines creativity with strategic thinking to deliver memorable marks.",
+        features: [
+            "Custom Logo Design",
+            "Logo Variations & Formats",
+            "Brand Mark Development",
+            "Typography Selection",
+            "Color Palette Creation",
+            "Logo Guidelines",
+        ],
+        benefits: [
+            "Instant brand recognition",
+            "Professional first impressions",
+            "Versatile usage across media",
+            "Timeless design appeal",
+        ],
+        icon: "✏️",
+    },
+    {
+        id: "graphic-motion-design",
+        title: "Graphic & Motion Design",
+        tagline: "Visual Impact",
+        description: "Create eye-catching graphics and dynamic motion content that captures attention and communicates your message effectively across all channels.",
+        features: [
+            "Social Media Graphics",
+            "Animated Logos",
+            "Motion Graphics",
+            "Infographic Design",
+            "Banner & Ad Creatives",
+            "GIF & Short Animations",
+        ],
+        benefits: [
+            "Stop the scroll on social media",
+            "Explain complex ideas simply",
+            "Increase content shareability",
+            "Strengthen brand identity",
+        ],
+        icon: "🎨",
+    },
+];

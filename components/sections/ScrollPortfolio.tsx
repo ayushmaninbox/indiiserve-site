@@ -150,7 +150,7 @@ export default function ScrollPortfolio() {
     return (
         <section
             ref={containerRef}
-            className="relative z-10 w-full bg-black py-20 lg:py-24"
+            className="relative z-10 w-full bg-transparent py-20 lg:py-24"
         >
             <div className="container mx-auto px-4 sm:px-6">
                 {/* Section Header */}
@@ -159,10 +159,10 @@ export default function ScrollPortfolio() {
                         ref={titleRef}
                         className="text-3xl font-bold uppercase tracking-tighter text-white sm:text-4xl lg:text-5xl"
                     >
-                        Selected <span className="text-lime-400">Works</span>
+                        Selected <span className="bg-gradient-to-r from-indigo-400 via-violet-400 to-purple-400 bg-clip-text text-transparent">Works</span>
                     </h2>
                     <div className="mt-4 flex justify-center">
-                        <div className="h-1 w-20 rounded-full bg-lime-400" />
+                        <div className="h-1 w-20 rounded-full bg-gradient-to-r from-indigo-500 to-violet-500" />
                     </div>
                 </div>
 
@@ -190,7 +190,7 @@ export default function ScrollPortfolio() {
                             {/* Overlay Content */}
                             <div className="absolute inset-0 z-20 flex flex-col justify-end p-4 bg-gradient-to-t from-black/80 via-black/20 to-transparent">
                                 <div className="translate-y-4 transform transition-transform duration-300 group-hover:translate-y-0">
-                                    <span className="inline-block rounded-full bg-lime-400/90 px-2 py-0.5 text-[10px] font-bold text-black backdrop-blur-sm">
+                                    <span className="inline-block rounded-full bg-violet-500/90 px-2 py-0.5 text-[10px] font-bold text-white backdrop-blur-sm">
                                         {project.category}
                                     </span>
                                     <h3 className="mt-1 text-lg font-bold text-white lg:text-xl">

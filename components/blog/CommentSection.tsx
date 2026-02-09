@@ -57,9 +57,9 @@ export default function CommentSection({ slug }: CommentSectionProps) {
     };
 
     return (
-        <div className="mt-16 border-t border-white/10 pt-12">
+        <div className="mt-16 border-t border-violet-500/20 pt-12">
             <h3 className="mb-8 text-2xl font-bold text-white">
-                Comments <span className="text-lime-400">({comments.length})</span>
+                Comments <span className="text-violet-400">({comments.length})</span>
             </h3>
 
             {/* Comment Form */}
@@ -74,7 +74,7 @@ export default function CommentSection({ slug }: CommentSectionProps) {
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         placeholder="Your name"
-                        className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-neutral-500 outline-none transition-all focus:border-lime-400/50 focus:bg-white/10"
+                        className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-neutral-500 outline-none transition-all focus:border-violet-500/50 focus:bg-white/10"
                         required
                     />
                 </div>
@@ -88,14 +88,14 @@ export default function CommentSection({ slug }: CommentSectionProps) {
                         onChange={(e) => setContent(e.target.value)}
                         placeholder="Write your comment..."
                         rows={4}
-                        className="w-full resize-none rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-neutral-500 outline-none transition-all focus:border-lime-400/50 focus:bg-white/10"
+                        className="w-full resize-none rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-neutral-500 outline-none transition-all focus:border-violet-500/50 focus:bg-white/10"
                         required
                     />
                 </div>
                 <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="rounded-full bg-lime-400 px-8 py-3 font-bold text-black transition-all hover:bg-lime-300 disabled:opacity-50"
+                    className="rounded-full bg-gradient-to-r from-indigo-500 to-violet-500 px-8 py-3 font-bold text-white transition-all hover:shadow-[0_0_30px_rgba(139,92,246,0.4)] disabled:opacity-50"
                 >
                     {isSubmitting ? "Posting..." : "Post Comment"}
                 </button>

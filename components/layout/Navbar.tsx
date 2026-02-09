@@ -8,11 +8,19 @@ import EnquiryModal from "@/components/ui/EnquiryModal";
 
 gsap.registerPlugin(ScrollTrigger);
 
+const serviceDropdownItems = [
+    { href: "/services/digital-branding", label: "Digital Branding", icon: "✦" },
+    { href: "/services/ai-automation", label: "AI & Automation", icon: "🤖" },
+    { href: "/services/recruitment", label: "Recruitment", icon: "👥" },
+];
+
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
     const [isEnquiryOpen, setIsEnquiryOpen] = useState(false);
+    const [isServicesOpen, setIsServicesOpen] = useState(false);
     const navRef = useRef<HTMLElement>(null);
     const bgRef = useRef<HTMLDivElement>(null);
+    const servicesTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
     useEffect(() => {
         const ctx = gsap.context(() => {
@@ -33,8 +41,8 @@ export default function Navbar() {
             });
 
             tl.fromTo(bgRef.current,
-                { backgroundColor: "rgba(2, 2, 2, 0.6)", borderColor: "rgba(255, 255, 255, 0.08)" },
-                { backgroundColor: "rgba(2, 2, 2, 0.95)", borderColor: "rgba(255, 255, 255, 0.2)", duration: 1 },
+                { backgroundColor: "rgba(3, 0, 20, 0.6)", borderColor: "rgba(139, 92, 246, 0.1)" },
+                { backgroundColor: "rgba(3, 0, 20, 0.95)", borderColor: "rgba(139, 92, 246, 0.3)", duration: 1 },
                 "<"
             );
 
@@ -74,8 +82,20 @@ export default function Navbar() {
         }
     }, [isOpen]);
 
+    const handleServicesMouseEnter = () => {
+        if (servicesTimeoutRef.current) {
+            clearTimeout(servicesTimeoutRef.current);
+        }
+        setIsServicesOpen(true);
+    };
+
+    const handleServicesMouseLeave = () => {
+        servicesTimeoutRef.current = setTimeout(() => {
+            setIsServicesOpen(false);
+        }, 150);
+    };
+
     const navLinks = [
-        { href: "/services", label: "Services" },
         { href: "#work", label: "Work" },
         { href: "#about", label: "About" },
         { href: "#faq", label: "FAQ" },
@@ -92,7 +112,7 @@ export default function Navbar() {
                     {/* Glass Background Layer */}
                     <div
                         ref={bgRef}
-                        className="absolute inset-0 rounded-full backdrop-blur-2xl bg-white/15 border border-white/40 shadow-[0_8px_32px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.2)]"
+                        className="absolute inset-0 rounded-full backdrop-blur-2xl bg-[#030014]/60 border border-violet-500/20 shadow-[0_8px_32px_rgba(139,92,246,0.15),inset_0_1px_0_rgba(255,255,255,0.1)]"
                     />
 
                     {/* Content Layer */}
@@ -100,7 +120,7 @@ export default function Navbar() {
                         {/* Logo */}
                         <Link
                             href="/"
-                            className="font-migra text-xl font-bold text-[#C0FF00] mr-4"
+                            className="font-migra text-xl font-bold bg-gradient-to-r from-indigo-400 via-violet-400 to-purple-400 bg-clip-text text-transparent mr-4"
                             data-cursor="home"
                         >
                             InDiiServe
@@ -108,6 +128,58 @@ export default function Navbar() {
 
                         {/* Desktop Links */}
                         <div className="hidden md:flex gap-8" style={{ mixBlendMode: 'difference' }}>
+                            {/* Services Dropdown */}
+                            <div
+                                className="relative"
+                                onMouseEnter={handleServicesMouseEnter}
+                                onMouseLeave={handleServicesMouseLeave}
+                            >
+                                <button
+                                    className="text-sm font-medium text-white hover:opacity-70 transition-opacity relative group flex items-center gap-1"
+                                    data-cursor="link"
+                                >
+                                    Services
+                                    <svg
+                                        className={`w-3 h-3 transition-transform ${isServicesOpen ? "rotate-180" : ""}`}
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth={2}
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                    <span className="absolute -bottom-1 left-0 w-full h-px bg-white scale-x-0 group-hover:scale-x-100 transition-transform origin-right group-hover:origin-left duration-300" />
+                                </button>
+
+                                {/* Dropdown Menu */}
+                                <div
+                                    className={`absolute top-full left-1/2 -translate-x-1/2 pt-4 transition-all duration-300 ${isServicesOpen ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 -translate-y-2 pointer-events-none"
+                                        }`}
+                                    style={{ mixBlendMode: 'normal' }}
+                                >
+                                    <div className="bg-[#030014]/90 backdrop-blur-xl border border-violet-500/20 rounded-2xl p-3 min-w-[220px] shadow-[0_8px_32px_rgba(139,92,246,0.2)]">
+                                        {serviceDropdownItems.map((item) => (
+                                            <Link
+                                                key={item.href}
+                                                href={item.href}
+                                                className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm text-neutral-300 hover:text-violet-400 hover:bg-violet-500/10 transition-all"
+                                            >
+                                                <span className="text-lg">{item.icon}</span>
+                                                {item.label}
+                                            </Link>
+                                        ))}
+                                        <div className="border-t border-violet-500/20 mt-2 pt-2">
+                                            <Link
+                                                href="/services"
+                                                className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm text-neutral-500 hover:text-violet-400 hover:bg-violet-500/10 transition-all"
+                                            >
+                                                View All Services →
+                                            </Link>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             {navLinks.map((link) => (
                                 <Link
                                     key={link.href}
@@ -124,7 +196,7 @@ export default function Navbar() {
                         {/* Enquire Now Button - Desktop */}
                         <button
                             onClick={() => setIsEnquiryOpen(true)}
-                            className="hidden md:block ml-4 rounded-full bg-lime-400 px-5 py-2 text-sm font-bold text-black transition-all hover:bg-lime-300 hover:scale-105"
+                            className="hidden md:block ml-4 rounded-full bg-gradient-to-r from-indigo-500 to-violet-500 px-5 py-2 text-sm font-bold text-white transition-all hover:from-indigo-400 hover:to-violet-400 hover:scale-105 hover:shadow-[0_0_20px_rgba(139,92,246,0.4)]"
                         >
                             Enquire Now
                         </button>
@@ -137,7 +209,7 @@ export default function Navbar() {
                         >
                             <div className="w-6 h-5 relative flex flex-col justify-between">
                                 <span
-                                    className={`block w-full h-0.5 bg-white transition-all duration-300 ${isOpen ? "rotate-45 translate-y-2.5 bg-[#C0FF00]" : ""
+                                    className={`block w-full h-0.5 bg-white transition-all duration-300 ${isOpen ? "rotate-45 translate-y-2.5 bg-violet-400" : ""
                                         }`}
                                 />
                                 <span
@@ -145,7 +217,7 @@ export default function Navbar() {
                                         }`}
                                 />
                                 <span
-                                    className={`block w-full h-0.5 bg-white transition-all duration-300 ${isOpen ? "-rotate-45 -translate-y-2 bg-[#C0FF00]" : ""
+                                    className={`block w-full h-0.5 bg-white transition-all duration-300 ${isOpen ? "-rotate-45 -translate-y-2 bg-violet-400" : ""
                                         }`}
                                 />
                             </div>
@@ -155,13 +227,33 @@ export default function Navbar() {
             </nav>
 
             {/* Mobile Menu */}
-            <div className="mobile-menu fixed inset-0 z-[4000] bg-[#020202]/95 backdrop-blur-xl opacity-0 pointer-events-none flex flex-col items-center justify-center">
-                <div className="flex flex-col gap-8 text-center">
+            <div className="mobile-menu fixed inset-0 z-[4000] bg-[#030014]/95 backdrop-blur-xl opacity-0 pointer-events-none flex flex-col items-center justify-center">
+                <div className="flex flex-col gap-6 text-center">
+                    {/* Services Section */}
+                    <div className="mobile-link">
+                        <span className="text-sm uppercase tracking-widest text-violet-400 mb-4 block">Services</span>
+                        <div className="flex flex-col gap-3">
+                            {serviceDropdownItems.map((item) => (
+                                <Link
+                                    key={item.href}
+                                    href={item.href}
+                                    className="text-2xl font-migra font-bold text-white hover:text-violet-400 transition-colors flex items-center justify-center gap-3"
+                                    onClick={() => setIsOpen(false)}
+                                >
+                                    <span>{item.icon}</span>
+                                    {item.label}
+                                </Link>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className="h-px w-24 bg-gradient-to-r from-transparent via-violet-500/50 to-transparent mx-auto my-2" />
+
                     {navLinks.map((link) => (
                         <Link
                             key={link.href}
                             href={link.href}
-                            className="mobile-link text-3xl font-migra font-bold text-white hover:text-[#C0FF00] transition-colors"
+                            className="mobile-link text-3xl font-migra font-bold text-white hover:text-violet-400 transition-colors"
                             onClick={() => setIsOpen(false)}
                         >
                             {link.label}
@@ -173,7 +265,7 @@ export default function Navbar() {
                             setIsOpen(false);
                             setIsEnquiryOpen(true);
                         }}
-                        className="mobile-link mt-4 rounded-full bg-lime-400 px-8 py-4 text-lg font-bold text-black transition-all hover:bg-lime-300"
+                        className="mobile-link mt-4 rounded-full bg-gradient-to-r from-indigo-500 to-violet-500 px-8 py-4 text-lg font-bold text-white transition-all hover:from-indigo-400 hover:to-violet-400 hover:shadow-[0_0_30px_rgba(139,92,246,0.5)]"
                     >
                         Enquire Now
                     </button>

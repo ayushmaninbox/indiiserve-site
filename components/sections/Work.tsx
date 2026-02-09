@@ -77,8 +77,6 @@ export default function Work() {
         }
 
         // Horizontal Scroll Animation
-        // Calculate scroll amount: width of container minus viewport width
-        // We add padding to the scroll amount to ensure the last card is fully visible
         const getScrollAmount = () => {
             return -(container.scrollWidth - window.innerWidth + 100);
         };
@@ -91,7 +89,7 @@ export default function Work() {
         ScrollTrigger.create({
             trigger: sectionRef.current,
             start: "top top",
-            end: () => `+=${getScrollAmount() * -1 + 200}`, // Adjust end based on scroll length
+            end: () => `+=${getScrollAmount() * -1 + 200}`,
             pin: true,
             animation: tween,
             scrub: 1,
@@ -123,12 +121,12 @@ export default function Work() {
         <section ref={sectionRef} id="work" className="bg-[#020202] text-white overflow-hidden">
             <div className="h-screen flex flex-col justify-center relative">
                 <div ref={headerRef} className="container mx-auto px-5 md:px-20 mb-12 flex-shrink-0">
-                    <span className="inline-block text-sm font-medium tracking-[0.15em] uppercase text-[#C0FF00] mb-6">
+                    <span className="inline-block text-sm font-medium tracking-[0.15em] uppercase text-violet-400 mb-6">
                         Featured Work
                     </span>
                     <h2 className="text-[clamp(2.5rem,6vw,4rem)] font-semibold font-migra leading-[1.1]">
                         Results that speak{" "}
-                        <span className="bg-gradient-to-r from-[#8BC34A] to-[#C0FF00] bg-clip-text text-transparent">
+                        <span className="bg-gradient-to-r from-indigo-400 via-violet-400 to-purple-400 bg-clip-text text-transparent">
                             for themselves
                         </span>
                     </h2>
@@ -138,7 +136,6 @@ export default function Work() {
                     ref={horizontalWrapperRef}
                     className="flex gap-10 px-5 md:px-20 w-fit items-center"
                 >
-                    {/* Add extra width wrapper for smooth scrolling */}
                     {projects.map((project, index) => (
                         <div
                             key={project.title}
@@ -182,7 +179,7 @@ export default function Work() {
                                             {project.tags.map((tag) => (
                                                 <span
                                                     key={tag}
-                                                    className="bg-[#C0FF00]/20 backdrop-blur-sm px-4 py-1.5 rounded-full text-xs text-white font-medium border border-[#C0FF00]/30"
+                                                    className="bg-violet-500/20 backdrop-blur-sm px-4 py-1.5 rounded-full text-xs text-white font-medium border border-violet-500/30"
                                                 >
                                                     {tag}
                                                 </span>
