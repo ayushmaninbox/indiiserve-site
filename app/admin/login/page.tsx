@@ -61,17 +61,17 @@ export default function AdminLoginPage() {
     };
 
     return (
-        <main className="relative flex min-h-screen items-center justify-center bg-neutral-950 p-4 overflow-hidden">
+        <main className="relative flex min-h-screen items-center justify-center bg-black p-4 overflow-hidden">
             {/* Background blobs */}
-            <div className="absolute top-0 left-0 h-96 w-96 rounded-full bg-lime-400/10 blur-[128px]" />
-            <div className="absolute bottom-0 right-0 h-96 w-96 rounded-full bg-purple-500/10 blur-[128px]" />
+            <div className="absolute top-0 left-0 h-96 w-96 rounded-full bg-blue-500/10 blur-[128px]" />
+            <div className="absolute bottom-0 right-0 h-96 w-96 rounded-full bg-violet-500/10 blur-[128px]" />
 
             {/* Login Card */}
             <div className="relative w-full max-w-md">
-                <div className="rounded-2xl border border-white/10 bg-neutral-900/80 p-8 shadow-2xl backdrop-blur-xl">
+                <div className="rounded-2xl border border-white/10 bg-neutral-950/80 p-8 shadow-2xl backdrop-blur-xl">
                     {/* Logo */}
                     <div className="mb-8 text-center">
-                        <h1 className="text-2xl font-bold text-lime-400">InDiiServe</h1>
+                        <h1 className="text-2xl font-bold text-violet-400">InDiiServe</h1>
                         <p className="mt-2 text-neutral-400">Admin Panel</p>
                     </div>
 
@@ -93,7 +93,7 @@ export default function AdminLoginPage() {
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 required
-                                className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-neutral-500 outline-none transition-all focus:border-lime-400/50"
+                                className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-neutral-500 outline-none transition-all focus:border-violet-500/50"
                                 placeholder="admin@indiiserve.com"
                             />
                         </div>
@@ -107,7 +107,7 @@ export default function AdminLoginPage() {
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
-                                className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-neutral-500 outline-none transition-all focus:border-lime-400/50"
+                                className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-neutral-500 outline-none transition-all focus:border-violet-500/50"
                                 placeholder="••••••••"
                             />
                         </div>
@@ -115,7 +115,7 @@ export default function AdminLoginPage() {
                         <button
                             type="submit"
                             disabled={isLoading}
-                            className="w-full rounded-full bg-lime-400 py-3 font-bold text-black transition-all hover:bg-lime-300 disabled:opacity-50"
+                            className="w-full rounded-full bg-violet-500 py-3 font-bold text-white transition-all hover:bg-violet-400 disabled:opacity-50"
                         >
                             {isLoading ? "Signing in..." : "Sign In"}
                         </button>
@@ -125,7 +125,7 @@ export default function AdminLoginPage() {
                     <div className="mt-8 rounded-lg bg-white/5 p-4">
                         <p className="mb-2 text-xs font-medium text-neutral-400">Demo Credentials:</p>
                         <div className="space-y-1 text-xs text-neutral-500">
-                            <p><span className="text-lime-400">Super Admin:</span> superadmin@indiiserve.com / admin123</p>
+                            <p><span className="text-violet-400">Super Admin:</span> superadmin@indiiserve.com / admin123</p>
                             <p><span className="text-blue-400">Admin:</span> admin@indiiserve.com / admin123</p>
                             <p><span className="text-green-400">Writer:</span> writer@indiiserve.com / writer123</p>
                             <p><span className="text-orange-400">Enquiry:</span> enquiry@indiiserve.com / enquiry123</p>

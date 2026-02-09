@@ -150,17 +150,17 @@ export default function DashboardPage() {
                             <svg viewBox={`0 0 ${chartWidth} ${chartHeight}`} className="w-full h-40">
                                 <defs>
                                     <linearGradient id="areaGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                                        <stop offset="0%" stopColor="#C0FF00" stopOpacity="0.3" />
-                                        <stop offset="100%" stopColor="#C0FF00" stopOpacity="0" />
+                                        <stop offset="0%" stopColor="#8B5CF6" stopOpacity="0.3" />
+                                        <stop offset="100%" stopColor="#8B5CF6" stopOpacity="0" />
                                     </linearGradient>
                                 </defs>
                                 <path d={areaPath} fill="url(#areaGradient)" />
-                                <path d={linePath} fill="none" stroke="#C0FF00" strokeWidth="2" />
+                                <path d={linePath} fill="none" stroke="#8B5CF6" strokeWidth="2" />
                                 {monthData.map((value, index) => {
                                     const x = (index / (monthData.length - 1)) * chartWidth;
                                     const y = chartHeight - (value / maxValue) * chartHeight;
                                     return (
-                                        <circle key={index} cx={x} cy={y} r="4" fill="#C0FF00" />
+                                        <circle key={index} cx={x} cy={y} r="4" fill="#8B5CF6" />
                                     );
                                 })}
                             </svg>
@@ -226,7 +226,7 @@ export default function DashboardPage() {
                         <h3 className="text-lg font-semibold text-white">Recent Enquiries</h3>
                         <Link
                             href="/admin/enquiries"
-                            className="text-sm text-lime-400 hover:underline"
+                            className="text-sm text-violet-400 hover:underline"
                         >
                             View All
                         </Link>
@@ -261,8 +261,8 @@ export default function DashboardPage() {
                                             <td className="px-4 py-4">
                                                 <span
                                                     className={`rounded-full px-3 py-1 text-xs font-medium ${enquiry.status === "solved"
-                                                            ? "bg-green-500/20 text-green-400"
-                                                            : "bg-orange-500/20 text-orange-400"
+                                                        ? "bg-green-500/20 text-green-400"
+                                                        : "bg-orange-500/20 text-orange-400"
                                                         }`}
                                                 >
                                                     {enquiry.status === "solved" ? "Solved" : "Pending"}

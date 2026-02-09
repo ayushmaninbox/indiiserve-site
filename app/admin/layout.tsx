@@ -108,7 +108,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
     return (
         <AuthGuard>
-            <div className="flex min-h-screen bg-neutral-950">
+            <div className="flex min-h-screen bg-black">
                 {/* Mobile Overlay */}
                 {isSidebarOpen && (
                     <div
@@ -119,13 +119,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
                 {/* Sidebar */}
                 <aside
-                    className={`fixed left-0 top-0 z-50 h-full w-64 transform border-r border-white/10 bg-neutral-900/95 backdrop-blur-xl transition-transform lg:translate-x-0 ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+                    className={`fixed left-0 top-0 z-50 h-full w-64 transform border-r border-white/10 bg-neutral-950 backdrop-blur-xl transition-transform lg:translate-x-0 ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"
                         }`}
                 >
                     <div className="flex h-full flex-col">
                         {/* Logo */}
                         <div className="flex items-center justify-between border-b border-white/10 p-6">
-                            <Link href="/admin/dashboard" className="text-xl font-bold text-lime-400">
+                            <Link href="/admin/dashboard" className="text-xl font-bold text-violet-400">
                                 InDiiServe
                             </Link>
                             <button
@@ -149,7 +149,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                                                 href={item.href}
                                                 onClick={() => setIsSidebarOpen(false)}
                                                 className={`flex items-center gap-3 rounded-xl px-4 py-3 transition-all ${isActive
-                                                    ? "bg-lime-400/10 text-lime-400"
+                                                    ? "bg-violet-500/10 text-violet-400"
                                                     : "text-neutral-400 hover:bg-white/5 hover:text-white"
                                                     }`}
                                             >
@@ -203,7 +203,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                         {user && (
                             <div className="border-t border-white/10 p-4">
                                 <div className="flex items-center gap-3">
-                                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-lime-400/20 text-lime-400 font-bold">
+                                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-violet-500/20 text-violet-400 font-bold">
                                         {user.name.charAt(0)}
                                     </div>
                                     <div className="flex-1 min-w-0">
@@ -219,7 +219,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 {/* Main Content */}
                 <div className="flex-1 lg:ml-64">
                     {/* Top Bar */}
-                    <header className="sticky top-0 z-30 flex items-center justify-between border-b border-white/10 bg-neutral-950/80 px-6 py-4 backdrop-blur-xl">
+                    <header className="sticky top-0 z-30 flex items-center justify-between border-b border-white/10 bg-black/80 px-6 py-4 backdrop-blur-xl">
                         <button
                             onClick={() => setIsSidebarOpen(true)}
                             className="lg:hidden text-neutral-400 hover:text-white"
@@ -300,13 +300,13 @@ function PasswordModal({ user, onClose }: { user: AdminUser | null; onClose: () 
     return (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
             <div className="absolute inset-0 bg-black/60" onClick={onClose} />
-            <div className="relative w-full max-w-md rounded-2xl border border-white/10 bg-neutral-900 p-6">
+            <div className="relative w-full max-w-md rounded-2xl border border-white/10 bg-neutral-950 p-6">
                 <h2 className="mb-6 text-xl font-bold text-white">Change Password</h2>
 
                 {success ? (
                     <div className="py-8 text-center">
-                        <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full bg-lime-400/20">
-                            <svg className="h-6 w-6 text-lime-400" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                        <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full bg-violet-500/20">
+                            <svg className="h-6 w-6 text-violet-400" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                             </svg>
                         </div>
@@ -327,7 +327,7 @@ function PasswordModal({ user, onClose }: { user: AdminUser | null; onClose: () 
                                 value={currentPassword}
                                 onChange={(e) => setCurrentPassword(e.target.value)}
                                 required
-                                className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white outline-none focus:border-lime-400/50"
+                                className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white outline-none focus:border-violet-500/50"
                             />
                         </div>
 
@@ -338,7 +338,7 @@ function PasswordModal({ user, onClose }: { user: AdminUser | null; onClose: () 
                                 value={newPassword}
                                 onChange={(e) => setNewPassword(e.target.value)}
                                 required
-                                className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white outline-none focus:border-lime-400/50"
+                                className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white outline-none focus:border-violet-500/50"
                             />
                         </div>
 
@@ -349,7 +349,7 @@ function PasswordModal({ user, onClose }: { user: AdminUser | null; onClose: () 
                                 value={confirmPassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)}
                                 required
-                                className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white outline-none focus:border-lime-400/50"
+                                className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white outline-none focus:border-violet-500/50"
                             />
                         </div>
 
@@ -363,7 +363,7 @@ function PasswordModal({ user, onClose }: { user: AdminUser | null; onClose: () 
                             </button>
                             <button
                                 type="submit"
-                                className="flex-1 rounded-full bg-lime-400 py-3 font-bold text-black hover:bg-lime-300"
+                                className="flex-1 rounded-full bg-violet-500 py-3 font-bold text-white hover:bg-violet-400"
                             >
                                 Update Password
                             </button>
