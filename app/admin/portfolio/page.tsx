@@ -57,7 +57,7 @@ export default function PortfolioPage() {
     };
 
     const deleteProject = async (id: string) => {
-        if (!confirm("Delete this project?")) return;
+        if (!confirm("Delete this case study from the showroom?")) return;
         try {
             await fetch(`/api/projects/${id}`, { method: "DELETE" });
             await loadProjects();
@@ -90,94 +90,114 @@ export default function PortfolioPage() {
 
     return (
         <AuthGuard requiredPermission="portfolio">
-            <div className="space-y-6">
+            <div className="space-y-10">
                 {/* Header */}
-                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
                     <div>
-                        <h1 className="text-2xl font-bold text-white">Portfolio / Works</h1>
-                        <p className="mt-1 text-neutral-400">Manage featured projects on the homepage</p>
+                        <h1 className="text-3xl font-bold tracking-tight text-zinc-900">Showcase Gallery</h1>
+                        <p className="mt-1 text-sm font-medium text-zinc-500">Curate and organize your best work for the global audience.</p>
                     </div>
                     <button
                         onClick={() => setIsAddModalOpen(true)}
-                        className="rounded-full bg-lime-400 px-5 py-2.5 text-sm font-bold text-black hover:bg-lime-300 transition-all"
+                        className="inline-flex items-center gap-2 rounded-xl bg-zinc-900 px-6 py-2.5 text-[10px] font-bold uppercase tracking-[0.2em] text-white shadow-xl shadow-zinc-900/20 hover:bg-zinc-800 transition-all active:scale-95"
                     >
-                        + Add Project
+                        Add Exhibit
                     </button>
                 </div>
 
-                {/* Search */}
-                <input
-                    type="text"
-                    placeholder="Search by title or category..."
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                    className="w-full max-w-md rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-white placeholder-neutral-500 outline-none focus:border-lime-400/50"
-                />
+                {/* Toolbar */}
+                <div className="flex items-center gap-4 bg-white p-6 rounded-[1.5rem] border border-zinc-200 shadow-sm">
+                    <div className="relative flex-1 max-w-lg">
+                        <svg className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                        <input
+                            type="text"
+                            placeholder="Filter exhibits by title or category..."
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                            className="w-full rounded-xl border border-zinc-100 bg-zinc-50 pl-11 pr-4 py-3 text-sm font-medium text-zinc-900 placeholder-zinc-400 outline-none focus:border-indigo-500 focus:bg-white transition-all shadow-inner"
+                        />
+                    </div>
+                </div>
 
-                {/* Projects Grid */}
-                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {/* Exhibits Grid */}
+                <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
                     {filtered.map((project, index) => (
                         <div
                             key={project.id}
-                            className="rounded-2xl border border-white/10 bg-white/5 overflow-hidden"
+                            className="group rounded-[2rem] border border-zinc-200 bg-white overflow-hidden shadow-sm hover:shadow-xl hover:shadow-zinc-200/40 transition-all duration-500"
                         >
-                            <div className="relative h-40">
+                            <div className="relative h-56 overflow-hidden bg-zinc-100">
                                 <img
                                     src={project.image}
                                     alt={project.title}
-                                    className="w-full h-full object-cover"
+                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                                 />
-                                <div className="absolute top-2 left-2 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-medium">
-                                    {project.category}
+                                <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/60 via-transparent to-transparent opacity-60" />
+                                <div className="absolute top-4 left-4">
+                                    <span className="bg-white/95 backdrop-blur px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest text-zinc-900 shadow-sm border border-zinc-200">
+                                        {project.category}
+                                    </span>
                                 </div>
-                                <div className="absolute top-2 right-2 bg-black/50 backdrop-blur px-2 py-1 rounded text-xs text-white">
-                                    #{project.order}
+                                <div className="absolute top-4 right-4 h-8 w-8 bg-black/40 backdrop-blur rounded-full flex items-center justify-center text-[10px] font-black text-white border border-white/20">
+                                    {project.order}
+                                </div>
+                                <div className="absolute bottom-4 left-4 right-4">
+                                    <h3 className="font-black text-white text-lg leading-tight uppercase tracking-tight line-clamp-1">{project.title}</h3>
                                 </div>
                             </div>
 
-                            <div className="p-4">
-                                <h3 className="font-semibold text-white mb-1">{project.title}</h3>
-                                <p className="text-sm text-neutral-400 line-clamp-2 mb-3">
+                            <div className="p-6">
+                                <p className="text-sm font-medium text-zinc-500 line-clamp-2 mb-6 min-h-[40px]">
                                     {project.description}
                                 </p>
-                                <div className="flex flex-wrap gap-1 mb-4">
+                                
+                                <div className="flex flex-wrap gap-1.5 mb-8 min-h-[28px]">
                                     {project.tags.slice(0, 3).map((tag) => (
                                         <span
                                             key={tag}
-                                            className="bg-lime-400/10 px-2 py-0.5 rounded text-xs text-lime-400"
+                                            className="bg-zinc-50 border border-zinc-100 px-2 py-0.5 rounded-md text-[9px] font-bold uppercase tracking-widest text-zinc-400"
                                         >
                                             {tag}
                                         </span>
                                     ))}
+                                    {project.tags.length > 3 && (
+                                        <span className="text-[9px] font-bold text-zinc-300 px-1">+{project.tags.length - 3}</span>
+                                    )}
                                 </div>
 
-                                <div className="flex items-center gap-2">
-                                    <button
-                                        onClick={() => moveProject(project.id, "up")}
-                                        disabled={index === 0}
-                                        className="rounded-lg border border-white/10 p-2 text-neutral-400 hover:text-white disabled:opacity-30"
-                                    >
-                                        ↑
-                                    </button>
-                                    <button
-                                        onClick={() => moveProject(project.id, "down")}
-                                        disabled={index === filtered.length - 1}
-                                        className="rounded-lg border border-white/10 p-2 text-neutral-400 hover:text-white disabled:opacity-30"
-                                    >
-                                        ↓
-                                    </button>
+                                <div className="flex items-center gap-2 pt-4 border-t border-zinc-50">
+                                    <div className="flex gap-1">
+                                        <button
+                                            onClick={() => moveProject(project.id, "up")}
+                                            disabled={index === 0}
+                                            className="h-9 w-9 flex items-center justify-center rounded-xl border border-zinc-100 bg-white text-zinc-400 hover:text-indigo-600 hover:border-indigo-100 hover:bg-indigo-50/50 disabled:opacity-20 transition-all shadow-sm"
+                                        >
+                                            ↑
+                                        </button>
+                                        <button
+                                            onClick={() => moveProject(project.id, "down")}
+                                            disabled={index === filtered.length - 1}
+                                            className="h-9 w-9 flex items-center justify-center rounded-xl border border-zinc-100 bg-white text-zinc-400 hover:text-indigo-600 hover:border-indigo-100 hover:bg-indigo-50/50 disabled:opacity-20 transition-all shadow-sm"
+                                        >
+                                            ↓
+                                        </button>
+                                    </div>
                                     <div className="flex-1" />
                                     <button
                                         onClick={() => setEditProject(project)}
-                                        className="text-lime-400 hover:underline text-sm"
+                                        className="h-9 px-4 rounded-xl text-xs font-bold uppercase tracking-widest text-zinc-400 hover:text-indigo-600 transition-colors"
                                     >
                                         Edit
                                     </button>
                                     <button
                                         onClick={() => deleteProject(project.id)}
-                                        className="text-red-400 hover:underline text-sm"
+                                        className="h-9 w-9 flex items-center justify-center rounded-xl text-zinc-200 hover:text-rose-600 hover:bg-rose-50 transition-all"
                                     >
-                                        Delete
+                                        <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                        </svg>
                                     </button>
                                 </div>
                             </div>
@@ -186,8 +206,8 @@ export default function PortfolioPage() {
                 </div>
 
                 {filtered.length === 0 && (
-                    <div className="rounded-2xl border border-white/10 bg-white/5 p-12 text-center">
-                        <p className="text-neutral-500">No projects found</p>
+                    <div className="py-32 text-center rounded-[2.5rem] bg-zinc-50 border-2 border-dashed border-zinc-200">
+                        <p className="font-black uppercase tracking-[0.3em] text-zinc-300">No matching exhibits</p>
                     </div>
                 )}
             </div>
@@ -236,69 +256,71 @@ function ProjectModal({
 
     return (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-            <div className="absolute inset-0 bg-black/60" onClick={onClose} />
-            <div className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-2xl border border-white/10 bg-neutral-900 p-6">
-                <h2 className="mb-6 text-xl font-bold text-white">
-                    {project ? "Edit Project" : "Add Project"}
+            <div className="absolute inset-0 bg-zinc-900/40 backdrop-blur-sm shadow-inner" onClick={onClose} />
+                <div className="relative w-full max-w-xl max-h-[90vh] overflow-y-auto rounded-[2.5rem] border border-zinc-200 bg-white p-10 shadow-2xl animate-in fade-in zoom-in duration-300">
+                <h2 className="mb-8 text-3xl font-black tracking-tight text-zinc-900 uppercase">
+                    {project ? "Modify Exhibit" : "New Exhibit"}
                 </h2>
 
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <div>
-                        <label className="mb-2 block text-sm font-medium text-neutral-300">Title</label>
-                        <input
-                            type="text"
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                            required
-                            className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white outline-none focus:border-lime-400/50"
-                        />
+                <form onSubmit={handleSubmit} className="space-y-6">
+                    <div className="grid gap-6 sm:grid-cols-2">
+                        <div className="col-span-2">
+                            <label className="mb-2 block text-[10px] font-black uppercase tracking-widest text-zinc-400">Exhibit Title</label>
+                            <input
+                                type="text"
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
+                                required
+                                className="w-full rounded-xl border border-zinc-100 bg-zinc-50 px-4 py-3 text-sm font-bold text-zinc-800 outline-none focus:border-indigo-500 focus:bg-white transition-all shadow-inner"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="mb-2 block text-[10px] font-black uppercase tracking-widest text-zinc-400">Core Classification</label>
+                            <select
+                                value={category}
+                                onChange={(e) => setCategory(e.target.value)}
+                                className="w-full rounded-xl border border-zinc-100 bg-zinc-50 px-4 py-3 text-sm font-bold text-zinc-800 outline-none shadow-inner"
+                            >
+                                {categoryOptions.map((cat) => (
+                                    <option key={cat} value={cat}>{cat}</option>
+                                ))}
+                            </select>
+                        </div>
+
+                        <div>
+                            <label className="mb-2 block text-[10px] font-black uppercase tracking-widest text-zinc-400">Visual URL</label>
+                            <input
+                                type="text"
+                                value={image}
+                                onChange={(e) => setImage(e.target.value)}
+                                className="w-full rounded-xl border border-zinc-100 bg-zinc-50 px-4 py-3 text-sm font-bold text-zinc-800 outline-none shadow-inner"
+                            />
+                        </div>
                     </div>
 
                     <div>
-                        <label className="mb-2 block text-sm font-medium text-neutral-300">Category</label>
-                        <select
-                            value={category}
-                            onChange={(e) => setCategory(e.target.value)}
-                            className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white outline-none"
-                        >
-                            {categoryOptions.map((cat) => (
-                                <option key={cat} value={cat} className="bg-neutral-900">{cat}</option>
-                            ))}
-                        </select>
-                    </div>
-
-                    <div>
-                        <label className="mb-2 block text-sm font-medium text-neutral-300">Description</label>
+                        <label className="mb-2 block text-[10px] font-black uppercase tracking-widest text-zinc-400">Contextual Narrative</label>
                         <textarea
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
                             required
                             rows={3}
-                            className="w-full resize-none rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white outline-none focus:border-lime-400/50"
+                            className="w-full resize-none rounded-xl border border-zinc-100 bg-zinc-50 px-4 py-3 text-sm font-medium text-zinc-700 outline-none focus:border-indigo-500 focus:bg-white transition-all shadow-inner"
                         />
                     </div>
 
                     <div>
-                        <label className="mb-2 block text-sm font-medium text-neutral-300">Image URL</label>
-                        <input
-                            type="text"
-                            value={image}
-                            onChange={(e) => setImage(e.target.value)}
-                            className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white outline-none focus:border-lime-400/50"
-                        />
-                    </div>
-
-                    <div>
-                        <label className="mb-2 block text-sm font-medium text-neutral-300">Tags</label>
+                        <label className="mb-3 block text-[10px] font-black uppercase tracking-widest text-zinc-400">Descriptor Tags</label>
                         <div className="flex flex-wrap gap-2">
                             {tagOptions.map((tag) => (
                                 <button
                                     key={tag}
                                     type="button"
                                     onClick={() => toggleTag(tag)}
-                                    className={`rounded-full px-3 py-1.5 text-xs font-medium transition-all ${selectedTags.includes(tag)
-                                            ? "bg-lime-400 text-black"
-                                            : "bg-white/10 text-neutral-400 hover:bg-white/20"
+                                    className={`rounded-xl px-4 py-2 text-[10px] font-bold uppercase tracking-widest transition-all ${selectedTags.includes(tag)
+                                            ? "bg-indigo-600 text-white shadow-lg shadow-indigo-600/20"
+                                            : "bg-zinc-50 text-zinc-400 border border-zinc-100 hover:bg-zinc-100"
                                         }`}
                                 >
                                     {tag}
@@ -307,19 +329,19 @@ function ProjectModal({
                         </div>
                     </div>
 
-                    <div className="flex gap-3 pt-4">
+                    <div className="flex gap-4 pt-6">
                         <button
                             type="button"
                             onClick={onClose}
-                            className="flex-1 rounded-full border border-white/10 py-3 font-medium text-white hover:bg-white/5"
+                            className="flex-1 rounded-full border border-zinc-200 py-4 text-xs font-bold uppercase tracking-widest text-zinc-400 hover:bg-zinc-50 transition-all"
                         >
-                            Cancel
+                            Abort
                         </button>
                         <button
                             type="submit"
-                            className="flex-1 rounded-full bg-lime-400 py-3 font-bold text-black hover:bg-lime-300"
+                            className="flex-1 rounded-full bg-indigo-600 py-4 text-xs font-black uppercase tracking-[0.2em] text-white shadow-xl shadow-indigo-600/20 hover:bg-indigo-700 transition-all active:scale-95"
                         >
-                            {project ? "Update" : "Create"}
+                            {project ? "Commit Changes" : "Publish Exhibit"}
                         </button>
                     </div>
                 </form>

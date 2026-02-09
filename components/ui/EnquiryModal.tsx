@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, useEffect } from "react";
 
 interface EnquiryModalProps {
     isOpen: boolean;
@@ -8,6 +8,15 @@ interface EnquiryModalProps {
 }
 
 export default function EnquiryModal({ isOpen, onClose }: EnquiryModalProps) {
+    useEffect(() => {
+        if (isOpen) {
+            document.body.classList.add('hide-cursor-trail');
+        } else {
+            document.body.classList.remove('hide-cursor-trail');
+        }
+        return () => document.body.classList.remove('hide-cursor-trail');
+    }, [isOpen]);
+
     const [formData, setFormData] = useState({
         name: "",
         email: "",

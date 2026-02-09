@@ -68,6 +68,6 @@ export const roleLabels: Record<UserRole, string> = {
 export const roleColors: Record<UserRole, string> = {
     super_admin: "bg-purple-500/20 text-purple-400",
     admin: "bg-blue-500/20 text-blue-400",
-    content_writer: "bg-green-500/20 text-green-400",
+    content_writer: "bg-indigo-500/20 text-indigo-400",
     enquiry_handler: "bg-orange-500/20 text-orange-400",
 };

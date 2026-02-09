@@ -44,6 +44,17 @@ export default function CustomCursor() {
 
         // Smooth flowing trail animation
         const updateTrail = () => {
+            if (document.body.classList.contains('hide-cursor-trail')) {
+                trailRefs.current.forEach(trail => {
+                    if (trail) trail.style.display = 'none';
+                });
+                return;
+            }
+
+            trailRefs.current.forEach(trail => {
+                if (trail) trail.style.display = 'block';
+            });
+
             // First trail follows mouse directly
             trailPositions.current[0].x += (mousePos.current.x - trailPositions.current[0].x) * 0.3;
             trailPositions.current[0].y += (mousePos.current.y - trailPositions.current[0].y) * 0.3;
@@ -99,7 +110,7 @@ export default function CustomCursor() {
         // Find all interactive elements - use MutationObserver for dynamic elements
         const attachListeners = () => {
             const interactiveElements = document.querySelectorAll(
-                'a, button, [data-cursor], .work-card, .service-card'
+                'a:not(.no-cursor), button:not(.no-cursor), [data-cursor], .work-card, .service-card'
             );
 
             interactiveElements.forEach((el) => {
@@ -190,10 +201,13 @@ export default function CustomCursor() {
                 }}
             />
 
-            {/* Hide default cursor */}
+            {/* Hide default cursor except for elements with .no-cursor */}
             <style jsx global>{`
         * {
           cursor: none !important;
+        }
+        .no-cursor, .no-cursor * {
+          cursor: auto !important;
         }
         @media (hover: none) {
           * {

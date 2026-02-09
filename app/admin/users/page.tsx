@@ -53,10 +53,10 @@ export default function UsersPage() {
 
     const deleteUser = async (id: string) => {
         if (id === currentUser?.id) {
-            alert("You cannot delete yourself!");
+            alert("Administrative self-termination is restricted!");
             return;
         }
-        if (!confirm("Delete this user?")) return;
+        if (!confirm("Revoke all access for this user?")) return;
 
         try {
             await fetch(`/api/users/${id}`, { method: "DELETE" });
@@ -104,76 +104,94 @@ export default function UsersPage() {
 
     return (
         <AuthGuard requiredPermission="users">
-            <div className="space-y-6">
-                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="space-y-10">
+                {/* Header */}
+                <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
                     <div>
-                        <h1 className="text-2xl font-bold text-white">Users</h1>
-                        <p className="mt-1 text-neutral-400">Manage admin users and roles</p>
+                        <h1 className="text-3xl font-bold tracking-tight text-zinc-900">Personnel Console</h1>
+                        <p className="mt-1 text-sm font-medium text-zinc-500">Govern administrative roles and security permissions across the workspace.</p>
                     </div>
                     <button
                         onClick={() => setIsAddModalOpen(true)}
-                        className="rounded-full bg-lime-400 px-5 py-2.5 text-sm font-bold text-black hover:bg-lime-300 transition-all"
+                        className="inline-flex items-center gap-2 rounded-xl bg-zinc-900 px-6 py-2.5 text-[10px] font-bold uppercase tracking-[0.2em] text-white shadow-xl shadow-zinc-900/20 hover:bg-zinc-800 transition-all active:scale-95"
                     >
-                        + Add User
+                        Provision User
                     </button>
                 </div>
 
-                <input
-                    type="text"
-                    placeholder="Search by name or email..."
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                    className="w-full max-w-md rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-white placeholder-neutral-500 outline-none focus:border-lime-400/50"
-                />
+                {/* Toolbar */}
+                <div className="flex items-center gap-4 bg-white p-6 rounded-[1.5rem] border border-zinc-200 shadow-sm">
+                    <div className="relative flex-1 max-w-lg">
+                        <svg className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                        <input
+                            type="text"
+                            placeholder="Identify users by name or email signature..."
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                            className="w-full rounded-xl border border-zinc-100 bg-zinc-50 pl-11 pr-4 py-3 text-sm font-medium text-zinc-900 placeholder-zinc-400 outline-none focus:border-indigo-500 focus:bg-white transition-all shadow-inner"
+                        />
+                    </div>
+                </div>
 
-                <div className="rounded-2xl border border-white/10 bg-white/5 overflow-hidden">
+                {/* User Directory */}
+                <div className="rounded-[2rem] border border-zinc-200 bg-white overflow-hidden shadow-xl shadow-zinc-200/10">
                     <div className="overflow-x-auto">
                         <table className="w-full">
                             <thead>
-                                <tr className="border-b border-white/10">
-                                    <th className="px-4 py-3 text-left text-sm font-medium text-neutral-400">User</th>
-                                    <th className="px-4 py-3 text-left text-sm font-medium text-neutral-400">Role</th>
-                                    <th className="px-4 py-3 text-left text-sm font-medium text-neutral-400">Created</th>
-                                    <th className="px-4 py-3 text-left text-sm font-medium text-neutral-400">Last Login</th>
-                                    <th className="px-4 py-3 text-left text-sm font-medium text-neutral-400">Actions</th>
+                                <tr className="border-b border-zinc-100 bg-zinc-50/50">
+                                    <th className="px-6 py-5 text-left text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400">Identity</th>
+                                    <th className="px-6 py-5 text-left text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400">Security Clearance</th>
+                                    <th className="px-6 py-5 text-left text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400">Onboarding</th>
+                                    <th className="px-6 py-5 text-left text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400">Last Activity</th>
+                                    <th className="px-6 py-5 text-right text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400">Operations</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody className="divide-y divide-zinc-50">
                                 {paginatedData.map((user) => (
-                                    <tr key={user.id} className="border-b border-white/5 hover:bg-white/5">
-                                        <td className="px-4 py-4">
-                                            <div className="flex items-center gap-3">
-                                                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-lime-400/20 text-lime-400 font-bold">
-                                                    {user.name.charAt(0)}
+                                    <tr key={user.id} className="group hover:bg-zinc-50/50 transition-all duration-300">
+                                        <td className="px-6 py-6">
+                                            <div className="flex items-center gap-4">
+                                                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-zinc-100 text-zinc-900 text-sm font-black border border-zinc-200 shadow-sm group-hover:bg-indigo-600 group-hover:text-white group-hover:border-indigo-600 transition-all duration-500">
+                                                    {user.name.charAt(0).toUpperCase()}
                                                 </div>
                                                 <div>
                                                     <div className="flex items-center gap-2">
-                                                        <p className="font-medium text-white">{user.name}</p>
+                                                        <p className="font-bold text-zinc-900 uppercase tracking-tight text-sm">{user.name}</p>
                                                         {user.id === currentUser?.id && (
-                                                            <span className="rounded-full bg-blue-500/20 px-2 py-0.5 text-xs text-blue-400">You</span>
+                                                            <span className="rounded-md bg-indigo-50 px-2 py-0.5 text-[9px] font-black uppercase text-indigo-600 border border-indigo-100">Active Session</span>
                                                         )}
                                                     </div>
-                                                    <p className="text-sm text-neutral-500">{user.email}</p>
+                                                    <p className="text-xs font-medium text-zinc-400 transition-colors group-hover:text-zinc-500">{user.email}</p>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className="px-4 py-4">
-                                            <span className={`rounded-full px-3 py-1 text-xs font-medium ${roleColors[user.role]}`}>
+                                        <td className="px-6 py-6">
+                                            <span className={`inline-flex items-center px-3 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest border ${
+                                                user.role === 'super_admin' ? 'bg-amber-50 text-amber-600 border-amber-100' :
+                                                user.role === 'admin' ? 'bg-indigo-50 text-indigo-600 border-indigo-100' :
+                                                'bg-zinc-100 text-zinc-500 border-zinc-200'
+                                            }`}>
                                                 {roleLabels[user.role]}
                                             </span>
                                         </td>
-                                        <td className="px-4 py-4 text-neutral-400">
-                                            {new Date(user.createdAt).toLocaleDateString()}
+                                        <td className="px-6 py-6 text-xs font-bold text-zinc-400 tracking-tight">
+                                            {new Date(user.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
                                         </td>
-                                        <td className="px-4 py-4 text-neutral-400">
-                                            {user.lastLogin ? new Date(user.lastLogin).toLocaleDateString() : "Never"}
+                                        <td className="px-6 py-6 text-xs font-bold text-zinc-400 tracking-tight">
+                                            {user.lastLogin ? new Date(user.lastLogin).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }) : "--"}
                                         </td>
-                                        <td className="px-4 py-4">
-                                            <div className="flex items-center gap-3">
-                                                <button onClick={() => setEditUser(user as any)} className="text-lime-400 hover:underline text-sm">Edit</button>
-                                                <button onClick={() => setResetPasswordUser(user as any)} className="text-blue-400 hover:underline text-sm">Reset PW</button>
+                                        <td className="px-6 py-6 text-right">
+                                            <div className="flex items-center justify-end gap-2">
+                                                <button onClick={() => setEditUser(user as any)} className="h-9 px-4 rounded-xl text-xs font-bold uppercase tracking-widest text-zinc-400 hover:text-indigo-600 transition-colors">Modify</button>
+                                                <button onClick={() => setResetPasswordUser(user as any)} className="h-9 px-4 rounded-xl text-xs font-bold uppercase tracking-widest text-zinc-400 hover:text-sky-600 transition-colors">Key Reset</button>
                                                 {user.id !== currentUser?.id && (
-                                                    <button onClick={() => deleteUser(user.id)} className="text-red-400 hover:underline text-sm">Delete</button>
+                                                    <button onClick={() => deleteUser(user.id)} className="h-9 w-9 flex items-center justify-center rounded-xl text-zinc-200 hover:text-rose-600 hover:bg-rose-50 transition-all">
+                                                        <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                        </svg>
+                                                    </button>
                                                 )}
                                             </div>
                                         </td>
@@ -184,15 +202,29 @@ export default function UsersPage() {
                     </div>
                 </div>
 
+                {/* Pagination Hub */}
                 {totalPages > 1 && (
-                    <div className="flex items-center justify-center gap-2">
-                        <button onClick={() => setPage(Math.max(1, page - 1))} disabled={page === 1} className="rounded-lg border border-white/10 px-3 py-2 text-sm text-white disabled:opacity-50">Previous</button>
-                        <span className="text-sm text-neutral-400">Page {page} of {totalPages}</span>
-                        <button onClick={() => setPage(Math.min(totalPages, page + 1))} disabled={page === totalPages} className="rounded-lg border border-white/10 px-3 py-2 text-sm text-white disabled:opacity-50">Next</button>
+                    <div className="flex items-center justify-center gap-6 pt-6">
+                        <button onClick={() => setPage(Math.max(1, page - 1))} disabled={page === 1} className="flex h-10 w-10 items-center justify-center rounded-full border border-zinc-200 bg-white text-zinc-600 transition-all hover:bg-zinc-50 hover:border-indigo-500 hover:text-indigo-600 disabled:opacity-30 shadow-sm">
+                            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+                        <div className="flex items-center gap-2">
+                             <span className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Registry Page</span>
+                             <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-600 text-xs font-bold text-white shadow-lg shadow-indigo-600/30">{page}</span>
+                             <span className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">of {totalPages}</span>
+                        </div>
+                        <button onClick={() => setPage(Math.min(totalPages, page + 1))} disabled={page === totalPages} className="flex h-10 w-10 items-center justify-center rounded-full border border-zinc-200 bg-white text-zinc-600 transition-all hover:bg-zinc-50 hover:border-indigo-500 hover:text-indigo-600 disabled:opacity-30 shadow-sm">
+                            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
                     </div>
                 )}
             </div>
 
+            {/* Credential Provisioning */}
             {(isAddModalOpen || editUser) && (
                 <UserModal user={editUser} onClose={() => { setEditUser(null); setIsAddModalOpen(false); }} onSave={saveUser} />
             )}
@@ -212,42 +244,46 @@ function UserModal({ user, onClose, onSave }: { user: AdminUser | null; onClose:
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        if (!user && !password) { alert("Password is required for new users"); return; }
+        if (!user && !password) { alert("Initialization requires a security key."); return; }
         onSave({ name, email, password: password || undefined, role }, !!user);
     };
 
     return (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-            <div className="absolute inset-0 bg-black/60" onClick={onClose} />
-            <div className="relative w-full max-w-md rounded-2xl border border-white/10 bg-neutral-900 p-6">
-                <h2 className="mb-6 text-xl font-bold text-white">{user ? "Edit User" : "Add User"}</h2>
-                <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="absolute inset-0 bg-zinc-900/40 backdrop-blur-sm shadow-inner" onClick={onClose} />
+            <div className="relative w-full max-w-md rounded-[2.5rem] border border-zinc-200 bg-white p-10 shadow-2xl animate-in fade-in zoom-in duration-300">
+                <h2 className="mb-8 text-3xl font-black tracking-tight text-zinc-900 uppercase">
+                    {user ? "Modify User" : "Provision User"}
+                </h2>
+                <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
-                        <label className="mb-2 block text-sm font-medium text-neutral-300">Name</label>
-                        <input type="text" value={name} onChange={(e) => setName(e.target.value)} required className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white outline-none focus:border-lime-400/50" />
+                        <label className="mb-2 block text-[10px] font-black uppercase tracking-widest text-zinc-400">Legal Name</label>
+                        <input type="text" value={name} onChange={(e) => setName(e.target.value)} required className="w-full rounded-xl border border-zinc-100 bg-zinc-50 px-4 py-3 text-sm font-bold text-zinc-800 outline-none focus:border-indigo-500 focus:bg-white transition-all shadow-inner" />
                     </div>
                     <div>
-                        <label className="mb-2 block text-sm font-medium text-neutral-300">Email</label>
-                        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required disabled={!!user} className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white outline-none focus:border-lime-400/50 disabled:opacity-50" />
+                        <label className="mb-2 block text-[10px] font-black uppercase tracking-widest text-zinc-400">Email Reference</label>
+                        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required disabled={!!user} className="w-full rounded-xl border border-zinc-100 bg-zinc-50 px-4 py-3 text-sm font-bold text-zinc-800 outline-none focus:border-indigo-500 focus:bg-white transition-all shadow-inner disabled:opacity-50" />
                     </div>
                     {!user && (
                         <div>
-                            <label className="mb-2 block text-sm font-medium text-neutral-300">Password</label>
-                            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white outline-none focus:border-lime-400/50" />
+                            <label className="mb-2 block text-[10px] font-black uppercase tracking-widest text-zinc-400">Initial Security Key</label>
+                            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required className="w-full rounded-xl border border-zinc-100 bg-zinc-50 px-4 py-3 text-sm font-bold text-zinc-800 outline-none focus:border-indigo-500 focus:bg-white transition-all shadow-inner" />
                         </div>
                     )}
                     <div>
-                        <label className="mb-2 block text-sm font-medium text-neutral-300">Role</label>
-                        <select value={role} onChange={(e) => setRole(e.target.value as UserRole)} className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white outline-none">
-                            <option value="super_admin" className="bg-neutral-900">Super Admin</option>
-                            <option value="admin" className="bg-neutral-900">Admin</option>
-                            <option value="content_writer" className="bg-neutral-900">Content Writer</option>
-                            <option value="enquiry_handler" className="bg-neutral-900">Enquiry Handler</option>
+                        <label className="mb-2 block text-[10px] font-black uppercase tracking-widest text-zinc-400">Clearance Level</label>
+                        <select value={role} onChange={(e) => setRole(e.target.value as UserRole)} className="w-full rounded-xl border border-zinc-100 bg-zinc-50 px-4 py-3 text-sm font-bold text-zinc-800 outline-none shadow-inner">
+                            <option value="super_admin">Super Admin</option>
+                            <option value="admin">Admin</option>
+                            <option value="content_writer">Content Writer</option>
+                            <option value="enquiry_handler">Enquiry Handler</option>
                         </select>
                     </div>
-                    <div className="flex gap-3 pt-4">
-                        <button type="button" onClick={onClose} className="flex-1 rounded-full border border-white/10 py-3 font-medium text-white hover:bg-white/5">Cancel</button>
-                        <button type="submit" className="flex-1 rounded-full bg-lime-400 py-3 font-bold text-black hover:bg-lime-300">{user ? "Update" : "Create"}</button>
+                    <div className="flex gap-4 pt-6">
+                        <button type="button" onClick={onClose} className="flex-1 rounded-full border border-zinc-200 py-4 text-xs font-bold uppercase tracking-widest text-zinc-400 hover:bg-zinc-50 transition-all">Abort</button>
+                        <button type="submit" className="flex-1 rounded-full bg-indigo-600 py-4 text-xs font-black uppercase tracking-[0.2em] text-white shadow-xl shadow-indigo-600/20 hover:bg-indigo-700 transition-all active:scale-95">
+                            {user ? "Commit" : "Authorize"}
+                        </button>
                     </div>
                 </form>
             </div>
@@ -260,24 +296,24 @@ function ResetPasswordModal({ user, onClose, onReset }: { user: AdminUser; onClo
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        if (newPassword.length < 6) { alert("Password must be at least 6 characters"); return; }
+        if (newPassword.length < 6) { alert("Security keys must exceed 6 character units."); return; }
         onReset(newPassword);
     };
 
     return (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-            <div className="absolute inset-0 bg-black/60" onClick={onClose} />
-            <div className="relative w-full max-w-md rounded-2xl border border-white/10 bg-neutral-900 p-6">
-                <h2 className="mb-2 text-xl font-bold text-white">Reset Password</h2>
-                <p className="mb-6 text-sm text-neutral-400">For: {user.email}</p>
-                <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="absolute inset-0 bg-zinc-900/40 backdrop-blur-sm shadow-inner" onClick={onClose} />
+            <div className="relative w-full max-w-md rounded-[2.5rem] border border-zinc-200 bg-white p-10 shadow-2xl animate-in fade-in zoom-in duration-300">
+                <h2 className="mb-2 text-3xl font-black tracking-tight text-zinc-900 uppercase">Key Override</h2>
+                <p className="mb-8 text-xs font-bold text-indigo-600 uppercase tracking-widest">Protocol for: {user.email}</p>
+                <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
-                        <label className="mb-2 block text-sm font-medium text-neutral-300">New Password</label>
-                        <input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} required placeholder="Min 6 characters" className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white outline-none focus:border-lime-400/50" />
+                        <label className="mb-2 block text-[10px] font-black uppercase tracking-widest text-zinc-400">New Security Key</label>
+                        <input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} required placeholder="••••••••" className="w-full rounded-xl border border-zinc-100 bg-zinc-50 px-4 py-3 text-sm font-bold text-zinc-800 outline-none focus:border-indigo-500 focus:bg-white transition-all shadow-inner" />
                     </div>
-                    <div className="flex gap-3 pt-4">
-                        <button type="button" onClick={onClose} className="flex-1 rounded-full border border-white/10 py-3 font-medium text-white hover:bg-white/5">Cancel</button>
-                        <button type="submit" className="flex-1 rounded-full bg-lime-400 py-3 font-bold text-black hover:bg-lime-300">Reset Password</button>
+                    <div className="flex gap-4 pt-6">
+                        <button type="button" onClick={onClose} className="flex-1 rounded-full border border-zinc-200 py-4 text-xs font-bold uppercase tracking-widest text-zinc-400 hover:bg-zinc-50 transition-all">Abort</button>
+                        <button type="submit" className="flex-1 rounded-full bg-rose-600 py-4 text-xs font-black uppercase tracking-[0.2em] text-white shadow-xl shadow-rose-600/20 hover:bg-rose-700 transition-all active:scale-95">Finalize Override</button>
                     </div>
                 </form>
             </div>

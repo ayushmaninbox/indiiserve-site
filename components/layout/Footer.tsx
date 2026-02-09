@@ -40,7 +40,7 @@ export default function Footer() {
                                 <Link
                                     key={social}
                                     href="#"
-                                    className="w-10 h-10 rounded-full border border-violet-500/30 flex items-center justify-center hover:bg-gradient-to-r hover:from-indigo-500 hover:to-violet-500 hover:border-transparent transition-all duration-300"
+                                    className="no-cursor w-10 h-10 rounded-full border border-violet-500/30 flex items-center justify-center hover:bg-gradient-to-r hover:from-indigo-500 hover:to-violet-500 hover:border-transparent transition-all duration-300"
                                     aria-label={social}
                                 >
                                     <span className="sr-only">{social}</span>
@@ -60,7 +60,7 @@ export default function Footer() {
                                 <li key={link.href}>
                                     <Link
                                         href={link.href}
-                                        className="text-sm opacity-60 hover:opacity-100 hover:translate-x-1 hover:text-violet-400 transition-all inline-block"
+                                        className="no-cursor text-sm opacity-60 hover:opacity-100 hover:translate-x-1 hover:text-violet-400 transition-all inline-block"
                                     >
                                         {link.label}
                                     </Link>
@@ -79,7 +79,7 @@ export default function Footer() {
                                 <li key={idx}>
                                     <Link
                                         href={link.href}
-                                        className="text-sm opacity-60 hover:opacity-100 hover:translate-x-1 hover:text-violet-400 transition-all inline-block"
+                                        className="no-cursor text-sm opacity-60 hover:opacity-100 hover:translate-x-1 hover:text-violet-400 transition-all inline-block"
                                     >
                                         {link.label}
                                     </Link>
@@ -100,11 +100,11 @@ export default function Footer() {
                             <input
                                 type="email"
                                 placeholder="Email address"
-                                className="flex-1 bg-white/5 border border-violet-500/20 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-violet-500 transition-colors"
+                                className="no-cursor flex-1 bg-white/5 border border-violet-500/20 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-violet-500 transition-colors"
                             />
                             <button
                                 type="submit"
-                                className="bg-gradient-to-r from-indigo-500 to-violet-500 text-white px-4 py-3 rounded-lg font-medium hover:from-indigo-400 hover:to-violet-400 transition-all"
+                                className="no-cursor bg-gradient-to-r from-indigo-500 to-violet-500 text-white px-4 py-3 rounded-lg font-medium hover:from-indigo-400 hover:to-violet-400 transition-all"
                                 aria-label="Subscribe"
                             >
                                 →
@@ -117,8 +117,8 @@ export default function Footer() {
                 <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-violet-500/20 text-xs opacity-40 uppercase tracking-widest gap-4">
                     <p>&copy; 2026 InDiiServe. All rights reserved.</p>
                     <div className="flex gap-8">
-                        <Link href="#" className="hover:text-violet-400 transition-colors">Privacy Policy</Link>
-                        <Link href="#" className="hover:text-violet-400 transition-colors">Terms of Service</Link>
+                        <Link href="#" className="no-cursor hover:text-violet-400 transition-colors">Privacy Policy</Link>
+                        <Link href="#" className="no-cursor hover:text-violet-400 transition-colors">Terms of Service</Link>
                     </div>
                 </div>
             </div>

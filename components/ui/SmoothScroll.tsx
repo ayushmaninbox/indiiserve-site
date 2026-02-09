@@ -37,8 +37,31 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
 
         gsap.ticker.lagSmoothing(0);
 
+        // Handle anchor links smoothly
+        const handleAnchorClick = (e: MouseEvent) => {
+            const target = e.target as HTMLElement;
+            const link = target.closest('a');
+            if (!link) return;
+
+            const href = link.getAttribute('href');
+            if (href && href.startsWith('#')) {
+                e.preventDefault();
+                const targetId = href;
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    lenis.scrollTo(targetElement as HTMLElement, {
+                        offset: -100, // Offset for fixed header
+                        duration: 1.5,
+                    });
+                }
+            }
+        };
+
+        window.addEventListener('click', handleAnchorClick);
+
         return () => {
             lenis.destroy();
+            window.removeEventListener('click', handleAnchorClick);
             gsap.ticker.remove((time) => {
                 lenis.raf(time * 1000);
             });

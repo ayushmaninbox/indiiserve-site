@@ -58,7 +58,7 @@ p,
 span,
 a,
 div {
-  font-family: var(--font-migra) !important;
+  font-family: inherit;
 }
 
 /* Custom scrollbar - Purple theme */

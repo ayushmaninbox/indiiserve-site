@@ -8,10 +8,14 @@ import EnquiryModal from "@/components/ui/EnquiryModal";
 
 gsap.registerPlugin(ScrollTrigger);
 
+import { LayoutGrid, Bot, Users } from "lucide-react";
+
+gsap.registerPlugin(ScrollTrigger);
+
 const serviceDropdownItems = [
-    { href: "/services/digital-branding", label: "Digital Branding", icon: "✦" },
-    { href: "/services/ai-automation", label: "AI & Automation", icon: "🤖" },
-    { href: "/services/recruitment", label: "Recruitment", icon: "👥" },
+    { href: "/services/digital-branding", label: "Digital Branding", icon: <LayoutGrid className="w-4 h-4" /> },
+    { href: "/services/ai-automation", label: "AI & Automation", icon: <Bot className="w-4 h-4" /> },
+    { href: "/services/recruitment", label: "Recruitment", icon: <Users className="w-4 h-4" /> },
 ];
 
 export default function Navbar() {
@@ -33,17 +37,9 @@ export default function Navbar() {
                 }
             });
 
-            tl.to(navRef.current, {
-                left: "50%",
-                xPercent: -50,
-                duration: 1,
-                ease: "none"
-            });
-
             tl.fromTo(bgRef.current,
                 { backgroundColor: "rgba(3, 0, 20, 0.6)", borderColor: "rgba(139, 92, 246, 0.1)" },
-                { backgroundColor: "rgba(3, 0, 20, 0.95)", borderColor: "rgba(139, 92, 246, 0.3)", duration: 1 },
-                "<"
+                { backgroundColor: "rgba(3, 0, 20, 0.95)", borderColor: "rgba(139, 92, 246, 0.3)", duration: 1 }
             );
 
         }, navRef);
@@ -106,7 +102,7 @@ export default function Navbar() {
         <>
             <nav
                 ref={navRef}
-                className="fixed top-8 left-5 md:left-20 z-[5000] w-auto"
+                className="fixed top-8 left-1/2 -translate-x-1/2 z-[5000] w-auto"
             >
                 <div className="relative">
                     {/* Glass Background Layer */}
@@ -135,8 +131,7 @@ export default function Navbar() {
                                 onMouseLeave={handleServicesMouseLeave}
                             >
                                 <button
-                                    className="text-sm font-medium text-white hover:opacity-70 transition-opacity relative group flex items-center gap-1"
-                                    data-cursor="link"
+                                    className="text-xs uppercase tracking-widest font-sans font-bold text-white hover:opacity-70 transition-opacity relative group flex items-center gap-1.5"
                                 >
                                     Services
                                     <svg
@@ -162,16 +157,16 @@ export default function Navbar() {
                                             <Link
                                                 key={item.href}
                                                 href={item.href}
-                                                className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm text-neutral-300 hover:text-violet-400 hover:bg-violet-500/10 transition-all"
+                                                className="no-cursor flex items-center gap-3 px-4 py-3 rounded-xl text-xs uppercase tracking-widest font-sans font-bold text-neutral-300 hover:text-violet-400 hover:bg-violet-500/10 transition-all"
                                             >
-                                                <span className="text-lg">{item.icon}</span>
+                                                <span className="text-violet-400">{item.icon}</span>
                                                 {item.label}
                                             </Link>
                                         ))}
                                         <div className="border-t border-violet-500/20 mt-2 pt-2">
                                             <Link
                                                 href="/services"
-                                                className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm text-neutral-500 hover:text-violet-400 hover:bg-violet-500/10 transition-all"
+                                                className="no-cursor flex items-center gap-3 px-4 py-3 rounded-xl text-xs uppercase tracking-widest font-sans font-bold text-neutral-500 hover:text-violet-400 hover:bg-violet-500/10 transition-all"
                                             >
                                                 View All Services →
                                             </Link>
@@ -184,8 +179,7 @@ export default function Navbar() {
                                 <Link
                                     key={link.href}
                                     href={link.href}
-                                    className="text-sm font-medium text-white hover:opacity-70 transition-opacity relative group"
-                                    data-cursor="link"
+                                    className="no-cursor text-xs uppercase tracking-widest font-sans font-bold text-white hover:opacity-70 transition-opacity relative group"
                                 >
                                     {link.label}
                                     <span className="absolute -bottom-1 left-0 w-full h-px bg-white scale-x-0 group-hover:scale-x-100 transition-transform origin-right group-hover:origin-left duration-300" />
@@ -196,7 +190,7 @@ export default function Navbar() {
                         {/* Enquire Now Button - Desktop */}
                         <button
                             onClick={() => setIsEnquiryOpen(true)}
-                            className="hidden md:block ml-4 rounded-full bg-gradient-to-r from-indigo-500 to-violet-500 px-5 py-2 text-sm font-bold text-white transition-all hover:from-indigo-400 hover:to-violet-400 hover:scale-105 hover:shadow-[0_0_20px_rgba(139,92,246,0.4)]"
+                            className="no-cursor hidden md:block ml-4 rounded-full bg-gradient-to-r from-indigo-500 to-violet-500 px-5 py-2 text-xs uppercase tracking-widest font-sans font-bold text-white transition-all hover:from-indigo-400 hover:to-violet-400 hover:scale-105 hover:shadow-[0_0_20px_rgba(139,92,246,0.4)]"
                         >
                             Enquire Now
                         </button>
@@ -231,16 +225,16 @@ export default function Navbar() {
                 <div className="flex flex-col gap-6 text-center">
                     {/* Services Section */}
                     <div className="mobile-link">
-                        <span className="text-sm uppercase tracking-widest text-violet-400 mb-4 block">Services</span>
+                        <span className="text-xs uppercase tracking-widest text-violet-400 mb-4 block">Services</span>
                         <div className="flex flex-col gap-3">
                             {serviceDropdownItems.map((item) => (
                                 <Link
                                     key={item.href}
                                     href={item.href}
-                                    className="text-2xl font-migra font-bold text-white hover:text-violet-400 transition-colors flex items-center justify-center gap-3"
+                                    className="text-2xl font-sans uppercase tracking-widest font-bold text-white hover:text-violet-400 transition-colors flex items-center justify-center gap-3"
                                     onClick={() => setIsOpen(false)}
                                 >
-                                    <span>{item.icon}</span>
+                                    <span className="text-violet-400">{item.icon}</span>
                                     {item.label}
                                 </Link>
                             ))}
@@ -253,7 +247,7 @@ export default function Navbar() {
                         <Link
                             key={link.href}
                             href={link.href}
-                            className="mobile-link text-3xl font-migra font-bold text-white hover:text-violet-400 transition-colors"
+                            className="mobile-link text-3xl font-sans uppercase tracking-widest font-bold text-white hover:text-violet-400 transition-colors"
                             onClick={() => setIsOpen(false)}
                         >
                             {link.label}
@@ -265,7 +259,7 @@ export default function Navbar() {
                             setIsOpen(false);
                             setIsEnquiryOpen(true);
                         }}
-                        className="mobile-link mt-4 rounded-full bg-gradient-to-r from-indigo-500 to-violet-500 px-8 py-4 text-lg font-bold text-white transition-all hover:from-indigo-400 hover:to-violet-400 hover:shadow-[0_0_30px_rgba(139,92,246,0.5)]"
+                        className="mobile-link mt-4 rounded-full bg-gradient-to-r from-indigo-500 to-violet-500 px-8 py-4 text-lg uppercase tracking-widest font-sans font-bold text-white transition-all hover:from-indigo-400 hover:to-violet-400 hover:shadow-[0_0_30px_rgba(139,92,246,0.5)]"
                     >
                         Enquire Now
                     </button>
