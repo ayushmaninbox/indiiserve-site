@@ -3,7 +3,6 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Image from "next/image";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -13,13 +12,7 @@ const stats = [
     { number: 5, suffix: "x", label: "Average ROI" },
 ];
 
-const shapes = [
-    "/images/circle.png",
-    "/images/half tri.png",
-    "/images/multistar.png",
-    "/images/circle.png",
-    "/images/half tri.png",
-];
+
 
 interface Particle {
     element: HTMLDivElement;
@@ -221,20 +214,38 @@ export default function About() {
         >
             {/* Physics Container */}
             <div ref={containerRef} className="absolute inset-0 pointer-events-none z-0">
-                {shapes.map((src, i) => (
+                {[0, 1, 2, 3, 4].map((i) => (
                     <div
                         key={i}
                         ref={(el) => { if (el) floatingShapesRef.current[i] = el; }}
-                        className="absolute w-20 h-20 pointer-events-auto cursor-grab active:cursor-grabbing"
+                        className="absolute w-16 h-16 pointer-events-auto cursor-grab active:cursor-grabbing"
                         style={{ willChange: "transform" }}
                     >
-                        <Image
-                            src={src}
-                            alt="Floating shape"
-                            width={80}
-                            height={80}
-                            className="w-full h-full object-contain opacity-60"
-                        />
+                        <svg viewBox="0 0 80 80" className="w-full h-full opacity-50">
+                            {/* Retro starburst — white */}
+                            {i === 0 && (
+                                <path d="M40 4 L46 28 L68 12 L52 34 L76 40 L52 46 L68 68 L46 52 L40 76 L34 52 L12 68 L28 46 L4 40 L28 34 L12 12 L34 28 Z" fill="#ffffff" />
+                            )}
+                            {/* Retro half-circle — violet */}
+                            {i === 1 && (
+                                <path d="M12 56 A28 28 0 0 1 68 56 Z" fill="#8b5cf6" />
+                            )}
+                            {/* Retro cross/plus — white */}
+                            {i === 2 && (
+                                <path d="M30 8 H50 V30 H72 V50 H50 V72 H30 V50 H8 V30 H30 Z" fill="#ffffff" />
+                            )}
+                            {/* Retro donut ring — violet */}
+                            {i === 3 && (
+                                <>
+                                    <circle cx="40" cy="40" r="30" fill="#a78bfa" />
+                                    <circle cx="40" cy="40" r="14" fill="#030014" />
+                                </>
+                            )}
+                            {/* Retro diamond — white */}
+                            {i === 4 && (
+                                <polygon points="40,6 70,40 40,74 10,40" fill="#ffffff" />
+                            )}
+                        </svg>
                     </div>
                 ))}
             </div>

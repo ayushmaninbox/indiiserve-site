@@ -3,7 +3,7 @@ import Link from "next/link";
 const siteLinks = [
     { href: "#hero", label: "Home" },
     { href: "#services", label: "Services" },
-    { href: "#work", label: "Work" },
+    { href: "/work", label: "Work" },
     { href: "#about", label: "About" },
     { href: "#contact", label: "Contact" },
 ];
@@ -28,9 +28,12 @@ export default function Footer() {
                     <div className="space-y-6">
                         <Link
                             href="/"
-                            className="inline-block text-3xl font-bold bg-gradient-to-r from-indigo-400 via-violet-400 to-purple-400 bg-clip-text text-transparent font-migra"
+                            className="inline-flex items-center gap-3"
                         >
-                            InDiiServe
+                            <img src="/white version.png" alt="InDiiServe" className="h-10 w-auto" />
+                            <span style={{ fontFamily: 'Poppins, sans-serif' }} className="text-3xl font-bold text-white">
+                                InDiiServe
+                            </span>
                         </Link>
                         <p className="text-base opacity-50 max-w-[250px]">
                             Transforming businesses through data-driven digital excellence.

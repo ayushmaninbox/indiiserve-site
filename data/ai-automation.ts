@@ -21,7 +21,7 @@ export const voiceAgentUseCases: AIUseCase[] = [
     {
         id: "healthcare",
         industry: "Healthcare",
-        icon: "🏥",
+        icon: "healthcare",
         useCases: [
             {
                 title: "Appointment Scheduling",
@@ -40,7 +40,7 @@ export const voiceAgentUseCases: AIUseCase[] = [
     {
         id: "finance",
         industry: "Finance & Banking",
-        icon: "🏦",
+        icon: "finance",
         useCases: [
             {
                 title: "Account Inquiries",
@@ -59,7 +59,7 @@ export const voiceAgentUseCases: AIUseCase[] = [
     {
         id: "ecommerce",
         industry: "E-commerce",
-        icon: "🛒",
+        icon: "cart",
         useCases: [
             {
                 title: "Order Status Updates",
@@ -78,7 +78,7 @@ export const voiceAgentUseCases: AIUseCase[] = [
     {
         id: "real-estate",
         industry: "Real Estate",
-        icon: "🏠",
+        icon: "building",
         useCases: [
             {
                 title: "Property Inquiry Handling",
@@ -97,7 +97,7 @@ export const voiceAgentUseCases: AIUseCase[] = [
     {
         id: "hospitality",
         industry: "Hospitality",
-        icon: "🏨",
+        icon: "hotel",
         useCases: [
             {
                 title: "Reservation Management",
@@ -119,7 +119,7 @@ export const whatsappChatbotUseCases: AIUseCase[] = [
     {
         id: "customer-support",
         industry: "Customer Support",
-        icon: "💬",
+        icon: "chat",
         useCases: [
             {
                 title: "24/7 Query Resolution",
@@ -138,7 +138,7 @@ export const whatsappChatbotUseCases: AIUseCase[] = [
     {
         id: "lead-generation",
         industry: "Lead Generation",
-        icon: "🎯",
+        icon: "target",
         useCases: [
             {
                 title: "Click-to-WhatsApp Ads",
@@ -157,7 +157,7 @@ export const whatsappChatbotUseCases: AIUseCase[] = [
     {
         id: "order-tracking",
         industry: "Order & Delivery",
-        icon: "📦",
+        icon: "package",
         useCases: [
             {
                 title: "Real-time Tracking",
@@ -176,7 +176,7 @@ export const whatsappChatbotUseCases: AIUseCase[] = [
     {
         id: "appointment-booking",
         industry: "Appointment Booking",
-        icon: "📅",
+        icon: "calendar",
         useCases: [
             {
                 title: "Self-Service Booking",

@@ -6,9 +6,9 @@ import Image from "next/image";
 import { useLoader } from "@/context/LoaderContext";
 
 const shapes = [
-    "/images/circle.png",
-    "/images/multistar.png",
-    "/images/half tri.png"
+    "/images/floaters/circle.png",
+    "/images/floaters/multistar.png",
+    "/images/floaters/half tri.png"
 ];
 
 export default function PageLoader() {

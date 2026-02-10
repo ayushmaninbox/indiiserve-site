@@ -1,4 +1,4 @@
-import { Hero, ScrollPortfolio, About, Services, Work, Testimonials, FAQ, ContactCTA } from "@/components/sections";
+import { Hero, ScrollPortfolio, About, Services, Testimonials, FAQ, ContactCTA } from "@/components/sections";
 
 export default function Home() {
   return (
@@ -7,7 +7,6 @@ export default function Home() {
       <ScrollPortfolio />
       <About />
       <Services />
-      <Work />
       <Testimonials />
       <FAQ />
       <ContactCTA />

@@ -28,7 +28,7 @@ export const digitalBrandingServices: DigitalBrandingService[] = [
             "Increase brand recognition by 80%",
             "Create consistent brand experiences",
         ],
-        icon: "✦",
+        icon: "branding",
     },
     {
         id: "social-media-promotion",
@@ -49,7 +49,7 @@ export const digitalBrandingServices: DigitalBrandingService[] = [
             "Drive website traffic from social",
             "Generate qualified leads",
         ],
-        icon: "📱",
+        icon: "social",
     },
     {
         id: "seo-aeo",
@@ -70,7 +70,7 @@ export const digitalBrandingServices: DigitalBrandingService[] = [
             "Appear in AI-powered search results",
             "Build long-term search authority",
         ],
-        icon: "🔍",
+        icon: "search",
     },
     {
         id: "performance-marketing",
@@ -91,7 +91,7 @@ export const digitalBrandingServices: DigitalBrandingService[] = [
             "Real-time performance insights",
             "Transparent ROI reporting",
         ],
-        icon: "📈",
+        icon: "chart",
     },
     {
         id: "product-photography",
@@ -112,7 +112,7 @@ export const digitalBrandingServices: DigitalBrandingService[] = [
             "Stand out on marketplaces",
             "Create shareable content assets",
         ],
-        icon: "📷",
+        icon: "camera",
     },
     {
         id: "video-editing",
@@ -133,7 +133,7 @@ export const digitalBrandingServices: DigitalBrandingService[] = [
             "Create shareable content",
             "Build emotional connections",
         ],
-        icon: "🎬",
+        icon: "video",
     },
     {
         id: "catalogues",
@@ -154,7 +154,7 @@ export const digitalBrandingServices: DigitalBrandingService[] = [
             "Consistent brand presentation",
             "Increase wholesale inquiries",
         ],
-        icon: "📑",
+        icon: "catalogue",
     },
     {
         id: "logo-design",
@@ -175,7 +175,7 @@ export const digitalBrandingServices: DigitalBrandingService[] = [
             "Versatile usage across media",
             "Timeless design appeal",
         ],
-        icon: "✏️",
+        icon: "pen",
     },
     {
         id: "graphic-motion-design",
@@ -196,6 +196,6 @@ export const digitalBrandingServices: DigitalBrandingService[] = [
             "Increase content shareability",
             "Strengthen brand identity",
         ],
-        icon: "🎨",
+        icon: "design",
     },
 ];

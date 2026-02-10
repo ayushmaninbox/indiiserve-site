@@ -92,7 +92,7 @@ export default function Navbar() {
     };
 
     const navLinks = [
-        { href: "#work", label: "Work" },
+        { href: "/work", label: "Work" },
         { href: "#about", label: "About" },
         { href: "#faq", label: "FAQ" },
         { href: "/blog", label: "Blog" },
@@ -116,10 +116,10 @@ export default function Navbar() {
                         {/* Logo */}
                         <Link
                             href="/"
-                            className="font-migra text-xl font-bold bg-gradient-to-r from-indigo-400 via-violet-400 to-purple-400 bg-clip-text text-transparent mr-4"
+                            className="flex items-center mr-4"
                             data-cursor="home"
                         >
-                            InDiiServe
+                            <img src="/white version.png" alt="InDiiServe" className="h-8 w-auto" />
                         </Link>
 
                         {/* Desktop Links */}

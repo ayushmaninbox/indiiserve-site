@@ -143,13 +143,24 @@ export default function Work() {
                             data-cursor="view"
                         >
                             <div className="card-inner w-full h-full relative">
-                                {/* Image Background */}
+                                {/* Media Background */}
                                 <div className="absolute inset-0">
-                                    <img
-                                        src={project.image}
-                                        alt={project.title}
-                                        className={`absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 ${project.imageScale || ''}`}
-                                    />
+                                    {project.video ? (
+                                        <video
+                                            src={project.video}
+                                            autoPlay
+                                            loop
+                                            muted
+                                            playsInline
+                                            className="absolute inset-0 w-full h-full object-cover"
+                                        />
+                                    ) : (
+                                        <img
+                                            src={project.image}
+                                            alt={project.title}
+                                            className={`absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 ${project.imageScale || ''}`}
+                                        />
+                                    )}
                                     {/* Gradient overlay for text readability */}
                                     <div
                                         className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"
