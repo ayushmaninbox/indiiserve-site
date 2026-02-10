@@ -100,7 +100,7 @@ function EditorContent() {
                 <button
                     onClick={handleSave}
                     disabled={isSaving}
-                    className="rounded-full bg-lime-400 px-6 py-2.5 font-bold text-black hover:bg-lime-300 disabled:opacity-50"
+                    className="rounded-full bg-violet-500 px-6 py-2.5 font-bold text-white hover:bg-violet-400 disabled:opacity-50"
                 >
                     {isSaving ? "Saving..." : "Save Post"}
                 </button>
@@ -164,7 +164,7 @@ function EditorContent() {
                                 value={author}
                                 onChange={(e) => setAuthor(e.target.value)}
                                 placeholder="Author name"
-                                className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-white placeholder-neutral-500 outline-none focus:border-lime-400/50"
+                                className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-white placeholder-neutral-500 outline-none focus:border-violet-500/50"
                             />
                         </div>
 
@@ -177,10 +177,10 @@ function EditorContent() {
                                 onChange={(e) => setCategory(e.target.value)}
                                 className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-white outline-none"
                             >
-                                <option value="Technology" className="bg-neutral-900">Technology</option>
-                                <option value="Design" className="bg-neutral-900">Design</option>
-                                <option value="Development" className="bg-neutral-900">Development</option>
-                                <option value="Business" className="bg-neutral-900">Business</option>
+                                <option value="Technology" className="bg-black">Technology</option>
+                                <option value="Design" className="bg-black">Design</option>
+                                <option value="Development" className="bg-black">Development</option>
+                                <option value="Business" className="bg-black">Business</option>
                             </select>
                         </div>
 
@@ -193,7 +193,7 @@ function EditorContent() {
                                 onChange={(e) => setExcerpt(e.target.value)}
                                 placeholder="Short summary..."
                                 rows={3}
-                                className="w-full resize-none rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-white placeholder-neutral-500 outline-none focus:border-lime-400/50"
+                                className="w-full resize-none rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-white placeholder-neutral-500 outline-none focus:border-violet-500/50"
                             />
                         </div>
 
@@ -206,7 +206,7 @@ function EditorContent() {
                                 value={coverImage}
                                 onChange={(e) => setCoverImage(e.target.value)}
                                 placeholder="/images/cover.jpg"
-                                className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-white placeholder-neutral-500 outline-none focus:border-lime-400/50"
+                                className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-white placeholder-neutral-500 outline-none focus:border-violet-500/50"
                             />
                         </div>
 
@@ -234,7 +234,7 @@ export default function BlogEditorPage() {
         <AuthGuard requiredPermission="blogs">
             <Suspense fallback={
                 <div className="flex items-center justify-center min-h-[50vh]">
-                    <div className="h-8 w-8 animate-spin rounded-full border-2 border-lime-400 border-t-transparent" />
+                    <div className="h-8 w-8 animate-spin rounded-full border-2 border-violet-500 border-t-transparent" />
                 </div>
             }>
                 <EditorContent />

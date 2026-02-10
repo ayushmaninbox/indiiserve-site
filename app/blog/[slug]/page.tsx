@@ -38,7 +38,7 @@ export default async function BlogPostPage({ params }: Props) {
     }
 
     return (
-        <main className="min-h-screen bg-transparent pt-32 pb-20">
+        <main className="min-h-screen bg-[#030014] pt-32 pb-20 relative z-10">
             <article className="container mx-auto px-4 sm:px-6">
                 {/* Back Link */}
                 <Link
