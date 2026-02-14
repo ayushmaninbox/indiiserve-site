@@ -57,9 +57,17 @@ const gradientOrbs = [
     },
 ];
 
+import { usePathname } from "next/navigation";
+
 export default function FloatingGradients() {
+    const pathname = usePathname();
     const containerRef = useRef<HTMLDivElement>(null);
     const orbsRef = useRef<(HTMLDivElement | null)[]>([]);
+
+    // Disable gradients on admin pages
+    if (pathname?.startsWith("/admin")) {
+        return null;
+    }
 
     useEffect(() => {
         const orbs = orbsRef.current.filter(Boolean);
@@ -118,7 +126,7 @@ export default function FloatingGradients() {
             ))}
 
             {/* Additional subtle gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#030014]/50 to-[#030014]" />
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#030014]/50 to-black" />
         </div>
     );
 }

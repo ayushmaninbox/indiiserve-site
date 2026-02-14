@@ -62,13 +62,11 @@ export default function AdminLoginPage() {
 
     return (
         <main className="relative flex min-h-screen items-center justify-center bg-black p-4 overflow-hidden">
-            {/* Background blobs */}
-            <div className="absolute top-0 left-0 h-96 w-96 rounded-full bg-blue-500/10 blur-[128px]" />
-            <div className="absolute bottom-0 right-0 h-96 w-96 rounded-full bg-violet-500/10 blur-[128px]" />
+
 
             {/* Login Card */}
             <div className="relative w-full max-w-md">
-                <div className="rounded-2xl border border-white/10 bg-neutral-950/80 p-8 shadow-2xl backdrop-blur-xl">
+                <div className="rounded-[2.5rem] border border-white/10 bg-neutral-950 p-10">
                     {/* Logo */}
                     <div className="mb-8 text-center">
                         <h1 className="text-2xl font-bold text-violet-400">InDiiServe</h1>

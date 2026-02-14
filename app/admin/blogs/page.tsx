@@ -108,7 +108,7 @@ export default function BlogsPage() {
                     <div className="flex gap-3">
                         <button
                             onClick={exportToCSV}
-                            className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-5 py-2.5 text-[10px] font-bold uppercase tracking-widest text-neutral-400 transition-all hover:bg-white/10 hover:text-white"
+                            className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-neutral-900 px-5 py-2.5 text-[10px] font-bold uppercase tracking-widest text-neutral-400 transition-all hover:bg-neutral-800 hover:text-white"
                         >
                             Export Stats
                         </button>
@@ -123,7 +123,7 @@ export default function BlogsPage() {
 
                 {/* Performance HUD */}
                 <div className="grid gap-6 sm:grid-cols-3">
-                    <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+                    <div className="rounded-2xl border border-white/10 bg-neutral-950 p-6">
                         <div className="flex items-center justify-between">
                             <div>
                                 <p className="text-[10px] font-bold uppercase tracking-widest text-neutral-500">Total Publications</p>
@@ -134,7 +134,7 @@ export default function BlogsPage() {
                             </div>
                         </div>
                     </div>
-                    <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+                    <div className="rounded-2xl border border-white/10 bg-neutral-950 p-6">
                         <div className="flex items-center justify-between">
                             <div>
                                 <p className="text-[10px] font-bold uppercase tracking-widest text-neutral-500">Engagement Score</p>
@@ -150,7 +150,7 @@ export default function BlogsPage() {
                             </div>
                         </div>
                     </div>
-                    <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+                    <div className="rounded-2xl border border-white/10 bg-neutral-950 p-6">
                         <div className="flex items-center justify-between">
                             <div>
                                 <p className="text-[10px] font-bold uppercase tracking-widest text-neutral-500">Active Discussions</p>
@@ -169,7 +169,7 @@ export default function BlogsPage() {
                 </div>
 
                 {/* Toolbar */}
-                <div className="flex items-center gap-4 bg-white/5 p-6 rounded-[1.5rem] border border-white/10">
+                <div className="flex items-center gap-4 bg-neutral-950 p-6 rounded-[1.5rem] border border-white/10">
                     <div className="relative flex-1">
                         <svg className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -179,13 +179,13 @@ export default function BlogsPage() {
                             placeholder="Search stories by title or author keywords..."
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
-                            className="w-full rounded-xl border border-white/10 bg-white/5 pl-11 pr-4 py-3 text-sm font-medium text-white placeholder-neutral-500 outline-none focus:border-violet-500/50 transition-all"
+                            className="w-full rounded-xl border border-white/10 bg-black pl-11 pr-4 py-3 text-sm font-medium text-white placeholder-neutral-500 outline-none focus:border-violet-500/50 transition-all"
                         />
                     </div>
                 </div>
 
                 {/* Content Table */}
-                <div className="rounded-[2rem] border border-white/10 bg-white/[0.02] overflow-hidden">
+                <div className="rounded-[2rem] border border-white/10 bg-neutral-950 overflow-hidden">
                     <div className="overflow-x-auto">
                         <table className="w-full">
                             <thead>

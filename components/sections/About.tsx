@@ -254,40 +254,41 @@ export default function About() {
                 <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-8 md:gap-20 items-start">
                     <div>
                         <span className="inline-block text-sm font-medium tracking-[0.15em] uppercase text-violet-400 mb-6">
-                            Who We Are
+                            OUR STORY PHILOSOPHY
                         </span>
                     </div>
 
                     <div>
                         <h2
                             ref={titleRef}
-                            className="text-[clamp(2.5rem,5vw,4rem)] font-semibold mb-10 font-migra leading-[1.1] text-white"
+                            className="text-[clamp(2rem,4vw,3.5rem)] font-semibold mb-10 font-migra leading-[1.2] text-white"
                         >
-                            Crafting Digital Excellence Through{" "}
+                            Storytelling Is Not Content. <br className="hidden md:block" />
                             <span className="bg-gradient-to-r from-indigo-400 via-violet-400 to-purple-400 bg-clip-text text-transparent">
-                                Strategy & Innovation
+                                It’s Connection.
                             </span>
                         </h2>
 
-                        <p
-                            ref={text1Ref}
-                            className="text-xl leading-relaxed mb-8 opacity-80 text-white"
-                        >
-                            InDiiServe is a forward-thinking digital marketing consultancy
-                            that combines data analytics with creative strategy. We partner
-                            with ambitious brands to unlock growth opportunities and build
-                            meaningful connections with their audiences.
-                        </p>
+                        <div className="space-y-6 text-lg md:text-xl leading-relaxed opacity-80 text-white mb-16">
+                            <p ref={text1Ref}>
+                                Storytelling is the difference between being seen and being felt. It turns facts into emotions, and emotions into memory. In today’s noisy digital world, anyone can fill space. Very few can create meaning.
+                            </p>
+                            <p ref={text2Ref}>
+                                That’s where we come in. We don’t start with formats or platforms. We start with a simple question: What’s the story your brand is really trying to tell, and why should anyone care? Because when stories connect, trust follows. And when trust follows, growth doesn’t need to be forced.
+                            </p>
+                        </div>
 
-                        <p
-                            ref={text2Ref}
-                            className="text-xl leading-relaxed mb-16 opacity-80 text-white"
-                        >
-                            Our promise is simple: to guide you with expertise, transparency,
-                            and a relentless focus on results. From startups to enterprises,
-                            we pour the same dedication and strategic thinking into every
-                            project.
-                        </p>
+                        <div className="pt-12 border-t border-violet-500/20 mb-16">
+                            <span className="inline-block text-sm font-medium tracking-[0.15em] uppercase text-violet-400 mb-6">
+                                OUR BELIEF
+                            </span>
+                            <h3 className="text-2xl md:text-3xl font-semibold mb-6 font-migra text-white">
+                                When Our Clients’ Stories Win, <span className="text-violet-400">We Win.</span>
+                            </h3>
+                            <p className="text-lg opacity-70 leading-relaxed text-white max-w-[800px]">
+                                We are, and always will be, a storytelling-first company. Our job isn’t to chase trends or sell formats. It’s to challenge ideas, sharpen narratives, and act in the best interest of your brand’s long-term story. Because great brands aren’t built overnight. They’re built chapter by chapter.
+                            </p>
+                        </div>
 
                         <div
                             ref={statsRef}

@@ -154,12 +154,12 @@ export default function Hero() {
                 <h1 className="text-[clamp(3.5rem,12vw,8rem)] font-bold leading-[0.95] mb-10 font-migra text-white">
                     <span className="block overflow-hidden">
                         <span ref={title1Ref} className="block">
-                            Transform Your
+                            We Build Stories
                         </span>
                     </span>
                     <span className="block overflow-hidden">
                         <span ref={title2Ref} className="block">
-                            Business with
+                            That Brands Can
                         </span>
                     </span>
                     <span className="block overflow-hidden">
@@ -170,18 +170,18 @@ export default function Hero() {
                                 textShadow: '0 0 40px rgba(139,92,246,0.8), 0 0 80px rgba(139,92,246,0.5), 0 0 120px rgba(99,102,241,0.4)'
                             }}
                         >
-                            InDiiServe
+                            Grow Into.
                         </span>
                     </span>
                 </h1>
 
                 <p
                     ref={descRef}
-                    className="text-lg md:text-xl max-w-[650px] mx-auto mb-14 opacity-70 leading-relaxed text-white"
+                    className="text-lg md:text-xl max-w-[750px] mx-auto mb-14 opacity-70 leading-relaxed text-white"
                 >
-                    We provide cutting-edge digital marketing consultancy services that
-                    leverage data-driven strategies and innovative campaigns to drive your
-                    business forward in the digital age.
+                    At InDiiServe, storytelling isn’t a service. It’s our core.<br />
+                    We turn businesses into narratives people remember, <br className="hidden md:block" />
+                    and narratives into momentum brands can build on.
                 </p>
 
                 <div ref={ctaRef} className="flex gap-5 justify-center flex-wrap">
@@ -190,7 +190,7 @@ export default function Hero() {
                         data-cursor="View"
                         className="group inline-flex items-center justify-center px-10 py-5 bg-gradient-to-r from-blue-600 via-indigo-500 to-violet-500 text-white rounded-full font-semibold text-lg overflow-hidden relative transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(99,102,241,0.4)]"
                     >
-                        <span className="relative z-10">Start Your Journey</span>
+                        <span className="relative z-10">Build My Brand Story</span>
                         <span className="absolute inset-0 bg-gradient-to-r from-blue-500 via-indigo-400 to-violet-400 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-500" />
                     </Link>
                     <Link
@@ -199,7 +199,7 @@ export default function Hero() {
                         className="group inline-flex items-center justify-center px-10 py-5 bg-white/5 backdrop-blur-sm text-white border border-violet-500/30 rounded-full font-semibold text-lg overflow-hidden relative transition-all hover:border-violet-400 hover:bg-violet-500/10"
                     >
                         <span className="relative z-10 group-hover:text-violet-300 transition-colors duration-300">
-                            View Our Work
+                            Explore Our Thinking
                         </span>
                     </Link>
                 </div>

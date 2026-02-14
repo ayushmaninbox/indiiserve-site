@@ -87,7 +87,7 @@ function EditorContent() {
                 <div className="flex items-center gap-4">
                     <Link
                         href="/admin/blogs"
-                        className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 text-neutral-400 hover:text-white hover:bg-white/5"
+                        className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 text-neutral-400 hover:text-white hover:bg-neutral-800"
                     >
                         <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
@@ -119,21 +119,21 @@ function EditorContent() {
                     />
 
                     {/* Content Editor */}
-                    <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+                    <div className="rounded-2xl border border-white/10 bg-neutral-950 p-6">
                         <div className="mb-4 flex items-center gap-2 border-b border-white/10 pb-4">
-                            <button className="rounded-lg px-3 py-1.5 text-sm text-neutral-400 hover:bg-white/5 hover:text-white">
+                            <button className="rounded-lg px-3 py-1.5 text-sm text-neutral-400 hover:bg-neutral-800 hover:text-white">
                                 <strong>B</strong>
                             </button>
                             <button className="rounded-lg px-3 py-1.5 text-sm text-neutral-400 hover:bg-white/5 hover:text-white italic">
                                 I
                             </button>
-                            <button className="rounded-lg px-3 py-1.5 text-sm text-neutral-400 hover:bg-white/5 hover:text-white">
+                            <button className="rounded-lg px-3 py-1.5 text-sm text-neutral-400 hover:bg-neutral-800 hover:text-white">
                                 H2
                             </button>
-                            <button className="rounded-lg px-3 py-1.5 text-sm text-neutral-400 hover:bg-white/5 hover:text-white">
+                            <button className="rounded-lg px-3 py-1.5 text-sm text-neutral-400 hover:bg-neutral-800 hover:text-white">
                                 H3
                             </button>
-                            <button className="rounded-lg px-3 py-1.5 text-sm text-neutral-400 hover:bg-white/5 hover:text-white">
+                            <button className="rounded-lg px-3 py-1.5 text-sm text-neutral-400 hover:bg-neutral-800 hover:text-white">
                                 • List
                             </button>
                         </div>
@@ -152,7 +152,7 @@ function EditorContent() {
 
                 {/* Settings Sidebar */}
                 <div className="space-y-6">
-                    <div className="rounded-2xl border border-white/10 bg-white/5 p-6 space-y-5">
+                    <div className="rounded-2xl border border-white/10 bg-neutral-950 p-6 space-y-5">
                         <h3 className="font-semibold text-white">Post Settings</h3>
 
                         <div>
@@ -175,7 +175,7 @@ function EditorContent() {
                             <select
                                 value={category}
                                 onChange={(e) => setCategory(e.target.value)}
-                                className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-white outline-none"
+                                className="w-full rounded-xl border border-white/10 bg-black px-4 py-2.5 text-white outline-none"
                             >
                                 <option value="Technology" className="bg-black">Technology</option>
                                 <option value="Design" className="bg-black">Design</option>

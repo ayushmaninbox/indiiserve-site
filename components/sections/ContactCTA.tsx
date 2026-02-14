@@ -45,13 +45,13 @@ export default function ContactCTA() {
                     Let&apos;s Connect
                 </span>
 
-                <h2 className="contact-reveal text-[clamp(3.5rem,10vw,7rem)] font-bold font-migra mb-8 leading-[0.9] text-white">
-                    Ready to <span className="bg-gradient-to-r from-indigo-400 via-violet-400 to-purple-400 bg-clip-text text-transparent">Grow?</span>
+                <h2 className="contact-reveal text-[clamp(2.5rem,8vw,5.5rem)] font-bold font-migra mb-8 leading-[1.1] text-white">
+                    Ready to Tell a Better <br />
+                    <span className="bg-gradient-to-r from-indigo-400 via-violet-400 to-purple-400 bg-clip-text text-transparent">Brand Story?</span>
                 </h2>
 
-                <p className="contact-reveal text-xl md:text-2xl opacity-70 mb-16 max-w-[600px] mx-auto text-white">
-                    Let&apos;s discuss how we can transform your digital presence and
-                    drive real business results.
+                <p className="contact-reveal text-xl md:text-2xl opacity-70 mb-16 max-w-[700px] mx-auto text-white">
+                    If you’re done blending in and ready to build something people actually remember, let’s talk.
                 </p>
 
                 <div className="contact-reveal mb-16">
@@ -60,7 +60,7 @@ export default function ContactCTA() {
                         className="group inline-flex items-center justify-center px-12 py-6 bg-gradient-to-r from-indigo-500 to-violet-500 text-white rounded-full text-xl font-bold overflow-hidden relative transition-all hover:scale-105 hover:shadow-[0_0_50px_rgba(139,92,246,0.4)]"
                         data-cursor="email"
                     >
-                        <span className="relative z-10">Start a Conversation</span>
+                        <span className="relative z-10">Start Your Story With Us</span>
                         <span className="absolute inset-0 bg-gradient-to-r from-violet-400 to-purple-400 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-500" />
                         <span className="absolute right-8 opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 z-10">
                             →

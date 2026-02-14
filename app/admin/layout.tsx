@@ -108,29 +108,29 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
     return (
         <AuthGuard>
-            <div className="flex min-h-screen bg-zinc-50 font-sans text-zinc-900">
+            <div className="flex min-h-screen bg-black font-sans text-white">
                 {/* Mobile Overlay */}
                 {isSidebarOpen && (
                     <div
-                        className="fixed inset-0 z-40 bg-zinc-900/40 backdrop-blur-sm lg:hidden"
+                        className="fixed inset-0 z-40 bg-black/80 backdrop-blur-sm lg:hidden"
                         onClick={() => setIsSidebarOpen(false)}
                     />
                 )}
 
                 {/* Sidebar */}
                 <aside
-                    className={`fixed left-0 top-0 z-50 h-full w-64 transform border-r border-zinc-200 bg-white transition-transform lg:translate-x-0 ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+                    className={`fixed left-0 top-0 z-50 h-full w-64 transform bg-neutral-950 border-r border-white/5 transition-transform lg:translate-x-0 ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"
                         }`}
                 >
                     <div className="flex h-full flex-col">
                         {/* Logo */}
-                        <div className="flex items-center justify-between border-b border-zinc-100 p-6">
-                            <Link href="/admin/dashboard" className="text-xl font-bold tracking-tight text-zinc-900">
-                                InDii<span className="text-indigo-600">Serve</span>
+                        <div className="flex items-center justify-between border-b border-white/10 p-6">
+                            <Link href="/admin/dashboard" className="text-xl font-bold tracking-tight text-white">
+                                InDii<span className="text-indigo-500">Serve</span>
                             </Link>
                             <button
                                 onClick={() => setIsSidebarOpen(false)}
-                                className="lg:hidden text-zinc-400 hover:text-zinc-600"
+                                className="lg:hidden text-zinc-400 hover:text-white"
                             >
                                 <svg className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -149,16 +149,16 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                                                 href={item.href}
                                                 onClick={() => setIsSidebarOpen(false)}
                                                 className={`flex items-center gap-3 rounded-lg px-4 py-2.5 transition-all text-sm font-medium ${isActive
-                                                    ? "bg-indigo-50 text-indigo-700"
-                                                    : "text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900"
+                                                    ? "bg-indigo-500/10 text-indigo-400"
+                                                    : "text-zinc-400 hover:bg-white/5 hover:text-white"
                                                     }`}
                                             >
-                                                <span className={`${isActive ? "text-indigo-600" : "text-zinc-400"}`}>
+                                                <span className={`${isActive ? "text-indigo-400" : "text-zinc-500"}`}>
                                                     {item.icon}
                                                 </span>
                                                 {item.label}
                                                 {item.badge !== undefined && item.badge > 0 && (
-                                                    <span className="ml-auto rounded-full bg-indigo-100 px-2 py-0.5 text-[10px] font-bold text-indigo-700">
+                                                    <span className="ml-auto rounded-full bg-indigo-500/20 px-2 py-0.5 text-[10px] font-bold text-indigo-400">
                                                         {item.badge}
                                                     </span>
                                                 )}
@@ -170,29 +170,29 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                         </nav>
 
                         {/* Bottom Actions */}
-                        <div className="border-t border-zinc-100 p-4 space-y-1">
+                        <div className="border-t border-white/10 p-4 space-y-1">
                             <Link
                                 href="/"
                                 target="_blank"
-                                className="flex items-center gap-3 rounded-lg px-4 py-2.5 text-sm font-medium text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900 transition-all"
+                                className="flex items-center gap-3 rounded-lg px-4 py-2.5 text-sm font-medium text-zinc-400 hover:bg-white/5 hover:text-white transition-all"
                             >
-                                <svg className="h-5 w-5 text-zinc-400" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                                <svg className="h-5 w-5 text-zinc-500" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                                 </svg>
                                 View Website
                             </Link>
                             <button
                                 onClick={() => setIsPasswordModalOpen(true)}
-                                className="flex w-full items-center gap-3 rounded-lg px-4 py-2.5 text-sm font-medium text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900 transition-all"
+                                className="flex w-full items-center gap-3 rounded-lg px-4 py-2.5 text-sm font-medium text-zinc-400 hover:bg-white/5 hover:text-white transition-all"
                             >
-                                <svg className="h-5 w-5 text-zinc-400" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                                <svg className="h-5 w-5 text-zinc-500" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
                                 </svg>
                                 Change Password
                             </button>
                             <button
                                 onClick={handleLogout}
-                                className="flex w-full items-center gap-3 rounded-lg px-4 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50 transition-all"
+                                className="flex w-full items-center gap-3 rounded-lg px-4 py-2.5 text-sm font-medium text-red-400 hover:bg-red-500/10 transition-all"
                             >
                                 <svg className="h-5 w-5 text-red-500" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
@@ -203,13 +203,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
                         {/* User Profile */}
                         {user && (
-                            <div className="border-t border-zinc-100 p-4">
-                                <div className="flex items-center gap-3 rounded-xl bg-zinc-50 p-3">
-                                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-indigo-100 text-indigo-700 font-bold shadow-sm">
+                            <div className="border-t border-white/10 p-4">
+                                <div className="flex items-center gap-3 rounded-xl bg-white/5 p-3">
+                                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-indigo-500/20 text-indigo-400 font-bold shadow-sm">
                                         {user.name.charAt(0)}
                                     </div>
                                     <div className="flex-1 min-w-0">
-                                        <p className="truncate text-sm font-semibold text-zinc-900">{user.name}</p>
+                                        <p className="truncate text-sm font-semibold text-white">{user.name}</p>
                                         <p className="text-[11px] font-medium text-zinc-500 uppercase tracking-wider">{roleLabels[user.role as UserRole]}</p>
                                     </div>
                                 </div>
@@ -221,21 +221,21 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 {/* Main Content */}
                 <div className="flex-1 lg:ml-64 flex flex-col min-h-screen">
                     {/* Top Bar */}
-                    <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-zinc-200 bg-white/80 px-8 backdrop-blur-md">
+                    <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-white/5 bg-black px-8">
                         <button
                             onClick={() => setIsSidebarOpen(true)}
-                            className="lg:hidden text-zinc-500 hover:text-zinc-900 transition-colors"
+                            className="lg:hidden text-zinc-400 hover:text-white transition-colors"
                         >
                             <svg className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
                             </svg>
                         </button>
                         <div className="hidden lg:block">
-                            <h2 className="text-sm font-medium text-zinc-500">
+                            <h2 className="text-sm font-medium text-zinc-400">
                                 {navItems.find(i => pathname.startsWith(i.href))?.label || "Admin Console"}
                             </h2>
                         </div>
-                        <div className="flex items-center gap-4 text-xs font-medium text-zinc-400">
+                        <div className="flex items-center gap-4 text-xs font-medium text-zinc-500">
                             <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 outline outline-4 outline-emerald-500/20" />
                             {new Date().toLocaleDateString("en-US", {
                                 weekday: "short",

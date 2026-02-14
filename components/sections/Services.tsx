@@ -13,7 +13,7 @@ const services = [
         number: "01",
         title: "Digital Branding",
         description:
-            "Comprehensive digital branding solutions including social media, SEO/AEO, performance marketing, product photography, video editing, and graphic design.",
+            "We design digital brand experiences that don’t just look good, they say something. Intentional. Memorable. Human.",
         features: ["Branding", "Social Media Promotion", "SEO/AEO", "Performance Marketing", "Product Photography", "Video Editing", "Logo Design", "Graphic & Motion Design"],
         href: "/services/digital-branding",
     },

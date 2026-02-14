@@ -65,7 +65,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${migra.variable} antialiased selection:bg-violet-500 selection:text-white font-migra bg-[#030014]`}>
+      <body className={`${migra.variable} antialiased selection:bg-violet-500 selection:text-white font-migra bg-black`}>
         <FloatingGradients />
         <LoaderProvider>
           <SiteLayout>
