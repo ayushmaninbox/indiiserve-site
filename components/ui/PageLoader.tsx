@@ -105,7 +105,17 @@ export default function PageLoader() {
             });
         }, containerRef);
 
-        return () => ctx.revert();
+        // Failsafe: If loading takes too long, force content reveal
+        const failsafe = setTimeout(() => {
+            console.warn("PageLoader failsafe triggered.");
+            setIsLoading(false);
+            setIsComplete(true);
+        }, 5000);
+
+        return () => {
+            clearTimeout(failsafe);
+            ctx.revert();
+        };
     }, [setIsLoading]);
 
     if (isComplete) return null;

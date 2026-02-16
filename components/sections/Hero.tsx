@@ -148,7 +148,7 @@ export default function Hero() {
                     ref={taglineRef}
                     className="text-sm md:text-base font-medium tracking-[0.25em] uppercase text-violet-400 mb-10"
                 >
-                    Digital Marketing Consultancy
+                    Strategic Consulting
                 </p>
 
                 <h1 className="text-[clamp(3.5rem,12vw,8rem)] font-bold leading-[0.95] mb-10 font-migra text-white">

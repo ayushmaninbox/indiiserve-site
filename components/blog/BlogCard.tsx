@@ -30,7 +30,7 @@ export default function BlogCard({ post }: BlogCardProps) {
                         <time dateTime={post.date}>{post.date}</time>
                     </div>
 
-                    <h2 className="text-lg font-bold text-white mb-3 group-hover:text-violet-400 transition-colors line-clamp-2 leading-snug">
+                    <h2 className="text-lg font-bold text-white mb-3 group-hover:text-violet-400 transition-colors line-clamp-2 leading-snug capitalize">
                         {post.title}
                     </h2>
 

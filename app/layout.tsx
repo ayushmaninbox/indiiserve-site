@@ -61,9 +61,9 @@ const migra = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "InDiiServe | Digital Marketing Consultancy",
+  title: "InDiiServe | Strategic Consulting",
   description:
-    "Transform your business with InDiiServe. We provide cutting-edge digital marketing consultancy services that leverage data-driven strategies and innovative campaigns.",
+    "Transform your business with InDiiServe. We provide cutting-edge strategic consulting services that leverage data-driven strategies and innovative campaigns.",
 };
 
 export default function RootLayout({

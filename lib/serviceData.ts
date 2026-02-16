@@ -508,7 +508,7 @@ export const recruitmentData = {
         "Manufacturing",
         "Hospitality",
         "Education",
-        "Logistics & Supply Chain",
+        "Management Consulting",
     ],
     stats: [
         { value: "500+", label: "Clients Served" },

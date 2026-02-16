@@ -14,8 +14,10 @@ export default function AuthGuard({ children, requiredPermission }: AuthGuardPro
     const router = useRouter();
     const pathname = usePathname();
     const [isAuthorized, setIsAuthorized] = useState(true);
+    const [isMounted, setIsMounted] = useState(false);
 
     useEffect(() => {
+        setIsMounted(true);
         const checkAuth = () => {
             const isAuthenticated = localStorage.getItem("isAdminAuthenticated") === "true";
             const userStr = localStorage.getItem("adminUser");
@@ -48,7 +50,7 @@ export default function AuthGuard({ children, requiredPermission }: AuthGuardPro
         checkAuth();
     }, [router, pathname, requiredPermission]);
 
-    if (!isAuthorized) {
+    if (!isMounted || !isAuthorized) {
         return null;
     }
 

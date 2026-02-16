@@ -128,7 +128,7 @@ export default function AdminLoginPage() {
                     {/* Meta Info */}
                     <div className="mt-16 pt-12 border-t border-white/5 relative z-10">
                         <div className="flex flex-col gap-6">
-                            <h3 className="text-[9px] font-black text-slate-600 uppercase tracking-[0.3em]">Node Credentials Trace:</h3>
+                            <h3 className="text-[9px] font-black text-slate-600 uppercase tracking-[0.3em]">Credentials Gate:</h3>
                             <div className="grid grid-cols-1 gap-4">
                                 <div className="p-6 rounded-3xl bg-white/[0.02] border border-white/5 flex flex-col gap-2 group/trace hover:bg-white/[0.04] transition-colors duration-500">
                                     <p className="text-[10px] font-black text-slate-500 uppercase tracking-tight group-hover/trace:text-violet-400/60 transition-colors">Super Admin Hub</p>

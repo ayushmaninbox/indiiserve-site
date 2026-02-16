@@ -81,10 +81,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     const [passwordError, setPasswordError] = useState('');
     const [passwordSubmitting, setPasswordSubmitting] = useState(false);
     const [enquiryCount, setEnquiryCount] = useState(0);
+    const [isMounted, setIsMounted] = useState(false);
 
     const isLoginPage = pathname === "/admin/login";
 
     useEffect(() => {
+        setIsMounted(true);
         if (isLoginPage) return;
 
         const userStr = localStorage.getItem("adminUser");
@@ -108,6 +110,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     if (isLoginPage) {
         return <>{children}</>;
     }
+
+    if (!isMounted) return null;
 
     const handleLogout = () => {
         localStorage.removeItem("isAdminAuthenticated");
@@ -215,7 +219,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                                 <div>
                                     <div className="text-sm font-bold text-white tracking-tight">Admin Console</div>
                                     <div className="text-[10px] font-bold tracking-wider text-slate-500 uppercase group-hover:text-violet-400 transition-colors">
-                                        InDii<span className="text-violet-500">Serve</span> Logistics
+                                        InDii<span className="text-violet-500">Serve</span> Consulting
                                     </div>
                                 </div>
                             </Link>

@@ -22,7 +22,7 @@ export default function BlogPage() {
                 </h1>
                 <div className="h-1 w-20 bg-violet-600 mx-auto mb-8" />
                 <p className="text-neutral-400 max-w-2xl mx-auto text-sm md:text-base leading-relaxed font-sans tracking-wide">
-                    Exploring the intersection of logistics, technology, and global trade to help your business navigate the future.
+                    Exploring the intersection of branding, technology, and business strategy to help your business navigate the future.
                 </p>
             </div>
 
@@ -55,7 +55,7 @@ export default function BlogPage() {
                         Stay in the Loop
                     </h2>
                     <p className="max-w-md mx-auto text-neutral-400 mb-10 text-sm">
-                        Join our community of logistics leaders and get the latest insights delivered straight to your inbox.
+                        Join our community of forward-thinking leaders and get the latest insights delivered straight to your inbox.
                     </p>
                     <form className="max-w-md mx-auto flex flex-col sm:flex-row gap-3">
                         <input
