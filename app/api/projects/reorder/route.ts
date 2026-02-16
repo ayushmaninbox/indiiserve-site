@@ -15,14 +15,18 @@ export async function PUT(request: NextRequest) {
 
         const projects = readProjects();
 
-        // Update displayOrder based on position in array
-        const reordered = projects.map((project) => {
-            const newOrder = projectIds.indexOf(project.id);
-            return {
-                ...project,
-                displayOrder: newOrder !== -1 ? newOrder : project.displayOrder,
-            };
-        });
+        // Sort projects by the order of IDs provided by the frontend
+        const sorted = projectIds
+            .map(id => projects.find(p => String(p.id) === String(id)))
+            .filter((p): p is any => !!p);
+
+        // Re-assign sequential IDs and orders
+        const reordered = sorted.map((project, index) => ({
+            ...project,
+            id: (index + 1).toString(),
+            order: index + 1,
+            displayOrder: index + 1,
+        }));
 
         writeProjects(reordered);
 

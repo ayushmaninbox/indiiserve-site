@@ -66,7 +66,12 @@ export default function EnquiriesPage() {
         try {
             const res = await fetch("/api/enquiries");
             const data = await res.json();
-            setEnquiries(data);
+            if (Array.isArray(data)) {
+                setEnquiries(data);
+            } else {
+                console.error("API returned non-array data:", data);
+                setEnquiries([]);
+            }
         } catch (error) {
             console.error("Failed to load enquiries:", error);
         } finally {
@@ -74,16 +79,23 @@ export default function EnquiriesPage() {
         }
     };
 
-    const filtered = enquiries
+    // Safe filtering
+    const safeEnquiries = Array.isArray(enquiries) ? enquiries : [];
+
+    const filtered = safeEnquiries
         .filter((e) => (statusFilter === "all" ? true : e.status === statusFilter))
         .filter((e) =>
             search
-                ? e.name.toLowerCase().includes(search.toLowerCase()) ||
-                e.email.toLowerCase().includes(search.toLowerCase()) ||
-                e.company.toLowerCase().includes(search.toLowerCase())
+                ? (e.name || "").toLowerCase().includes(search.toLowerCase()) ||
+                (e.email || "").toLowerCase().includes(search.toLowerCase()) ||
+                (e.company || "").toLowerCase().includes(search.toLowerCase())
                 : true
         )
-        .sort((a, b) => new Date(b.submittedAt).getTime() - new Date(a.submittedAt).getTime());
+        .sort((a, b) => {
+            const dateA = new Date(a.submittedAt).getTime();
+            const dateB = new Date(b.submittedAt).getTime();
+            return (isNaN(dateB) ? 0 : dateB) - (isNaN(dateA) ? 0 : dateA);
+        });
 
     const totalItems = filtered.length;
     const startIndex = (currentPage - 1) * itemsPerPage;
@@ -92,15 +104,13 @@ export default function EnquiriesPage() {
 
     const updateStatus = async (ids: string[], status: "pending" | "solved") => {
         try {
-            await Promise.all(
-                ids.map((id) =>
-                    fetch(`/api/enquiries/${id}`, {
-                        method: "PUT",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ status }),
-                    })
-                )
-            );
+            for (const id of ids) {
+                await fetch(`/api/enquiries/${id}`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ status }),
+                });
+            }
             await loadEnquiries();
             (window as any).showToast?.(`Updated status to ${status}`, "success");
         } catch (error) {
@@ -111,9 +121,9 @@ export default function EnquiriesPage() {
 
     const deleteEnquiries = async (ids: string[]) => {
         try {
-            await Promise.all(
-                ids.map((id) => fetch(`/api/enquiries/${id}`, { method: "DELETE" }))
-            );
+            for (const id of ids) {
+                await fetch(`/api/enquiries/${id}`, { method: "DELETE" });
+            }
             await loadEnquiries();
             (window as any).showToast?.(`Deleted ${ids.length} record(s)`, "success");
         } catch (error) {
@@ -328,7 +338,7 @@ function EnquiryDetailModal({
                 {/* Direct Action Hub */}
                 <div className="flex gap-4 mb-6 relative z-10">
                     <a
-                        href={`https://wa.me/${enquiry.phone.replace(/\D/g, "")}`}
+                        href={`https://wa.me/${(enquiry.phone || "").toString().replace(/\D/g, "")}`}
                         target="_blank"
                         className="flex-1 flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 py-4.5 text-[10px] font-semibold uppercase tracking-[0.4em] text-white shadow-2xl shadow-emerald-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
                     >

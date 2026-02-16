@@ -13,7 +13,7 @@ export const writeEnquiries = (enquiries: Enquiry[]): void => {
 
 export const updateEnquiryStatus = (id: string, status: 'pending' | 'solved'): Enquiry | null => {
     const enquiries = readEnquiries();
-    const index = enquiries.findIndex(e => e.id === id);
+    const index = enquiries.findIndex(e => String(e.id) === id);
     if (index === -1) return null;
 
     enquiries[index].status = status;
@@ -23,7 +23,7 @@ export const updateEnquiryStatus = (id: string, status: 'pending' | 'solved'): E
 
 export const deleteEnquiry = (id: string): boolean => {
     const enquiries = readEnquiries();
-    const filtered = enquiries.filter(e => e.id !== id);
+    const filtered = enquiries.filter(e => String(e.id) !== id);
     if (filtered.length === enquiries.length) return false;
 
     writeEnquiries(filtered);

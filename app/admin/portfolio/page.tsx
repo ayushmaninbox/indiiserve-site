@@ -135,11 +135,13 @@ export default function PortfolioPage() {
         setDragOverIndex(null);
 
         try {
-            await fetch("/api/projects/reorder", {
+            const res = await fetch("/api/projects/reorder", {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ projectIds: newOrder.map((p) => p.id) }),
             });
+            const data = await res.json();
+            setProjects(data);
             (window as any).showToast?.("Order updated", "success");
         } catch (error) {
             console.error("Failed to reorder:", error);

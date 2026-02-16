@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import EnquiryModal from "@/components/ui/EnquiryModal";
+import { useEnquiry } from "@/context/EnquiryContext";
 import { LayoutGrid, Bot, Users, ChevronDown, Menu, X, ArrowUpRight } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -23,7 +23,7 @@ const navLinks = [
 
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
-    const [isEnquiryOpen, setIsEnquiryOpen] = useState(false);
+    const { openEnquiry } = useEnquiry();
     const [isServicesOpen, setIsServicesOpen] = useState(false);
     const navRef = useRef<HTMLElement>(null);
     const bgRef = useRef<HTMLDivElement>(null);
@@ -199,7 +199,7 @@ export default function Navbar() {
                         {/* CTA Section */}
                         <div className="flex items-center gap-4 ml-8">
                             <button
-                                onClick={() => setIsEnquiryOpen(true)}
+                                onClick={openEnquiry}
                                 className="hidden md:flex items-center gap-2 relative overflow-hidden rounded-full bg-white px-6 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] text-black transition-all hover:bg-violet-500 hover:text-white group/cta"
                             >
                                 <span className="relative z-10">Start Project</span>
@@ -240,7 +240,7 @@ export default function Navbar() {
                     <button
                         onClick={() => {
                             setIsOpen(false);
-                            setIsEnquiryOpen(true);
+                            openEnquiry();
                         }}
                         className="mobile-link mt-8 flex items-center gap-4 rounded-full bg-gradient-to-r from-violet-600 to-indigo-600 px-10 py-5 text-sm font-black uppercase tracking-widest text-white transition-all shadow-[0_0_30px_rgba(139,92,246,0.5)] active:scale-95 translate-y-4"
                     >
@@ -249,7 +249,6 @@ export default function Navbar() {
                 </div>
             </div>
 
-            <EnquiryModal isOpen={isEnquiryOpen} onClose={() => setIsEnquiryOpen(false)} />
         </>
     );
 }

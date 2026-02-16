@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import { LoaderProvider } from "@/context/LoaderContext";
+import { EnquiryProvider } from "@/context/EnquiryContext";
 import SiteLayout from "@/components/layout/SiteLayout";
 import FloatingGradients from "@/components/ui/FloatingGradients";
 
@@ -64,6 +65,11 @@ export const metadata: Metadata = {
   title: "InDiiServe | Strategic Consulting",
   description:
     "Transform your business with InDiiServe. We provide cutting-edge strategic consulting services that leverage data-driven strategies and innovative campaigns.",
+  icons: {
+    icon: "/white_logo.png",
+    shortcut: "/white_logo.png",
+    apple: "/white_logo.png",
+  },
 };
 
 export default function RootLayout({
@@ -76,9 +82,11 @@ export default function RootLayout({
       <body className={`${migra.variable} ${poppins.variable} antialiased selection:bg-violet-500 selection:text-white font-migra bg-black`}>
         <FloatingGradients />
         <LoaderProvider>
-          <SiteLayout>
-            {children}
-          </SiteLayout>
+          <EnquiryProvider>
+            <SiteLayout>
+              {children}
+            </SiteLayout>
+          </EnquiryProvider>
         </LoaderProvider>
       </body>
     </html>

@@ -19,29 +19,33 @@ export const writeProjects = (projects: Project[]): void => {
   writeCsv(PORTFOLIO_CSV_FILENAME, csvData);
 };
 
-export const addProject = (project: Omit<Project, 'id' | 'createdAt'>): Project => {
-  const projects = readProjects();
-  // Shift all existing projects down by 1 so the new one goes to the top
-  const shifted: Project[] = projects.map(p => ({
+const reindexProjects = (projects: Project[]): Project[] => {
+  return projects.map((p, index) => ({
     ...p,
-    order: (p.order ?? 0) + 1,
-    displayOrder: (p.displayOrder ?? 0) + 1,
+    id: (index + 1).toString(),
+    order: index + 1,
+    displayOrder: index + 1
   }));
+};
+
+export const addProject = (project: Omit<Project, 'id' | 'createdAt' | 'order' | 'displayOrder'>): Project => {
+  const projects = readProjects();
   const newProject: Project = {
     ...project,
-    id: Date.now().toString(),
+    id: "temp", // Will be overwritten by reindex
     createdAt: new Date().toISOString(),
     order: 0,
     displayOrder: 0,
-  };
-  shifted.unshift(newProject);
-  writeProjects(shifted);
-  return newProject;
+  } as Project;
+  
+  const updated = reindexProjects([newProject, ...projects]);
+  writeProjects(updated);
+  return updated[0];
 };
 
 export const updateProject = (id: string, updates: Partial<Project>): Project | null => {
   const projects = readProjects();
-  const index = projects.findIndex(p => p.id === id);
+  const index = projects.findIndex(p => String(p.id) === id);
   if (index === -1) return null;
 
   projects[index] = { ...projects[index], ...updates };
@@ -51,7 +55,7 @@ export const updateProject = (id: string, updates: Partial<Project>): Project | 
 
 export const deleteProject = async (id: string): Promise<boolean> => {
   const projects = readProjects();
-  const projectIndex = projects.findIndex(p => p.id === id);
+  const projectIndex = projects.findIndex(p => String(p.id) === id);
   
   if (projectIndex === -1) return false;
 
@@ -72,14 +76,15 @@ export const deleteProject = async (id: string): Promise<boolean> => {
     }
   }
 
-  const filtered = projects.filter(p => p.id !== id);
-  writeProjects(filtered);
+  const filtered = projects.filter(p => String(p.id) !== id);
+  const reindexed = reindexProjects(filtered);
+  writeProjects(reindexed);
   return true;
 };
 
 export const reorderProjects = (projectId: string, newIndex: number): boolean => {
   const projects = readProjects();
-  const currentIndex = projects.findIndex(p => p.id === projectId);
+  const currentIndex = projects.findIndex(p => String(p.id) === projectId);
 
   if (currentIndex === -1 || newIndex < 0 || newIndex >= projects.length) {
     return false;
@@ -88,10 +93,7 @@ export const reorderProjects = (projectId: string, newIndex: number): boolean =>
   const [movedProject] = projects.splice(currentIndex, 1);
   projects.splice(newIndex, 0, movedProject);
 
-  projects.forEach((project, index) => {
-    project.displayOrder = index;
-  });
-
-  writeProjects(projects);
+  const reindexed = reindexProjects(projects);
+  writeProjects(reindexed);
   return true;
 };

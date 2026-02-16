@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useEnquiry } from "@/context/EnquiryContext";
 import Link from "next/link";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -10,6 +11,7 @@ gsap.registerPlugin(ScrollTrigger);
 export default function ContactCTA() {
     const sectionRef = useRef<HTMLDivElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
+    const { openEnquiry } = useEnquiry();
 
     useEffect(() => {
         // Animate content
@@ -55,8 +57,8 @@ export default function ContactCTA() {
                 </p>
 
                 <div className="contact-reveal mb-16">
-                    <Link
-                        href="mailto:info@indiiserve.com"
+                    <button
+                        onClick={openEnquiry}
                         className="group inline-flex items-center justify-center px-12 py-6 bg-gradient-to-r from-indigo-500 to-violet-500 text-white rounded-full text-xl font-bold overflow-hidden relative transition-all hover:scale-105 hover:shadow-[0_0_50px_rgba(139,92,246,0.4)]"
                         data-cursor="email"
                     >
@@ -65,7 +67,7 @@ export default function ContactCTA() {
                         <span className="absolute right-8 opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 z-10">
                             →
                         </span>
-                    </Link>
+                    </button>
                 </div>
 
                 <div className="contact-reveal flex justify-center gap-12 flex-wrap text-sm uppercase tracking-widest opacity-60">

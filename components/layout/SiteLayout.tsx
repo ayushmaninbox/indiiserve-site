@@ -4,7 +4,8 @@ import { usePathname } from "next/navigation";
 import { useLoader } from "@/context/LoaderContext";
 import { useEffect } from "react";
 import { Navbar, Footer } from "@/components/layout";
-import { PageLoader, CustomCursor, SmoothScroll } from "@/components/ui";
+import { PageLoader, CustomCursor, SmoothScroll, EnquiryModal } from "@/components/ui";
+import { useEnquiry } from "@/context/EnquiryContext";
 
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
     const { isLoading, setIsLoading } = useLoader();
@@ -16,6 +17,8 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
             setIsLoading(false);
         }
     }, [pathname, isHomePage, setIsLoading]);
+
+    const { isOpen, closeEnquiry } = useEnquiry();
 
     // Don't apply site layout to admin pages
     const isAdminPage = pathname.startsWith("/admin");
@@ -31,11 +34,12 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
 
             {/* Render content immediately if not homepage, or wait for loader if homepage */}
             {(!isLoading || !isHomePage) && (
-                <>
+                <div className="relative z-10">
                     <Navbar />
                     {children}
                     <Footer />
-                </>
+                    <EnquiryModal isOpen={isOpen} onClose={closeEnquiry} />
+                </div>
             )}
         </SmoothScroll>
     );

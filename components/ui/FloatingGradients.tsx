@@ -110,7 +110,7 @@ export default function FloatingGradients() {
     return (
         <div
             ref={containerRef}
-            className="fixed inset-0 pointer-events-none overflow-hidden z-0"
+            className="fixed inset-0 pointer-events-none overflow-hidden z-[-1]"
             aria-hidden="true"
         >
             {gradientOrbs.map((orb, index) => (

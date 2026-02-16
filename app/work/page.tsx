@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ChevronDown, Search } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -96,40 +97,59 @@ export default function WorkPage() {
                 </div>
             </section>
 
-            {/* Filter Bar — pinned below navbar */}
+            {/* Filter Bar */}
             <section className="border-y border-white/5 bg-[#030014]/80 backdrop-blur-xl">
                 <div className="container mx-auto px-4 py-3">
-                    <div className="flex items-center gap-4">
-                        {/* Category pills — scrollable */}
-                        <div className="flex gap-2 overflow-x-auto no-scrollbar flex-1 min-w-0">
-                            {categories.map((cat) => (
-                                <button
-                                    key={cat}
-                                    onClick={() => setActiveFilter(cat)}
-                                    className={`whitespace-nowrap rounded-full px-4 py-1.5 text-xs font-semibold transition-all ${activeFilter === cat
-                                            ? "bg-violet-500 text-white"
-                                            : "text-neutral-500 hover:text-white border border-white/[0.06] hover:border-white/10"
-                                        }`}
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        {/* Category Selector */}
+                        <div className="flex-1 min-w-0">
+                            {/* Desktop Pills (Visible on md+) */}
+                            <div className="hidden md:flex flex-wrap gap-2">
+                                {categories.map((cat) => (
+                                    <button
+                                        key={cat}
+                                        onClick={() => setActiveFilter(cat)}
+                                        className={`whitespace-nowrap rounded-full px-4 py-1.5 text-xs font-semibold transition-all ${activeFilter === cat
+                                                ? "bg-violet-500 text-white"
+                                                : "text-neutral-500 hover:text-white border border-white/[0.06] hover:border-white/10"
+                                            }`}
+                                    >
+                                        {cat}
+                                    </button>
+                                ))}
+                            </div>
+
+                            {/* Mobile Dropdown (Visible below md) */}
+                            <div className="md:hidden relative w-full group">
+                                <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+                                    <span className="text-[10px] font-bold uppercase tracking-wider text-violet-500/60">Category:</span>
+                                </div>
+                                <select
+                                    value={activeFilter}
+                                    onChange={(e) => setActiveFilter(e.target.value)}
+                                    className="w-full appearance-none rounded-full bg-white/[0.04] border border-white/[0.06] pl-20 pr-10 py-2 text-xs font-medium text-white outline-none focus:border-violet-500/40 transition-all cursor-pointer"
                                 >
-                                    {cat}
-                                </button>
-                            ))}
+                                    {categories.map((cat) => (
+                                        <option key={cat} value={cat} className="bg-[#0a0a0a] text-white">
+                                            {cat}
+                                        </option>
+                                    ))}
+                                </select>
+                                <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none group-focus-within:rotate-180 transition-transform duration-300">
+                                    <ChevronDown className="w-3 h-3 text-neutral-500" />
+                                </div>
+                            </div>
                         </div>
 
                         {/* Search bar */}
-                        <div className="relative flex-shrink-0 w-48 sm:w-64">
-                            <svg
-                                className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-neutral-500 pointer-events-none"
-                                fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"
-                            >
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-                            </svg>
+                        <div className="relative w-full md:w-64 group">
+                            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-neutral-500 group-focus-within:text-violet-400 transition-colors pointer-events-none" />
                             <input
                                 type="text"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 placeholder="Search works…"
-                                className="w-full rounded-full bg-white/[0.04] border border-white/[0.06] pl-9 pr-4 py-1.5 text-xs text-white placeholder-neutral-600 outline-none focus:border-violet-500/40 focus:ring-1 focus:ring-violet-500/20 transition-all"
+                                className="w-full rounded-full bg-white/[0.04] border border-white/[0.06] pl-10 pr-4 py-2 text-xs text-white placeholder-neutral-600 outline-none focus:border-violet-500/40 focus:ring-1 focus:ring-violet-500/20 transition-all"
                             />
                         </div>
                     </div>

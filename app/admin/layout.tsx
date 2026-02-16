@@ -96,9 +96,18 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
         // Get initial enquiry count
         const updateCount = () => {
-            const enquiries = JSON.parse(localStorage.getItem("enquiries") || "[]");
-            const pending = enquiries.filter((e: { status?: string }) => e.status !== "solved").length;
-            setEnquiryCount(pending);
+            try {
+                const enquiriesStr = localStorage.getItem("enquiries");
+                if (enquiriesStr) {
+                    const enquiries = JSON.parse(enquiriesStr);
+                    if (Array.isArray(enquiries)) {
+                        const pending = enquiries.filter((e: { status?: string }) => e.status !== "solved").length;
+                        setEnquiryCount(pending);
+                    }
+                }
+            } catch (error) {
+                console.warn("Failed to parse enquiries from localStorage", error);
+            }
         };
         
         updateCount();
@@ -215,7 +224,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                         {/* Logo / Branding */}
                         <div className="p-8 border-b border-white/5">
                             <Link href="/admin/dashboard" className="flex items-center gap-3 group">
-                                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 text-white font-bold text-xl shadow-lg shadow-violet-500/20 transition-transform group-hover:scale-110">I</div>
+                                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/[0.03] border border-white/5 shadow-lg transition-transform group-hover:scale-110 overflow-hidden p-2">
+                                    <img src="/white_logo.png" alt="InDiiServe Logo" className="h-full w-full object-contain" />
+                                </div>
                                 <div>
                                     <div className="text-sm font-bold text-white tracking-tight">Admin Console</div>
                                     <div className="text-[10px] font-bold tracking-wider text-slate-500 uppercase group-hover:text-violet-400 transition-colors">
@@ -285,7 +296,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                             <div className="p-4 mt-auto border-t border-white/5 bg-white/[0.02]">
                                 <div className="flex items-center gap-3 p-3 rounded-2xl bg-white/[0.03] border border-white/5 transition-colors hover:bg-white/[0.05]">
                                     <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-tr from-slate-800 to-slate-700 text-white font-bold text-xs ring-1 ring-white/10 uppercase">
-                                        {user.name.charAt(0)}
+                                        {user.name ? user.name.charAt(0) : 'U'}
                                     </div>
                                     <div className="flex-1 min-w-0">
                                         <p className="truncate text-xs font-bold text-white uppercase tracking-wider">{user.name}</p>

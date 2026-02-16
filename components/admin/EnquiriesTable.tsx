@@ -215,7 +215,7 @@ export default function EnquiriesTable({
                     <td className="px-6 py-2.5 text-right" onClick={(e) => e.stopPropagation()}>
                       <div className="flex justify-end gap-2">
                         <a
-                          href={`https://wa.me/${enquiry.phone.replace(/\D/g, "")}`}
+                          href={`https://wa.me/${(enquiry.phone || "").toString().replace(/\D/g, "")}`}
                           target="_blank"
                           className="h-8 w-8 flex items-center justify-center rounded-lg bg-white/[0.03] border border-white/5 text-slate-400 hover:text-green-400 hover:bg-green-500/10 hover:border-green-500/30 transition-all"
                           title="WhatsApp"
