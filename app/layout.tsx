@@ -1,9 +1,17 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { Poppins } from "next/font/google";
 import "./globals.css";
 import { LoaderProvider } from "@/context/LoaderContext";
 import SiteLayout from "@/components/layout/SiteLayout";
 import FloatingGradients from "@/components/ui/FloatingGradients";
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800", "900"],
+  variable: "--font-poppins",
+  display: "swap",
+});
 
 const migra = localFont({
   src: [
@@ -65,7 +73,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${migra.variable} antialiased selection:bg-violet-500 selection:text-white font-migra bg-black`}>
+      <body className={`${migra.variable} ${poppins.variable} antialiased selection:bg-violet-500 selection:text-white font-migra bg-black`}>
         <FloatingGradients />
         <LoaderProvider>
           <SiteLayout>

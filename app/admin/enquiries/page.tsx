@@ -2,6 +2,9 @@
 
 import { useState, useEffect } from "react";
 import AuthGuard from "@/components/admin/AuthGuard";
+import StatsCard from "@/components/admin/StatsCard";
+import PaginationControls from "@/components/admin/PaginationControls";
+import EnquiriesTable from "@/components/admin/EnquiriesTable";
 
 interface Enquiry {
     id: string;
@@ -14,26 +17,60 @@ interface Enquiry {
     submittedAt: string;
 }
 
+// SVG Icons from Marble Site
+const InboxIcon = () => (
+  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+  </svg>
+);
+
+const CheckCircleIcon = () => (
+  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+  </svg>
+);
+
+const ClockIcon = () => (
+  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+  </svg>
+);
+
+const SearchIcon = () => (
+  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+  </svg>
+);
+
+const CloseIcon = () => (
+    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+    </svg>
+);
+
 export default function EnquiriesPage() {
     const [enquiries, setEnquiries] = useState<Enquiry[]>([]);
+    const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState("");
     const [statusFilter, setStatusFilter] = useState<"all" | "pending" | "solved">("all");
-    const [selectedIds, setSelectedIds] = useState<string[]>([]);
     const [detailEnquiry, setDetailEnquiry] = useState<Enquiry | null>(null);
-    const [page, setPage] = useState(1);
-    const perPage = 10;
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(10);
 
     useEffect(() => {
         loadEnquiries();
     }, []);
 
     const loadEnquiries = async () => {
+        setLoading(true);
         try {
             const res = await fetch("/api/enquiries");
             const data = await res.json();
             setEnquiries(data);
         } catch (error) {
             console.error("Failed to load enquiries:", error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -42,27 +79,16 @@ export default function EnquiriesPage() {
         .filter((e) =>
             search
                 ? e.name.toLowerCase().includes(search.toLowerCase()) ||
-                e.email.toLowerCase().includes(search.toLowerCase())
+                e.email.toLowerCase().includes(search.toLowerCase()) ||
+                e.company.toLowerCase().includes(search.toLowerCase())
                 : true
         )
         .sort((a, b) => new Date(b.submittedAt).getTime() - new Date(a.submittedAt).getTime());
 
-    const paginatedData = filtered.slice((page - 1) * perPage, page * perPage);
-    const totalPages = Math.ceil(filtered.length / perPage);
-
-    const toggleSelect = (id: string) => {
-        setSelectedIds((prev) =>
-            prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
-        );
-    };
-
-    const selectAll = () => {
-        if (selectedIds.length === paginatedData.length) {
-            setSelectedIds([]);
-        } else {
-            setSelectedIds(paginatedData.map((e) => e.id));
-        }
-    };
+    const totalItems = filtered.length;
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
+    const paginatedData = filtered.slice(startIndex, endIndex);
 
     const updateStatus = async (ids: string[], status: "pending" | "solved") => {
         try {
@@ -76,22 +102,23 @@ export default function EnquiriesPage() {
                 )
             );
             await loadEnquiries();
-            setSelectedIds([]);
+            (window as any).showToast?.(`Updated status to ${status}`, "success");
         } catch (error) {
             console.error("Failed to update:", error);
+            (window as any).showToast?.("Failed to update status", "error");
         }
     };
 
     const deleteEnquiries = async (ids: string[]) => {
-        if (!confirm(`Delete ${ids.length} enquiry(s)?`)) return;
         try {
             await Promise.all(
                 ids.map((id) => fetch(`/api/enquiries/${id}`, { method: "DELETE" }))
             );
             await loadEnquiries();
-            setSelectedIds([]);
+            (window as any).showToast?.(`Deleted ${ids.length} record(s)`, "success");
         } catch (error) {
             console.error("Failed to delete:", error);
+            (window as any).showToast?.("Failed to delete records", "error");
         }
     };
 
@@ -118,192 +145,118 @@ export default function EnquiriesPage() {
     const pendingCount = enquiries.filter((e) => e.status === "pending").length;
     const solvedCount = enquiries.filter((e) => e.status === "solved").length;
 
+    if (loading) {
+        return (
+            <div className="flex min-h-[60vh] items-center justify-center">
+                <div className="inline-block h-8 w-8 animate-spin rounded-full border-3 border-red-500 border-t-transparent"></div>
+            </div>
+        );
+    }
+
     return (
         <AuthGuard requiredPermission="enquiries">
-            <div className="space-y-10">
+            <div className="space-y-10 animate-in fade-in duration-700 pb-10">
                 {/* Header */}
-                <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
                     <div>
-                        <h1 className="text-3xl font-bold tracking-tight text-white">Enquiry Console</h1>
-                        <p className="mt-1 text-sm font-medium text-zinc-400">
-                            {enquiries.length} total • <span className="text-orange-400 font-bold">{pendingCount} pending</span> • <span className="text-emerald-400 font-bold">{solvedCount} solved</span>
-                        </p>
+                        <h1 className="text-4xl font-black text-white tracking-tight italic">Intel Matrix</h1>
+                        <p className="mt-1 text-[10px] font-black text-violet-400/60 uppercase tracking-[0.4em]">Inbound Telemetry & CRM Node</p>
                     </div>
                     <button
                         onClick={exportCSV}
-                        className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-neutral-900 px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-zinc-400 transition-all hover:bg-neutral-800 hover:text-white"
+                        className="inline-flex items-center gap-2 rounded-2xl border border-white/5 bg-white/[0.03] px-8 py-3 text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 transition-all hover:bg-white/5 hover:text-white"
                     >
                         <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                         </svg>
-                        Export Records
+                        Export Archive
                     </button>
                 </div>
 
+                {/* Stats */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <StatsCard 
+                        title="Total Streams" 
+                        value={enquiries.length} 
+                        icon={<InboxIcon />} 
+                        iconBgColor="bg-violet-500/10"
+                        iconColor="text-violet-400"
+                    />
+                    <StatsCard 
+                        title="Synchronized" 
+                        value={solvedCount} 
+                        icon={<CheckCircleIcon />} 
+                        iconBgColor="bg-emerald-500/10"
+                        iconColor="text-emerald-400"
+                    />
+                    <StatsCard 
+                        title="Pending Intel" 
+                        value={pendingCount} 
+                        icon={<ClockIcon />} 
+                        iconBgColor="bg-amber-500/10"
+                        iconColor="text-amber-400"
+                    />
+                </div>
+
                 {/* Toolbar */}
-                <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between bg-neutral-950 p-6 rounded-[1.5rem] border border-white/10">
-                    <div className="flex flex-1 flex-wrap gap-4">
-                        <div className="relative flex-1 min-w-[300px]">
-                            <svg className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                            </svg>
-                            <input
-                                type="text"
-                                placeholder="Search by name or email..."
-                                value={search}
-                                onChange={(e) => setSearch(e.target.value)}
-                                className="w-full rounded-xl border border-white/5 bg-black pl-11 pr-4 py-3 text-sm font-medium text-zinc-200 placeholder-zinc-500 outline-none focus:border-violet-500 focus:bg-black transition-all shadow-inner"
-                            />
-                        </div>
-                        <select
-                            value={statusFilter}
-                            onChange={(e) => setStatusFilter(e.target.value as "all" | "pending" | "solved")}
-                            className="rounded-xl border border-white/10 bg-neutral-900 px-6 py-3 text-sm font-bold text-zinc-400 outline-none hover:bg-neutral-800 transition-colors cursor-pointer"
-                        >
-                            <option value="all">All Records</option>
-                            <option value="pending">Pending Only</option>
-                            <option value="solved">Solved Only</option>
-                        </select>
-                    </div>
-
-                    {/* Bulk Actions */}
-                    {selectedIds.length > 0 && (
-                        <div className="flex items-center gap-3 animate-in fade-in slide-in-from-right-4 duration-300">
-                            <span className="text-xs font-bold uppercase tracking-widest text-indigo-600 mr-2">{selectedIds.length} Selected</span>
-                            <div className="flex gap-2">
-                                <button
-                                    onClick={() => updateStatus(selectedIds, "pending")}
-                                    className="rounded-lg bg-orange-50 border border-orange-100 px-3 py-2 text-[10px] font-bold uppercase tracking-widest text-orange-700 hover:bg-orange-100 transition-colors shadow-sm"
-                                >
-                                    Reopen
-                                </button>
-                                <button
-                                    onClick={() => updateStatus(selectedIds, "solved")}
-                                    className="rounded-lg bg-emerald-50 border border-emerald-100 px-3 py-2 text-[10px] font-bold uppercase tracking-widest text-emerald-700 hover:bg-emerald-100 transition-colors shadow-sm"
-                                >
-                                    Resolve
-                                </button>
-                                <button
-                                    onClick={() => deleteEnquiries(selectedIds)}
-                                    className="rounded-lg bg-red-50 border border-red-100 px-3 py-2 text-[10px] font-bold uppercase tracking-widest text-red-700 hover:bg-red-100 transition-colors shadow-sm"
-                                >
-                                    Delete
-                                </button>
+                <div className="bg-white/[0.02] rounded-[2.5rem] border border-white/5 p-4 backdrop-blur-3xl shadow-2xl">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                        <h3 className="text-[10px] font-black text-white uppercase tracking-[0.4em] flex items-center gap-3 px-4">
+                           <div className="h-2 w-2 rounded-full bg-violet-500 animate-pulse" /> Record Console
+                        </h3>
+                        <div className="flex flex-1 max-w-2xl gap-4">
+                            <div className="relative flex-1 group">
+                                <input
+                                    type="text"
+                                    placeholder="Search by originator or node source..."
+                                    value={search}
+                                    onChange={(e) => setSearch(e.target.value)}
+                                    className="w-full pl-14 pr-6 py-4 rounded-[1.5rem] bg-white/[0.03] border border-white/5 text-sm font-bold text-white focus:outline-none focus:ring-8 focus:ring-violet-500/5 focus:border-violet-500/40 transition-all placeholder:text-slate-600 selection:bg-violet-500/30"
+                                />
+                                <div className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-violet-400 transition-colors">
+                                    <SearchIcon />
+                                </div>
                             </div>
+                            <select
+                                value={statusFilter}
+                                onChange={(e) => setStatusFilter(e.target.value as any)}
+                                className="px-6 py-4 rounded-[1.5rem] bg-white/[0.03] border border-white/5 text-[10px] font-black text-slate-400 focus:outline-none focus:border-violet-500/40 cursor-pointer transition-all uppercase tracking-widest"
+                            >
+                                <option value="all">Global Status</option>
+                                <option value="pending">Pending Intel</option>
+                                <option value="solved">Synchronized</option>
+                            </select>
                         </div>
-                    )}
-                </div>
-
-                {/* Table Console */}
-                <div className="rounded-[2rem] border border-white/10 bg-neutral-950 overflow-hidden">
-                    <div className="overflow-x-auto">
-                        <table className="w-full">
-                            <thead>
-                                <tr className="border-b border-white/10 bg-neutral-900/50">
-                                    <th className="px-6 py-5 text-left w-12">
-                                        <div className="flex items-center">
-                                            <input
-                                                type="checkbox"
-                                                checked={selectedIds.length === paginatedData.length && paginatedData.length > 0}
-                                                onChange={selectAll}
-                                                className="h-4 w-4 rounded border-zinc-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
-                                            />
-                                        </div>
-                                    </th>
-                                    <th className="px-6 py-5 text-left text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400">Customer Identity</th>
-                                    <th className="px-6 py-5 text-left text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400">Contact Point</th>
-                                    <th className="px-6 py-5 text-left text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400">Resolution Status</th>
-                                    <th className="px-6 py-5 text-right text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400">Submission Date</th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-white/5">
-                                {paginatedData.map((enquiry) => (
-                                    <tr
-                                        key={enquiry.id}
-                                        onClick={() => setDetailEnquiry(enquiry)}
-                                        className="group hover:bg-neutral-900/50 cursor-pointer transition-all duration-300 border-b border-white/5"
-                                    >
-                                        <td className="px-6 py-6" onClick={(e) => e.stopPropagation()}>
-                                            <div className="flex items-center">
-                                                <input
-                                                    type="checkbox"
-                                                    checked={selectedIds.includes(enquiry.id)}
-                                                    onChange={() => toggleSelect(enquiry.id)}
-                                                    className="h-4 w-4 rounded border-white/20 bg-black text-indigo-600 focus:ring-indigo-500 cursor-pointer"
-                                                />
-                                            </div>
-                                        </td>
-                                        <td className="px-6 py-6">
-                                            <p className="font-bold text-white leading-tight group-hover:text-indigo-400 transition-colors uppercase tracking-tight">{enquiry.name}</p>
-                                            <p className="text-[11px] font-bold text-zinc-500 uppercase tracking-widest mt-0.5">{enquiry.company || "Individual"}</p>
-                                        </td>
-                                        <td className="px-6 py-6">
-                                            <p className="text-sm font-semibold text-zinc-400">{enquiry.email}</p>
-                                            <p className="text-[11px] font-medium text-zinc-500 mt-0.5">{enquiry.phone}</p>
-                                        </td>
-                                        <td className="px-6 py-6">
-                                            <span
-                                                className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-tighter border shadow-sm ${enquiry.status === "solved"
-                                                    ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
-                                                    : "bg-orange-500/10 text-orange-400 border-orange-500/20"
-                                                    }`}
-                                            >
-                                                <span className={`h-1.5 w-1.5 rounded-full ${enquiry.status === "solved" ? "bg-emerald-500" : "bg-orange-500"}`} />
-                                                {enquiry.status}
-                                            </span>
-                                        </td>
-                                        <td className="px-6 py-6 text-right">
-                                            <span className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">
-                                                {new Date(enquiry.submittedAt).toLocaleDateString("en-US", { month: 'short', day: 'numeric', year: 'numeric' })}
-                                            </span>
-                                        </td>
-                                    </tr>
-                                ))}
-                                {paginatedData.length === 0 && (
-                                    <tr>
-                                        <td colSpan={5} className="py-20 text-center">
-                                            <div className="flex flex-col items-center justify-center text-zinc-300">
-                                                <svg className="w-20 h-20 mb-6 opacity-20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-                                                </svg>
-                                                <p className="font-black uppercase tracking-[0.3em] text-xs">Access Denied: No Records Found</p>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                )}
-                            </tbody>
-                        </table>
                     </div>
                 </div>
 
-                {/* Pagination Controls */}
-                {totalPages > 1 && (
-                    <div className="flex items-center justify-center gap-6 pt-6">
-                        <button
-                            onClick={() => setPage(Math.max(1, page - 1))}
-                            disabled={page === 1}
-                            className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-neutral-900 text-zinc-400 transition-all hover:bg-neutral-800 hover:text-indigo-400 disabled:opacity-20 shadow-sm"
-                        >
-                            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
-                            </svg>
-                        </button>
-                        <div className="flex items-center gap-2">
-                            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Page</span>
-                            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-600 text-xs font-bold text-white shadow-lg shadow-indigo-600/30">{page}</span>
-                            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">of {totalPages}</span>
-                        </div>
-                        <button
-                            onClick={() => setPage(Math.min(totalPages, page + 1))}
-                            disabled={page === totalPages}
-                            className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-neutral-900 text-zinc-400 transition-all hover:bg-neutral-800 hover:text-indigo-400 disabled:opacity-20 shadow-sm"
-                        >
-                            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-                            </svg>
-                        </button>
+                <div className="flex items-center justify-between px-2">
+                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">Telemetry Sequence: {startIndex + 1}-{endIndex} of {totalItems}</p>
+                    <PaginationControls
+                        currentPage={currentPage}
+                        totalItems={totalItems}
+                        itemsPerPage={itemsPerPage}
+                        onPageChange={setCurrentPage}
+                        onItemsPerPageChange={setItemsPerPage}
+                        itemName="enquiries"
+                    />
+                </div>
+
+                <EnquiriesTable
+                    enquiries={paginatedData}
+                    onDelete={(id) => deleteEnquiries([id])}
+                    onStatusUpdate={(id, status) => updateStatus([id], status)}
+                    onBatchDelete={deleteEnquiries}
+                    onBatchStatusUpdate={updateStatus}
+                    onRowClick={(enquiry) => setDetailEnquiry(enquiry)}
+                />
+
+                <div className="pt-6 text-center">
+                    <div className="inline-flex items-center gap-3 px-6 py-2 rounded-full bg-white/[0.02] border border-white/5">
+                        <div className="h-1 w-1 rounded-full bg-violet-500 animate-pulse" />
+                        <p className="text-[9px] font-black text-slate-500 uppercase tracking-[0.3em]">Central Telemetry Synchronized</p>
                     </div>
-                )}
+                </div>
             </div>
 
             {/* Detailed View Modal */}
@@ -331,83 +284,73 @@ function EnquiryDetailModal({
     onStatusChange: (status: "pending" | "solved") => void;
 }) {
     return (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-            <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
-            <div className="relative w-full max-w-lg rounded-[2.5rem] border border-white/10 bg-neutral-950 p-10 shadow-2xl animate-in fade-in zoom-in duration-300">
-                <div className="flex items-start justify-between mb-10">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 sm:p-10">
+            <div className="absolute inset-0 bg-[#030014]/90 backdrop-blur-2xl" onClick={onClose} />
+            <div className="relative w-full max-w-xl rounded-[3rem] border border-white/5 bg-[#030014] p-10 shadow-2xl animate-in fade-in zoom-in duration-500 overflow-hidden">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-violet-600/10 rounded-full blur-[100px] -mr-32 -mt-32" />
+                
+                <div className="flex items-start justify-between mb-10 relative z-10">
                     <div>
-                        <h2 className="text-3xl font-black tracking-tight text-white uppercase">{enquiry.name}</h2>
-                        <p className="text-sm font-bold text-indigo-400 uppercase tracking-widest mt-1">{enquiry.company || "Private Inquiry"}</p>
+                        <h2 className="text-3xl font-black tracking-tight text-white uppercase italic">{enquiry.name}</h2>
+                        <p className="text-[10px] font-black text-violet-400 uppercase tracking-[0.4em] mt-2">{enquiry.company || "Individual Operator"}</p>
                     </div>
-                    <span
-                        className={`inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-[10px] font-black uppercase tracking-widest border shadow-sm ${enquiry.status === "solved"
-                            ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
-                            : "bg-orange-500/10 text-orange-400 border-orange-500/20"
-                            }`}
-                    >
-                        <span className={`h-2 w-2 rounded-full ${enquiry.status === "solved" ? "bg-emerald-500" : "bg-orange-500"}`} />
-                        {enquiry.status}
-                    </span>
+                    <button onClick={onClose} className="h-12 w-12 rounded-2xl border border-white/5 bg-white/[0.03] text-slate-500 flex items-center justify-center hover:bg-white/5 hover:text-white transition-all shadow-xl">
+                        <CloseIcon />
+                    </button>
                 </div>
 
-                <div className="grid grid-cols-2 gap-8 mb-10">
-                    <div className="space-y-1">
-                        <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Digital Address</p>
-                        <p className="text-sm font-bold text-zinc-700">{enquiry.email}</p>
-                    </div>
-                    <div className="space-y-1">
-                        <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Contact Identity</p>
-                        <p className="text-sm font-bold text-zinc-700">{enquiry.phone}</p>
-                    </div>
-                    <div className="col-span-2 space-y-2">
-                        <p className="text-[10px] font-black text-zinc-500 uppercase tracking-widest">Core Message</p>
-                        <div className="p-6 rounded-2xl bg-black border border-white/5 text-sm font-medium leading-relaxed text-zinc-400 shadow-inner">
-                            {enquiry.message || "No contextual message provided."}
+                <div className="space-y-10 mb-10 relative z-10">
+                    <div className="grid grid-cols-2 gap-8">
+                        <div className="space-y-2">
+                            <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">Source Address</p>
+                            <p className="text-sm font-bold text-white tracking-tight break-all">{enquiry.email}</p>
+                        </div>
+                        <div className="space-y-2">
+                            <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">Signal ID</p>
+                            <p className="text-sm font-bold text-white tracking-tight tabular-nums">{enquiry.phone}</p>
                         </div>
                     </div>
-                    <div className="col-span-2 flex items-center gap-3">
-                        <div className="h-[1px] flex-1 bg-white/5" />
-                        <p className="text-[10px] font-black text-zinc-600 uppercase tracking-widest italic">
-                            Recorded: {new Date(enquiry.submittedAt).toLocaleString("en-US", { month: 'long', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
+
+                    <div className="space-y-4">
+                        <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">Narrative Fragment</p>
+                        <div className="p-8 rounded-[2rem] bg-white/[0.02] border border-white/5 text-sm font-medium leading-[1.8] text-slate-300 shadow-inner italic">
+                            "{enquiry.message || "No contextual metadata provided for this signal."}"
+                        </div>
+                    </div>
+
+                    <div className="pt-4 text-center border-t border-white/5">
+                        <p className="text-[9px] font-black text-slate-600 uppercase tracking-[0.4em]">
+                            Logged via gateway on {new Date(enquiry.submittedAt).toLocaleString(undefined, { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
                         </p>
-                        <div className="h-[1px] flex-1 bg-white/5" />
                     </div>
                 </div>
 
                 {/* Direct Action Hub */}
-                <div className="flex gap-3 mb-10">
+                <div className="flex gap-4 mb-6 relative z-10">
                     <a
                         href={`https://wa.me/${enquiry.phone.replace(/\D/g, "")}`}
                         target="_blank"
-                        className="flex-1 flex items-center justify-center gap-2 rounded-xl bg-zinc-900 py-3 text-xs font-bold uppercase tracking-widest text-white shadow-lg shadow-zinc-900/20 hover:bg-zinc-800 transition-all active:scale-95"
+                        className="flex-1 flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 py-4.5 text-[10px] font-black uppercase tracking-[0.4em] text-white shadow-2xl shadow-emerald-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
                     >
-                        WhatsApp
+                        Nexus Link
                     </a>
                     <a
                         href={`mailto:${enquiry.email}`}
-                        className="flex-1 flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-neutral-900 py-3 text-xs font-bold uppercase tracking-widest text-zinc-400 hover:bg-neutral-800 transition-all active:scale-95 shadow-sm"
+                        className="flex-1 flex items-center justify-center gap-2 rounded-2xl border border-white/5 bg-white/[0.03] py-4.5 text-[10px] font-black uppercase tracking-[0.4em] text-slate-400 hover:text-white hover:bg-white/5 transition-all active:scale-[0.98] shadow-xl"
                     >
-                        Signal Link
+                        Direct Transmit
                     </a>
                 </div>
 
-                <div className="flex gap-3">
-                    <button
-                        onClick={onClose}
-                        className="flex-1 rounded-full border border-white/10 py-4 text-xs font-bold uppercase tracking-widest text-zinc-500 hover:bg-white/5 transition-all"
-                    >
-                        Exit View
-                    </button>
-                    <button
-                        onClick={() => onStatusChange(enquiry.status === "solved" ? "pending" : "solved")}
-                        className={`flex-1 rounded-full py-4 text-xs font-black uppercase tracking-[0.2em] text-white shadow-xl transition-all active:scale-95 ${enquiry.status === "solved"
-                            ? "bg-orange-600 shadow-orange-600/20 hover:bg-orange-700"
-                            : "bg-emerald-600 shadow-emerald-600/20 hover:bg-emerald-700"
-                            }`}
-                    >
-                        {enquiry.status === "solved" ? "Reopen Case" : "Finalize Solution"}
-                    </button>
-                </div>
+                <button
+                    onClick={() => onStatusChange(enquiry.status === "solved" ? "pending" : "solved")}
+                    className={`w-full rounded-2xl py-5 text-[10px] font-black uppercase tracking-[0.4em] text-white shadow-2xl transition-all active:scale-[0.95] relative z-10 ${enquiry.status === "solved"
+                        ? "bg-amber-500/80 shadow-amber-500/20 hover:bg-amber-500"
+                        : "bg-gradient-to-r from-indigo-500 to-violet-600 shadow-violet-500/20 hover:scale-[1.02]"
+                        }`}
+                >
+                    {enquiry.status === "solved" ? "Reopen Signal Sequence" : "Synchronize Intel"}
+                </button>
             </div>
         </div>
     );

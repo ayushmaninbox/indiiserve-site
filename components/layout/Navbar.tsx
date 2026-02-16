@@ -5,10 +5,7 @@ import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import EnquiryModal from "@/components/ui/EnquiryModal";
-
-gsap.registerPlugin(ScrollTrigger);
-
-import { LayoutGrid, Bot, Users } from "lucide-react";
+import { LayoutGrid, Bot, Users, ChevronDown, Menu, X, ArrowUpRight } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -18,30 +15,65 @@ const serviceDropdownItems = [
     { href: "/services/recruitment", label: "Recruitment", icon: <Users className="w-4 h-4" /> },
 ];
 
+const navLinks = [
+    { href: "/work", label: "Work" },
+    { href: "#about", label: "About" },
+    { href: "#faq", label: "FAQ" },
+    { href: "/blog", label: "Blog" },
+];
+
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
     const [isEnquiryOpen, setIsEnquiryOpen] = useState(false);
     const [isServicesOpen, setIsServicesOpen] = useState(false);
     const navRef = useRef<HTMLElement>(null);
     const bgRef = useRef<HTMLDivElement>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
     const servicesTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
     useEffect(() => {
         const ctx = gsap.context(() => {
-            const tl = gsap.timeline({
-                scrollTrigger: {
-                    trigger: document.body,
-                    start: "top top",
-                    end: "400px top",
-                    scrub: 0.5,
-                }
+            // Initial load animation
+            gsap.from(containerRef.current, {
+                y: -50,
+                opacity: 0,
+                duration: 1.2,
+                ease: "expo.out",
+                delay: 0.5
             });
 
-            tl.fromTo(bgRef.current,
-                { backgroundColor: "rgba(3, 0, 20, 0.6)", borderColor: "rgba(139, 92, 246, 0.1)" },
-                { backgroundColor: "rgba(3, 0, 20, 0.95)", borderColor: "rgba(139, 92, 246, 0.3)", duration: 1 }
-            );
-
+            // Scroll animation
+            ScrollTrigger.create({
+                start: "top top",
+                end: "100px top",
+                onToggle: (self) => {
+                    if (self.isActive) {
+                        gsap.to(bgRef.current, {
+                            backgroundColor: "rgba(3, 0, 20, 0.9)",
+                            borderColor: "rgba(139, 92, 246, 0.3)",
+                            boxShadow: "0 10px 40px rgba(0, 0, 0, 0.5)",
+                            duration: 0.4
+                        });
+                        gsap.to(navRef.current, {
+                            top: "1.5rem",
+                            duration: 0.4,
+                            ease: "power2.out"
+                        });
+                    } else {
+                        gsap.to(bgRef.current, {
+                            backgroundColor: "rgba(3, 0, 20, 0.4)",
+                            borderColor: "rgba(139, 92, 246, 0.1)",
+                            boxShadow: "0 0 0 rgba(0, 0, 0, 0)",
+                            duration: 0.4
+                        });
+                        gsap.to(navRef.current, {
+                            top: "2rem",
+                            duration: 0.4,
+                            ease: "power2.out"
+                        });
+                    }
+                }
+            });
         }, navRef);
 
         return () => ctx.revert();
@@ -50,127 +82,105 @@ export default function Navbar() {
     // Mobile Menu Animation
     useEffect(() => {
         if (isOpen) {
+            document.body.style.overflow = "hidden";
             gsap.to(".mobile-menu", {
                 opacity: 1,
                 pointerEvents: "all",
-                duration: 0.5,
-                ease: "power3.out",
+                duration: 0.6,
+                ease: "expo.out",
             });
             gsap.fromTo(
                 ".mobile-link",
-                { opacity: 0, y: 20 },
+                { opacity: 0, y: 30, skewY: 5 },
                 {
                     opacity: 1,
                     y: 0,
-                    duration: 0.4,
+                    skewY: 0,
+                    duration: 0.8,
                     stagger: 0.1,
-                    delay: 0.2,
-                    ease: "power3.out",
+                    delay: 0.3,
+                    ease: "expo.out",
                 }
             );
         } else {
+            document.body.style.overflow = "unset";
             gsap.to(".mobile-menu", {
                 opacity: 0,
                 pointerEvents: "none",
                 duration: 0.4,
-                ease: "power3.in",
+                ease: "power2.in",
             });
         }
     }, [isOpen]);
 
     const handleServicesMouseEnter = () => {
-        if (servicesTimeoutRef.current) {
-            clearTimeout(servicesTimeoutRef.current);
-        }
+        if (servicesTimeoutRef.current) clearTimeout(servicesTimeoutRef.current);
         setIsServicesOpen(true);
     };
 
     const handleServicesMouseLeave = () => {
-        servicesTimeoutRef.current = setTimeout(() => {
-            setIsServicesOpen(false);
-        }, 150);
+        servicesTimeoutRef.current = setTimeout(() => setIsServicesOpen(false), 200);
     };
-
-    const navLinks = [
-        { href: "/work", label: "Work" },
-        { href: "#about", label: "About" },
-        { href: "#faq", label: "FAQ" },
-        { href: "/blog", label: "Blog" },
-    ];
 
     return (
         <>
             <nav
                 ref={navRef}
-                className="fixed top-8 left-1/2 -translate-x-1/2 z-[5000] w-auto"
+                className="fixed top-8 left-1/2 -translate-x-1/2 z-[5000] w-auto transition-all duration-500"
             >
-                <div className="relative">
-                    {/* Glass Background Layer */}
+                <div ref={containerRef} className="relative group">
+                    {/* Pulsing Border Glow */}
+                    <div className="absolute -inset-[2px] rounded-full bg-gradient-to-r from-violet-500/0 via-violet-500/20 to-violet-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 blur-sm" />
+                    
+                    {/* Glass Background */}
                     <div
                         ref={bgRef}
-                        className="absolute inset-0 rounded-full backdrop-blur-2xl bg-[#030014]/60 border border-violet-500/20 shadow-[0_8px_32px_rgba(139,92,246,0.15),inset_0_1px_0_rgba(255,255,255,0.1)]"
+                        className="absolute inset-0 rounded-full backdrop-blur-xl bg-[#030014]/40 border border-violet-500/10 transition-all duration-500 shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)]"
                     />
 
-                    {/* Content Layer */}
-                    <div className="relative z-10 flex items-center gap-2 md:gap-8 px-6 py-3">
+                    {/* Navbar content */}
+                    <div className="relative z-10 flex items-center h-14 px-6 md:px-8">
                         {/* Logo */}
                         <Link
                             href="/"
-                            className="flex items-center mr-4"
+                            className="flex items-center mr-8 group/logo"
                             data-cursor="home"
                         >
-                            <img src="/white version.png" alt="InDiiServe" className="h-8 w-auto" />
+                            <img src="/white_logo.png" alt="InDiiServe" className="h-7 w-auto transition-transform duration-500 group-hover/logo:scale-105" />
                         </Link>
 
                         {/* Desktop Links */}
-                        <div className="hidden md:flex gap-8" style={{ mixBlendMode: 'difference' }}>
+                        <div className="hidden md:flex items-center gap-7">
                             {/* Services Dropdown */}
                             <div
-                                className="relative"
+                                className="relative py-4"
                                 onMouseEnter={handleServicesMouseEnter}
                                 onMouseLeave={handleServicesMouseLeave}
                             >
-                                <button
-                                    className="text-xs uppercase tracking-widest font-sans font-bold text-white hover:opacity-70 transition-opacity relative group flex items-center gap-1.5"
-                                >
+                                <button className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-[0.2em] text-white/70 hover:text-white transition-colors">
                                     Services
-                                    <svg
-                                        className={`w-3 h-3 transition-transform ${isServicesOpen ? "rotate-180" : ""}`}
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeWidth={2}
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                                    </svg>
-                                    <span className="absolute -bottom-1 left-0 w-full h-px bg-white scale-x-0 group-hover:scale-x-100 transition-transform origin-right group-hover:origin-left duration-300" />
+                                    <ChevronDown className={`w-3 h-3 transition-transform duration-500 ${isServicesOpen ? "rotate-180" : ""}`} />
                                 </button>
 
                                 {/* Dropdown Menu */}
-                                <div
-                                    className={`absolute top-full left-1/2 -translate-x-1/2 pt-4 transition-all duration-300 ${isServicesOpen ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 -translate-y-2 pointer-events-none"
-                                        }`}
-                                    style={{ mixBlendMode: 'normal' }}
-                                >
-                                    <div className="bg-[#030014]/90 backdrop-blur-xl border border-violet-500/20 rounded-2xl p-3 min-w-[220px] shadow-[0_8px_32px_rgba(139,92,246,0.2)]">
+                                <div className={`absolute top-[90%] left-1/2 -translate-x-1/2 pt-4 transition-all duration-500 ${isServicesOpen ? "opacity-100 translate-y-0 visible" : "opacity-0 -translate-y-4 invisible"}`}>
+                                    <div className="bg-[#030014]/95 backdrop-blur-3xl border border-white/5 rounded-3xl p-3 min-w-[260px] shadow-[0_30px_60px_rgba(0,0,0,0.6),0_0_20px_rgba(139,92,246,0.1)]">
+                                        <div className="px-4 py-2 mb-2 border-b border-white/5">
+                                            <p className="text-[10px] font-black text-violet-400/60 uppercase tracking-widest italic">Core Expertise</p>
+                                        </div>
                                         {serviceDropdownItems.map((item) => (
                                             <Link
                                                 key={item.href}
                                                 href={item.href}
-                                                className="no-cursor flex items-center gap-3 px-4 py-3 rounded-xl text-xs uppercase tracking-widest font-sans font-bold text-neutral-300 hover:text-violet-400 hover:bg-violet-500/10 transition-all"
+                                                className="flex items-center justify-between group/item px-4 py-3.5 rounded-2xl hover:bg-white/5 transition-all text-[11px] font-bold uppercase tracking-widest text-white/60 hover:text-white"
                                             >
-                                                <span className="text-violet-400">{item.icon}</span>
-                                                {item.label}
+                                                <div className="flex items-center gap-3">
+                                                    <span className="text-violet-500 group-hover/item:scale-110 transition-transform duration-300">{item.icon}</span>
+                                                    {item.label}
+                                                </div>
+                                                <ArrowUpRight className="w-3 h-3 opacity-0 group-hover/item:opacity-100 transition-all -translate-x-2 group-hover/item:translate-x-0" />
                                             </Link>
                                         ))}
-                                        <div className="border-t border-violet-500/20 mt-2 pt-2">
-                                            <Link
-                                                href="/services"
-                                                className="no-cursor flex items-center gap-3 px-4 py-3 rounded-xl text-xs uppercase tracking-widest font-sans font-bold text-neutral-500 hover:text-violet-400 hover:bg-violet-500/10 transition-all"
-                                            >
-                                                View All Services →
-                                            </Link>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -179,95 +189,89 @@ export default function Navbar() {
                                 <Link
                                     key={link.href}
                                     href={link.href}
-                                    className="no-cursor text-xs uppercase tracking-widest font-sans font-bold text-white hover:opacity-70 transition-opacity relative group"
+                                    className="relative py-4 text-[10px] font-black uppercase tracking-[0.2em] text-white/70 hover:text-white transition-colors group/nav"
                                 >
                                     {link.label}
-                                    <span className="absolute -bottom-1 left-0 w-full h-px bg-white scale-x-0 group-hover:scale-x-100 transition-transform origin-right group-hover:origin-left duration-300" />
+                                    <span className="absolute bottom-3 left-0 w-full h-[2px] bg-violet-500 scale-x-0 group-hover/nav:scale-x-100 transition-transform duration-500 origin-right group-hover/nav:origin-left" />
                                 </Link>
                             ))}
                         </div>
 
-                        {/* Enquire Now Button - Desktop */}
-                        <button
-                            onClick={() => setIsEnquiryOpen(true)}
-                            className="no-cursor hidden md:block ml-4 rounded-full bg-gradient-to-r from-indigo-500 to-violet-500 px-5 py-2 text-xs uppercase tracking-widest font-sans font-bold text-white transition-all hover:from-indigo-400 hover:to-violet-400 hover:scale-105 hover:shadow-[0_0_20px_rgba(139,92,246,0.4)]"
-                        >
-                            Enquire Now
-                        </button>
+                        {/* CTA Section */}
+                        <div className="flex items-center gap-4 ml-8">
+                            <button
+                                onClick={() => setIsEnquiryOpen(true)}
+                                className="hidden md:flex items-center gap-2 relative overflow-hidden rounded-full bg-white px-6 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] text-black transition-all hover:bg-violet-500 hover:text-white group/cta"
+                            >
+                                <span className="relative z-10">Start Project</span>
+                                <Send className="w-3 h-3 relative z-10 group-hover/cta:translate-x-1 group-hover/cta:-translate-y-1 transition-transform" />
+                            </button>
 
-                        {/* Mobile Toggle */}
-                        <button
-                            className="md:hidden ml-auto p-2"
-                            onClick={() => setIsOpen(!isOpen)}
-                            aria-label="Toggle menu"
-                        >
-                            <div className="w-6 h-5 relative flex flex-col justify-between">
-                                <span
-                                    className={`block w-full h-0.5 bg-white transition-all duration-300 ${isOpen ? "rotate-45 translate-y-2.5 bg-violet-400" : ""
-                                        }`}
-                                />
-                                <span
-                                    className={`block w-full h-0.5 bg-white transition-all duration-300 ${isOpen ? "opacity-0" : ""
-                                        }`}
-                                />
-                                <span
-                                    className={`block w-full h-0.5 bg-white transition-all duration-300 ${isOpen ? "-rotate-45 -translate-y-2 bg-violet-400" : ""
-                                        }`}
-                                />
-                            </div>
-                        </button>
+                            {/* Mobile Toggle */}
+                            <button
+                                className="md:hidden p-2 text-white hover:text-violet-400 transition-colors"
+                                onClick={() => setIsOpen(!isOpen)}
+                            >
+                                {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                            </button>
+                        </div>
                     </div>
                 </div>
             </nav>
 
             {/* Mobile Menu */}
-            <div className="mobile-menu fixed inset-0 z-[4000] bg-[#030014]/95 backdrop-blur-xl opacity-0 pointer-events-none flex flex-col items-center justify-center">
-                <div className="flex flex-col gap-6 text-center">
-                    {/* Services Section */}
-                    <div className="mobile-link">
-                        <span className="text-xs uppercase tracking-widest text-violet-400 mb-4 block">Services</span>
-                        <div className="flex flex-col gap-3">
-                            {serviceDropdownItems.map((item) => (
-                                <Link
-                                    key={item.href}
-                                    href={item.href}
-                                    className="text-2xl font-sans uppercase tracking-widest font-bold text-white hover:text-violet-400 transition-colors flex items-center justify-center gap-3"
-                                    onClick={() => setIsOpen(false)}
-                                >
-                                    <span className="text-violet-400">{item.icon}</span>
-                                    {item.label}
-                                </Link>
-                            ))}
-                        </div>
+            <div className="mobile-menu fixed inset-0 z-[4900] bg-[#030014]/98 backdrop-blur-3xl opacity-0 pointer-events-none flex flex-col items-center justify-center">
+                <div className="absolute inset-0 bg-gradient-to-br from-violet-500/10 via-transparent to-indigo-500/10 pointer-events-none" />
+                <div className="relative z-10 flex flex-col items-center gap-10">
+                    <img src="/white_logo.png" alt="InDiiServe" className="h-10 w-auto mb-8 mobile-link" />
+                    
+                    <div className="flex flex-col gap-8 text-center">
+                        {navLinks.map((link) => (
+                            <Link
+                                key={link.href}
+                                href={link.href}
+                                className="mobile-link text-4xl font-black italic uppercase tracking-tighter text-white hover:text-violet-500 transition-colors underline-offset-8 hover:underline"
+                                onClick={() => setIsOpen(false)}
+                            >
+                                {link.label}
+                            </Link>
+                        ))}
                     </div>
 
-                    <div className="h-px w-24 bg-gradient-to-r from-transparent via-violet-500/50 to-transparent mx-auto my-2" />
-
-                    {navLinks.map((link) => (
-                        <Link
-                            key={link.href}
-                            href={link.href}
-                            className="mobile-link text-3xl font-sans uppercase tracking-widest font-bold text-white hover:text-violet-400 transition-colors"
-                            onClick={() => setIsOpen(false)}
-                        >
-                            {link.label}
-                        </Link>
-                    ))}
-                    {/* Enquire Now Button - Mobile */}
                     <button
                         onClick={() => {
                             setIsOpen(false);
                             setIsEnquiryOpen(true);
                         }}
-                        className="mobile-link mt-4 rounded-full bg-gradient-to-r from-indigo-500 to-violet-500 px-8 py-4 text-lg uppercase tracking-widest font-sans font-bold text-white transition-all hover:from-indigo-400 hover:to-violet-400 hover:shadow-[0_0_30px_rgba(139,92,246,0.5)]"
+                        className="mobile-link mt-8 flex items-center gap-4 rounded-full bg-gradient-to-r from-violet-600 to-indigo-600 px-10 py-5 text-sm font-black uppercase tracking-widest text-white transition-all shadow-[0_0_30px_rgba(139,92,246,0.5)] active:scale-95 translate-y-4"
                     >
-                        Enquire Now
+                        Initiate Connection
                     </button>
                 </div>
             </div>
 
-            {/* Enquiry Modal */}
             <EnquiryModal isOpen={isEnquiryOpen} onClose={() => setIsEnquiryOpen(false)} />
         </>
     );
+}
+
+// Internal icons helper
+function Send(props: any) {
+    return (
+        <svg
+            {...props}
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="3"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+        >
+            <path d="m22 2-7 20-4-9-9-4Z" />
+            <path d="M22 2 11 13" />
+        </svg>
+    )
 }

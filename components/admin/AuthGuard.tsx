@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { rolePermissions, UserRole } from "@/data/users";
+import { AdminRole } from "@/lib/types";
+import { rolePermissions } from "@/lib/roleConstants";
 
 interface AuthGuardProps {
     children: React.ReactNode;
@@ -26,7 +27,7 @@ export default function AuthGuard({ children, requiredPermission }: AuthGuardPro
             }
 
             const user = JSON.parse(userStr);
-            const permissions = rolePermissions[user.role as UserRole] || [];
+            const permissions = rolePermissions[user.role as AdminRole] || [];
 
             // Check if user has required permission
             if (requiredPermission && !permissions.includes(requiredPermission)) {

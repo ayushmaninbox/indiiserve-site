@@ -1,0 +1,5 @@
+"id","name","email","passwordHash","role","createdAt","lastLogin"
+"1","Super Admin","superadmin@indiiserve.com","$2b$10$ggL0G3eer8xsz.W4n7I.POOzfkmr4209NDv6lQ532H/zl3mJVyv16","super_admin",2026-01-01T00:00:00.000Z,"2026-02-16T01:18:19.265Z"
+"2","Admin User","admin@indiiserve.com","$2b$10$xcKEC4U/hRZwr9pyrZ6enesKx/ESMYDePW3/CAM/w0IGfcDSe82kG","admin",2026-01-01T00:00:00.000Z,
+"3","Content Writer","writer@indiiserve.com","$2b$10$lE/3Oz0OCxFsN1ZXyOL7Q.oZnx.wMeaJFiBkQL2PALg4A1FF3lqi.","content_writer",2026-01-01T00:00:00.000Z,
+"4","Enquiry Handler","enquiry@indiiserve.com","$2b$10$dTfXLOYRaMabwE.U8SdjReuXmqfSz.ae1E3yz95HJ0Ciwh8p64ice","enquiry_handler",2026-01-01T00:00:00.000Z,

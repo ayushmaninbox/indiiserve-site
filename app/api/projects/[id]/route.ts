@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { updateById, deleteById } from "@/lib/db";
-import { Project } from "@/data/projects";
+import { updateProject, deleteProject } from "@/lib/portfolioUtils";
 
 type Params = { params: Promise<{ id: string }> };
 
@@ -10,7 +9,7 @@ export async function PUT(request: NextRequest, { params }: Params) {
         const { id } = await params;
         const data = await request.json();
 
-        const updated = updateById<Project>("projects", id, data);
+        const updated = updateProject(id, data);
 
         if (!updated) {
             return NextResponse.json(
@@ -21,6 +20,7 @@ export async function PUT(request: NextRequest, { params }: Params) {
 
         return NextResponse.json(updated);
     } catch (error) {
+        console.error("Failed to update project:", error);
         return NextResponse.json(
             { error: "Server error" },
             { status: 500 }
@@ -33,7 +33,7 @@ export async function DELETE(request: NextRequest, { params }: Params) {
     try {
         const { id } = await params;
 
-        const deleted = deleteById<Project>("projects", id);
+        const deleted = deleteProject(id);
 
         if (!deleted) {
             return NextResponse.json(
@@ -44,6 +44,7 @@ export async function DELETE(request: NextRequest, { params }: Params) {
 
         return NextResponse.json({ success: true });
     } catch (error) {
+        console.error("Failed to delete project:", error);
         return NextResponse.json(
             { error: "Server error" },
             { status: 500 }

@@ -3,380 +3,334 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import AuthGuard from "@/components/admin/AuthGuard";
-import { blogs, BlogPost } from "@/data/blogs";
+import { Blog, BlogComment } from "@/lib/types";
+import StatsCard from "@/components/admin/StatsCard";
+import PaginationControls from "@/components/admin/PaginationControls";
+import { cn } from "@/lib/utils";
+import { 
+  Heart, MessageSquare, BookOpen, Search, 
+  MoreVertical, Edit2, Trash2, CheckCircle2, 
+  X, Filter, Download, Plus, ChevronRight
+} from "lucide-react";
 
-interface Comment {
-    id: string;
-    name: string;
-    content: string;
-    date: string;
-}
-
-interface BlogWithStats extends BlogPost {
-    likes: number;
-    comments: Comment[];
-}
+// Icons (Mirrored from Marble for structure but following IndiiServe style)
+const BlogIcon = () => <BookOpen className="w-4 h-4" />;
+const HeartIcon = () => <Heart className="w-4 h-4" />;
+const CommentIcon = () => <MessageSquare className="w-4 h-4" />;
+const SearchIcon = () => <Search className="w-4 h-4" />;
 
 export default function BlogsPage() {
-    const [blogsWithStats, setBlogsWithStats] = useState<BlogWithStats[]>([]);
+    const [blogs, setBlogs] = useState<Blog[]>([]);
+    const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState("");
-    const [commentsModal, setCommentsModal] = useState<BlogWithStats | null>(null);
-    const [page, setPage] = useState(1);
-    const perPage = 10;
+    const [selectedIds, setSelectedIds] = useState<string[]>([]);
+    const [itemsPerPage, setItemsPerPage] = useState(10);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [commentsModal, setCommentsModal] = useState<Blog | null>(null);
 
     useEffect(() => {
-        loadBlogStats();
+        fetchBlogs();
     }, []);
 
-    const loadBlogStats = () => {
-        const data: BlogWithStats[] = blogs.map((blog) => {
-            const likes = parseInt(localStorage.getItem(`blog-likes-${blog.slug}`) || "0", 10);
-            const comments = JSON.parse(localStorage.getItem(`blog-comments-${blog.slug}`) || "[]");
-            return { ...blog, likes, comments };
-        });
-        setBlogsWithStats(data);
-    };
-
-    const filtered = blogsWithStats.filter((b) =>
-        search
-            ? b.title.toLowerCase().includes(search.toLowerCase()) ||
-            b.author.toLowerCase().includes(search.toLowerCase())
-            : true
-    );
-
-    const totalLikes = blogsWithStats.reduce((acc, b) => acc + b.likes, 0);
-    const totalComments = blogsWithStats.reduce((acc, b) => acc + b.comments.length, 0);
-
-    const paginatedData = filtered.slice((page - 1) * perPage, page * perPage);
-    const totalPages = Math.ceil(filtered.length / perPage);
-
-    const deleteBlog = (slug: string) => {
-        if (!confirm("Clear all interactions for this blog?")) return;
-        localStorage.removeItem(`blog-likes-${slug}`);
-        localStorage.removeItem(`blog-comments-${slug}`);
-        alert("Interactions cleared. To delete the post itself, remove it from /data/blogs.ts");
-        loadBlogStats();
-    };
-
-    const deleteComment = (blogSlug: string, commentId: string) => {
-        const comments = JSON.parse(localStorage.getItem(`blog-comments-${blogSlug}`) || "[]");
-        const updated = comments.filter((c: Comment) => c.id !== commentId);
-        localStorage.setItem(`blog-comments-${blogSlug}`, JSON.stringify(updated));
-        loadBlogStats();
-        if (commentsModal) {
-            setCommentsModal({ ...commentsModal, comments: updated });
+    const fetchBlogs = async () => {
+        setLoading(true);
+        try {
+            const res = await fetch("/api/blogs");
+            const data = await res.json();
+            setBlogs(data);
+        } catch (error) {
+            console.error("Error fetching blogs:", error);
+        } finally {
+            setLoading(false);
         }
     };
 
-    const exportToCSV = () => {
-        const data = blogsWithStats.map((b) => ({
-            Title: b.title,
-            Author: b.author,
-            Category: b.category,
-            Likes: b.likes,
-            Comments: b.comments.length,
-            Date: b.date,
-        }));
-
-        const headers = ["Title", "Author", "Category", "Likes", "Comments", "Date"];
-        const csv = [
-            headers.join(","),
-            ...data.map((row) =>
-                [row.Title, row.Author, row.Category, row.Likes, row.Comments, row.Date]
-                    .map((val) => `"${String(val).replace(/"/g, '""')}"`)
-                    .join(",")
-            ),
-        ].join("\n");
-
-        const blob = new Blob([csv], { type: "text/csv" });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "editorial_stats.csv";
-        a.click();
+    const handleDeleteBlog = async (id: string, slug: string) => {
+        if (!confirm("Are you sure you want to delete this blog post?")) return;
+        try {
+            const res = await fetch(`/api/blogs/${slug}`, { method: "DELETE" });
+            if (res.ok) {
+                (window as any).showToast?.("Blog deleted successfully", "success");
+                fetchBlogs();
+            }
+        } catch (error) {
+            console.error("Delete error:", error);
+            (window as any).showToast?.("Failed to delete blog", "error");
+        }
     };
+
+    const handleBulkDelete = async () => {
+        if (!confirm(`Are you sure you want to delete ${selectedIds.length} posts?`)) return;
+        try {
+            for (const id of selectedIds) {
+                const blog = blogs.find(b => b.id === id);
+                if (blog) {
+                    await fetch(`/api/blogs/${blog.slug}`, { method: "DELETE" });
+                }
+            }
+            setSelectedIds([]);
+            (window as any).showToast?.(`${selectedIds.length} posts deleted`, "success");
+            fetchBlogs();
+        } catch (error) {
+            console.error("Bulk delete error:", error);
+        }
+    };
+
+    const toggleSelection = (id: string) => {
+        setSelectedIds(prev => prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]);
+    };
+
+    const toggleAll = () => {
+        setSelectedIds(selectedIds.length === paginatedBlogs.length ? [] : paginatedBlogs.map(b => b.id));
+    };
+
+    const filteredBlogs = blogs.filter(blog =>
+        blog.title.toLowerCase().includes(search.toLowerCase()) ||
+        blog.author.toLowerCase().includes(search.toLowerCase()) ||
+        blog.category.toLowerCase().includes(search.toLowerCase())
+    );
+
+    const totalItems = filteredBlogs.length;
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
+    const paginatedBlogs = filteredBlogs.slice(startIndex, endIndex);
+
+    if (loading) {
+        return (
+            <div className="flex min-h-[60vh] items-center justify-center">
+                <div className="h-8 w-8 animate-spin rounded-full border-3 border-violet-500 border-t-transparent"></div>
+            </div>
+        );
+    }
 
     return (
         <AuthGuard requiredPermission="blogs">
-            <div className="space-y-10">
+            <main className="space-y-8 font-poppins animate-in fade-in duration-700 pb-10">
                 {/* Header */}
-                <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
                     <div>
-                        <h1 className="text-3xl font-bold tracking-tight text-white">Editorial Manager</h1>
-                        <p className="mt-1 text-sm font-medium text-neutral-500">Manage your stories, insights, and reader engagement.</p>
+                        <h1 className="text-4xl font-black text-white tracking-tight italic">Blogs</h1>
+                        <p className="text-sm text-slate-500 mt-1">Manage blog posts and articles</p>
                     </div>
-                    <div className="flex gap-3">
-                        <button
-                            onClick={exportToCSV}
-                            className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-neutral-900 px-5 py-2.5 text-[10px] font-bold uppercase tracking-widest text-neutral-400 transition-all hover:bg-neutral-800 hover:text-white"
-                        >
-                            Export Stats
-                        </button>
-                        <Link
-                            href="/admin/blogs/editor"
-                            className="inline-flex items-center gap-2 rounded-xl bg-violet-500 px-6 py-2.5 text-[10px] font-bold uppercase tracking-[0.2em] text-white hover:bg-violet-400 transition-all active:scale-95"
-                        >
-                            Create Post
-                        </Link>
-                    </div>
+                    <Link
+                        href="/admin/blogs/editor"
+                        className="inline-flex items-center gap-2 rounded-xl bg-violet-600 hover:bg-violet-700 px-6 py-3 text-sm font-bold text-white shadow-xl shadow-violet-600/20 transition-all active:scale-95"
+                    >
+                        <Plus className="w-4 h-4" /> New Post
+                    </Link>
                 </div>
 
-                {/* Performance HUD */}
-                <div className="grid gap-6 sm:grid-cols-3">
-                    <div className="rounded-2xl border border-white/10 bg-neutral-950 p-6">
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <p className="text-[10px] font-bold uppercase tracking-widest text-neutral-500">Total Publications</p>
-                                <p className="mt-2 text-3xl font-bold text-white">{blogsWithStats.length}</p>
-                            </div>
-                            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-violet-500/20 text-violet-400 border border-violet-500/20 italic font-black">
-                                B
-                            </div>
-                        </div>
-                    </div>
-                    <div className="rounded-2xl border border-white/10 bg-neutral-950 p-6">
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <p className="text-[10px] font-bold uppercase tracking-widest text-neutral-500">Engagement Score</p>
-                                <p className="mt-2 text-3xl font-bold text-rose-400 leading-none flex items-center gap-2">
-                                    {totalLikes}
-                                    <span className="text-xs font-medium text-rose-500 uppercase tracking-tighter">Reacts</span>
-                                </p>
-                            </div>
-                            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-rose-500/20 text-rose-400 border border-rose-500/20">
-                                <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="rounded-2xl border border-white/10 bg-neutral-950 p-6">
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <p className="text-[10px] font-bold uppercase tracking-widest text-neutral-500">Active Discussions</p>
-                                <p className="mt-2 text-3xl font-bold text-blue-400 leading-none flex items-center gap-2">
-                                    {totalComments}
-                                    <span className="text-xs font-medium text-blue-500 uppercase tracking-tighter">Posts</span>
-                                </p>
-                            </div>
-                            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-500/20 text-blue-400 border border-blue-500/20">
-                                <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fillRule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clipRule="evenodd" />
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
+                {/* Stats */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                    <StatsCard 
+                        title="Total Posts" 
+                        value={blogs.length} 
+                        icon={<BlogIcon />} 
+                        iconBgColor="bg-indigo-500/10"
+                        iconColor="text-indigo-400"
+                    />
+                    <StatsCard 
+                        title="Total Likes" 
+                        value={blogs.reduce((sum, b) => sum + b.likes, 0)} 
+                        icon={<HeartIcon />} 
+                        iconBgColor="bg-red-500/10"
+                        iconColor="text-red-400"
+                    />
+                    <StatsCard 
+                        title="Total Comments" 
+                        value={blogs.reduce((sum, b) => sum + b.comments.length, 0)} 
+                        icon={<CommentIcon />} 
+                        iconBgColor="bg-blue-500/10"
+                        iconColor="text-blue-400"
+                    />
                 </div>
 
-                {/* Toolbar */}
-                <div className="flex items-center gap-4 bg-neutral-950 p-6 rounded-[1.5rem] border border-white/10">
-                    <div className="relative flex-1">
-                        <svg className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
+                {/* Search & Actions */}
+                <div className="rounded-2xl border border-white/5 bg-white/[0.02] p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div className="relative flex-1 max-w-md">
+                        <SearchIcon />
+                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500"><SearchIcon /></span>
                         <input
                             type="text"
-                            placeholder="Search stories by title or author keywords..."
+                            placeholder="Filter by title, author or category..."
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
-                            className="w-full rounded-xl border border-white/10 bg-black pl-11 pr-4 py-3 text-sm font-medium text-white placeholder-neutral-500 outline-none focus:border-violet-500/50 transition-all"
+                            className="w-full pl-12 pr-4 py-3 rounded-xl border border-white/5 bg-white/[0.03] text-sm text-white focus:outline-none focus:border-violet-500/50 transition-all font-sans"
                         />
                     </div>
                 </div>
 
-                {/* Content Table */}
-                <div className="rounded-[2rem] border border-white/10 bg-neutral-950 overflow-hidden">
+                {/* Bulk Actions */}
+                {selectedIds.length > 0 && (
+                    <div className="bg-red-500/10 border border-red-500/20 px-6 py-3 rounded-2xl flex items-center justify-between animate-in fade-in slide-in-from-top-2">
+                        <div className="flex items-center gap-4">
+                            <span className="text-sm font-bold text-red-400">{selectedIds.length} Selected</span>
+                            <button
+                                onClick={handleBulkDelete}
+                                className="inline-flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl text-xs font-bold transition-all shadow-lg shadow-red-600/20"
+                            >
+                                <Trash2 className="w-3.5 h-3.5" /> Delete Selected
+                            </button>
+                        </div>
+                        <button onClick={() => setSelectedIds([])} className="text-xs font-bold text-slate-500 hover:text-white transition-colors uppercase tracking-widest">Clear</button>
+                    </div>
+                )}
+
+                {/* Table Reversion (from Marble Site) */}
+                <div className="rounded-2xl border border-white/5 bg-white/[0.02] overflow-hidden shadow-2xl">
                     <div className="overflow-x-auto">
-                        <table className="w-full">
-                            <thead>
-                                <tr className="border-b border-white/10">
-                                    <th className="px-6 py-5 text-left text-[10px] font-bold uppercase tracking-[0.2em] text-neutral-500">Production Layer</th>
-                                    <th className="px-6 py-5 text-left text-[10px] font-bold uppercase tracking-[0.2em] text-neutral-500">Lead Author</th>
-                                    <th className="px-6 py-5 text-center text-[10px] font-bold uppercase tracking-[0.2em] text-neutral-500">Metrics</th>
-                                    <th className="px-6 py-5 text-left text-[10px] font-bold uppercase tracking-[0.2em] text-neutral-500">Release Date</th>
-                                    <th className="px-6 py-5 text-right text-[10px] font-bold uppercase tracking-[0.2em] text-neutral-500">Control Hub</th>
+                        <table className="w-full text-left border-collapse font-sans">
+                            <thead className="bg-white/5 border-b border-white/5">
+                                <tr>
+                                    <th className="w-12 px-6 py-4">
+                                        <input
+                                            type="checkbox"
+                                            checked={paginatedBlogs.length > 0 && selectedIds.length === paginatedBlogs.length}
+                                            onChange={toggleAll}
+                                            className="rounded border-white/10 bg-white/5 text-violet-600 focus:ring-violet-500 h-4 w-4"
+                                        />
+                                    </th>
+                                    <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-500">Post</th>
+                                    <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-500">Author</th>
+                                    <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-500">Metrics</th>
+                                    <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-500">Published</th>
+                                    <th className="px-6 py-4 text-right text-[10px] font-black uppercase tracking-widest text-slate-500">Actions</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-white/5">
-                                {paginatedData.map((blog) => (
-                                    <tr key={blog.slug} className="group hover:bg-white/5 transition-all duration-300">
+                                {paginatedBlogs.map((blog) => (
+                                    <tr key={blog.id} className={cn("hover:bg-white/[0.03] transition-colors group", selectedIds.includes(blog.id) && "bg-violet-500/5")}>
+                                        <td className="px-6 py-6">
+                                            <input
+                                                type="checkbox"
+                                                checked={selectedIds.includes(blog.id)}
+                                                onChange={() => toggleSelection(blog.id)}
+                                                className="rounded border-white/10 bg-white/5 text-violet-600 focus:ring-violet-500 h-4 w-4"
+                                            />
+                                        </td>
                                         <td className="px-6 py-6">
                                             <div className="flex items-center gap-4">
-                                                <div className="h-16 w-20 flex-shrink-0 rounded-2xl overflow-hidden bg-white/5 border border-white/10 relative">
-                                                    <img src={blog.image} alt="" className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                                                <div className="h-12 w-16 rounded-lg overflow-hidden flex-shrink-0 border border-white/5 bg-black/40">
+                                                    {(blog.image || blog.coverImage) ? (
+                                                        <img src={blog.image || blog.coverImage} alt="" className="h-full w-full object-cover" />
+                                                    ) : (
+                                                        <div className="h-full w-full flex items-center justify-center text-slate-700"><BookOpen className="w-5 h-5" /></div>
+                                                    )}
                                                 </div>
-                                                <div className="min-w-0">
-                                                    <p className="font-bold text-white truncate max-w-[280px] text-base leading-tight group-hover:text-violet-400 transition-colors uppercase tracking-tight">{blog.title}</p>
-                                                    <span className="inline-flex items-center px-2 py-0.5 rounded-md bg-white/5 text-[10px] font-bold text-neutral-500 uppercase tracking-widest mt-1 border border-white/10">
-                                                        {blog.category}
-                                                    </span>
+                                                <div>
+                                                    <div className="text-sm font-bold text-white group-hover:text-violet-400 transition-colors line-clamp-1">{blog.title}</div>
+                                                    <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">By {blog.author}</div>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className="px-6 py-6 font-bold text-neutral-400 text-sm tracking-tight">{blog.author}</td>
+                                        <td className="px-6 py-6 font-poppins">
+                                            <span className="inline-flex items-center rounded-full bg-violet-400/10 px-2.5 py-0.5 text-[9px] font-bold border border-violet-400/20 text-violet-400 uppercase tracking-widest">
+                                                {blog.category}
+                                            </span>
+                                        </td>
                                         <td className="px-6 py-6">
-                                            <div className="flex flex-col items-center gap-1.5">
-                                                <span className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-rose-500/10 text-[10px] font-bold text-rose-400 border border-rose-500/20">
-                                                    ❤️ {blog.likes}
-                                                </span>
-                                                <button
+                                            <div className="flex items-center gap-4">
+                                                <div className="flex items-center gap-1.5 text-[10px] font-black text-slate-400">
+                                                    <Heart className="w-3 h-3 text-red-500" /> {blog.likes}
+                                                </div>
+                                                <button 
                                                     onClick={() => setCommentsModal(blog)}
-                                                    className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-blue-500/10 text-[10px] font-bold text-blue-400 border border-blue-500/20 hover:bg-blue-500/20 transition-colors"
+                                                    className="flex items-center gap-1.5 text-[10px] font-black text-slate-400 hover:text-white transition-colors"
                                                 >
-                                                    💬 {blog.comments.length}
+                                                    <MessageSquare className="w-3 h-3 text-blue-500" /> {blog.comments.length}
                                                 </button>
                                             </div>
                                         </td>
-                                        <td className="px-6 py-6 text-[11px] font-bold text-neutral-500 uppercase tracking-tight">{blog.date}</td>
+                                        <td className="px-6 py-6 text-[10px] font-bold text-slate-500 uppercase tracking-widest">
+                                            {blog.date}
+                                        </td>
                                         <td className="px-6 py-6 text-right">
-                                            <div className="flex items-center justify-end gap-3">
+                                            <div className="flex justify-end gap-3 translate-x-2 opacity-0 group-hover:opacity-100 group-hover:translate-x-0 transition-all">
                                                 <Link
                                                     href={`/admin/blogs/editor?slug=${blog.slug}`}
-                                                    className="inline-flex h-9 items-center justify-center rounded-lg border border-white/10 bg-white/5 px-4 text-xs font-bold uppercase tracking-widest text-neutral-400 hover:bg-violet-500 hover:text-white hover:border-violet-500 transition-all"
+                                                    className="p-2 rounded-lg bg-teal-500/10 text-teal-400 hover:bg-teal-500 hover:text-white transition-all shadow-lg shadow-teal-500/0 hover:shadow-teal-500/20"
+                                                    title="Edit Post"
                                                 >
-                                                    Modify
+                                                    <Edit2 className="w-4 h-4" />
                                                 </Link>
                                                 <button
-                                                    onClick={() => deleteBlog(blog.slug)}
-                                                    className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-neutral-500 hover:bg-rose-500/10 hover:text-rose-400 hover:border-rose-500/20 transition-all"
+                                                    onClick={() => handleDeleteBlog(blog.id, blog.slug)}
+                                                    className="p-2 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500 hover:text-white transition-all shadow-lg shadow-red-500/0 hover:shadow-red-500/20"
+                                                    title="Delete Post"
                                                 >
-                                                    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                    </svg>
+                                                    <Trash2 className="w-4 h-4" />
                                                 </button>
                                             </div>
                                         </td>
                                     </tr>
                                 ))}
-                                {filtered.length === 0 && (
+                                {paginatedBlogs.length === 0 && (
                                     <tr>
-                                        <td colSpan={5} className="py-24 text-center">
-                                            <div className="flex flex-col items-center justify-center text-neutral-600">
-                                                <p className="font-black uppercase tracking-[0.3em] text-xs">Zero Stories Captured</p>
-                                            </div>
+                                        <td colSpan={6} className="px-6 py-20 text-center text-slate-500 font-bold uppercase tracking-widest text-[10px]">
+                                            No industrial logs found matching the filter
                                         </td>
                                     </tr>
                                 )}
                             </tbody>
                         </table>
                     </div>
-                </div>
-
-                {/* Pagination Hub */}
-                {totalPages > 1 && (
-                    <div className="flex items-center justify-center gap-6 pt-6">
-                        <button
-                            onClick={() => setPage(Math.max(1, page - 1))}
-                            disabled={page === 1}
-                            className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-neutral-400 transition-all hover:bg-white/10 hover:border-violet-500/50 hover:text-violet-400 disabled:opacity-30"
-                        >
-                            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
-                            </svg>
-                        </button>
-                        <div className="flex items-center gap-2">
-                            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-neutral-500">Library Page</span>
-                            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-violet-500 text-xs font-bold text-white">{page}</span>
-                            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-neutral-500">of {totalPages}</span>
-                        </div>
-                        <button
-                            onClick={() => setPage(Math.min(totalPages, page + 1))}
-                            disabled={page === totalPages}
-                            className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-neutral-400 transition-all hover:bg-white/10 hover:border-violet-500/50 hover:text-violet-400 disabled:opacity-30"
-                        >
-                            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-                            </svg>
-                        </button>
+                    
+                    <div className="p-6 bg-white/[0.01] border-t border-white/5">
+                        <PaginationControls 
+                            currentPage={currentPage}
+                            totalItems={totalItems}
+                            itemsPerPage={itemsPerPage}
+                            onPageChange={setCurrentPage}
+                            onItemsPerPageChange={setItemsPerPage}
+                            itemName="posts"
+                        />
                     </div>
-                )}
-            </div>
-
-            {/* Discourse Panel */}
-            {commentsModal && (
-                <CommentsModal
-                    blog={commentsModal}
-                    onClose={() => setCommentsModal(null)}
-                    onDeleteComment={(commentId) => deleteComment(commentsModal.slug, commentId)}
-                />
-            )}
-        </AuthGuard>
-    );
-}
-
-function CommentsModal({
-    blog,
-    onClose,
-    onDeleteComment,
-}: {
-    blog: BlogWithStats;
-    onClose: () => void;
-    onDeleteComment: (commentId: string) => void;
-}) {
-    return (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-            <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
-            <div className="relative w-full max-w-xl max-h-[85vh] overflow-hidden rounded-2xl border border-white/10 bg-neutral-950 shadow-2xl flex flex-col">
-                <div className="p-8 border-b border-white/10 sticky top-0 z-10">
-                    <button
-                        onClick={onClose}
-                        className="absolute top-8 right-8 text-neutral-500 hover:text-white transition-colors"
-                    >
-                        <svg className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
-                    <h2 className="text-3xl font-black tracking-tight text-white uppercase">Discourse Hub</h2>
-                    <p className="mt-1 text-sm font-bold text-violet-400 uppercase tracking-widest truncate">{blog.title}</p>
                 </div>
+            </main>
 
-                <div className="flex-1 overflow-y-auto p-8 space-y-6">
-                    {blog.comments.length === 0 ? (
-                        <div className="py-20 text-center">
-                            <p className="font-black uppercase tracking-[0.2em] text-xs text-neutral-600">No active discussions</p>
+            {/* Comments Modal (Keeping present logic but matching IndiiServe theme) */}
+            {commentsModal && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+                    <div className="absolute inset-0 bg-black/80 backdrop-blur-md" onClick={() => setCommentsModal(null)} />
+                    <div className="relative w-full max-w-2xl max-h-[85vh] flex flex-col rounded-3xl border border-white/10 bg-[#0c0c0c] shadow-2xl overflow-hidden font-poppins">
+                        <div className="p-6 border-b border-white/5 flex items-center justify-between bg-white/[0.02]">
+                            <div>
+                                <h3 className="text-xl font-bold text-white">Discussion Thread</h3>
+                                <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mt-1 line-clamp-1">{commentsModal.title}</p>
+                            </div>
+                            <button onClick={() => setCommentsModal(null)} className="p-2 rounded-xl hover:bg-white/5 text-slate-400 hover:text-white transition-all border border-white/5">
+                                <X className="w-5 h-5" />
+                            </button>
                         </div>
-                    ) : (
-                        <div className="grid gap-4">
-                            {blog.comments.map((comment) => (
-                                <div
-                                    key={comment.id}
-                                    className="group rounded-2xl border border-white/10 bg-white/5 p-6 transition-all hover:bg-white/10 hover:border-white/20"
-                                >
-                                    <div className="mb-4 flex items-center justify-between">
+                        
+                        <div className="flex-1 overflow-y-auto p-6 space-y-4 custom-scrollbar bg-[#080808]">
+                            {commentsModal.comments.map((comment) => (
+                                <div key={comment.id} className="p-5 rounded-2xl bg-white/[0.03] border border-white/5 group hover:bg-white/[0.05] transition-colors">
+                                    <div className="flex items-center justify-between mb-3">
                                         <div className="flex items-center gap-3">
-                                            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-violet-500/20 text-violet-400 text-xs font-black">
-                                                {comment.name.charAt(0).toUpperCase()}
-                                            </div>
+                                            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-[11px] font-black text-white uppercase shadow-lg shadow-violet-500/20">{comment.name.charAt(0)}</div>
                                             <div>
-                                                <p className="text-sm font-bold text-white tracking-tight">{comment.name}</p>
-                                                <p className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest italic">{comment.date}</p>
+                                                <div className="text-xs font-bold text-white uppercase tracking-wider">{comment.name}</div>
+                                                <div className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mt-0.5">{new Date(comment.createdAt || comment.date || new Date()).toLocaleDateString()}</div>
                                             </div>
                                         </div>
-                                        <button
-                                            onClick={() => onDeleteComment(comment.id)}
-                                            className="h-8 w-8 flex items-center justify-center rounded-lg text-neutral-600 hover:text-rose-400 hover:bg-rose-500/10 transition-all opacity-0 group-hover:opacity-100"
-                                        >
-                                            <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                            </svg>
-                                        </button>
                                     </div>
-                                    <p className="text-sm font-medium leading-relaxed text-neutral-400">{comment.content}</p>
+                                    <p className="text-sm text-slate-400 leading-relaxed pl-12">{comment.content}</p>
                                 </div>
                             ))}
+                            {commentsModal.comments.length === 0 && (
+                                <div className="py-20 text-center border border-dashed border-white/5 rounded-2xl">
+                                    <p className="text-[10px] text-slate-600 font-black uppercase tracking-widest">No active interaction threads found</p>
+                                </div>
+                            )}
                         </div>
-                    )}
-                </div>
 
-                <div className="p-8 border-t border-white/10">
-                    <button
-                        onClick={onClose}
-                        className="w-full rounded-2xl bg-violet-500 py-4 text-xs font-black uppercase tracking-[0.2em] text-white hover:bg-violet-400 transition-all active:scale-95"
-                    >
-                        Return to Library
-                    </button>
+                        <div className="p-6 border-t border-white/5 bg-white/[0.02]">
+                            <button onClick={() => setCommentsModal(null)} className="w-full py-4 rounded-2xl bg-white/[0.03] border border-white/10 text-[10px] font-black uppercase tracking-[0.2em] text-white hover:bg-white/5 hover:text-white transition-all active:scale-[0.98]">Close Logs</button>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
+            )}
+        </AuthGuard>
     );
 }

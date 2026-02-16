@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { readDb, writeDb } from "@/lib/db";
-import { Project, defaultProjects } from "@/data/projects";
+import { readProjects, writeProjects } from "@/lib/portfolioUtils";
 
 // PUT reorder projects
 export async function PUT(request: NextRequest) {
@@ -14,21 +13,22 @@ export async function PUT(request: NextRequest) {
             );
         }
 
-        const projects = readDb<Project>("projects", defaultProjects);
+        const projects = readProjects();
 
-        // Update order based on position in array
+        // Update displayOrder based on position in array
         const reordered = projects.map((project) => {
             const newOrder = projectIds.indexOf(project.id);
             return {
                 ...project,
-                order: newOrder !== -1 ? newOrder + 1 : project.order,
+                displayOrder: newOrder !== -1 ? newOrder : project.displayOrder,
             };
         });
 
-        writeDb("projects", reordered);
+        writeProjects(reordered);
 
-        return NextResponse.json(reordered.sort((a, b) => a.order - b.order));
+        return NextResponse.json(reordered.sort((a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0)));
     } catch (error) {
+        console.error("Reorder error:", error);
         return NextResponse.json(
             { error: "Server error" },
             { status: 500 }

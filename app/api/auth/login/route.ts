@@ -1,18 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
-import { readDb, updateById } from "@/lib/db";
-import { AdminUser } from "@/data/users";
-import { defaultUsers } from "@/data/users";
+import { findUserByEmail, validatePassword, updateLastLogin } from "@/lib/userUtils";
 
 export async function POST(request: NextRequest) {
     try {
-        const { email, password } = await request.json();
+        const body = await request.json();
+        const { email, password } = body;
 
-        // Get users from db (initialize with defaults if empty)
-        let users = readDb<AdminUser>("users", defaultUsers);
+        if (!email || !password) {
+            return NextResponse.json(
+                { error: "Email and password are required" },
+                { status: 400 }
+            );
+        }
 
-        const user = users.find(
-            (u) => u.email === email && u.password === password
-        );
+        const user = findUserByEmail(email);
 
         if (!user) {
             return NextResponse.json(
@@ -21,16 +22,24 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        // Update last login
-        updateById<AdminUser>("users", user.id, {
-            lastLogin: new Date().toISOString(),
-        });
+        const isValidPassword = await validatePassword(password, user.passwordHash);
 
-        // Return user without password
-        const { password: _, ...safeUser } = user;
+        if (!isValidPassword) {
+            return NextResponse.json(
+                { error: "Invalid credentials" },
+                { status: 401 }
+            );
+        }
+
+        // Update last login
+        updateLastLogin(user.id);
+
+        // Return user without password hash
+        const { passwordHash: _, ...safeUser } = user;
 
         return NextResponse.json({ user: safeUser });
     } catch (error) {
+        console.error("Login error:", error);
         return NextResponse.json(
             { error: "Server error" },
             { status: 500 }

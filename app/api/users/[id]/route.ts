@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { readDb, writeDb, updateById, deleteById } from "@/lib/db";
-import { AdminUser, defaultUsers } from "@/data/users";
+import { updateUser, deleteUser, hashPassword } from "@/lib/userUtils";
 
 type Params = { params: Promise<{ id: string }> };
 
@@ -9,8 +8,16 @@ export async function PUT(request: NextRequest, { params }: Params) {
     try {
         const { id } = await params;
         const data = await request.json();
+        
+        let updates = { ...data };
+        
+        // If password is being updated, hash it
+        if (updates.password) {
+            updates.passwordHash = await hashPassword(updates.password);
+            delete updates.password;
+        }
 
-        const updated = updateById<AdminUser>("users", id, data);
+        const updated = updateUser(id, updates);
 
         if (!updated) {
             return NextResponse.json(
@@ -19,9 +26,10 @@ export async function PUT(request: NextRequest, { params }: Params) {
             );
         }
 
-        const { password, ...safeUser } = updated;
+        const { passwordHash, ...safeUser } = updated;
         return NextResponse.json(safeUser);
     } catch (error) {
+        console.error("Failed to update user:", error);
         return NextResponse.json(
             { error: "Server error" },
             { status: 500 }
@@ -34,7 +42,7 @@ export async function DELETE(request: NextRequest, { params }: Params) {
     try {
         const { id } = await params;
 
-        const deleted = deleteById<AdminUser>("users", id);
+        const deleted = deleteUser(id);
 
         if (!deleted) {
             return NextResponse.json(
@@ -45,6 +53,7 @@ export async function DELETE(request: NextRequest, { params }: Params) {
 
         return NextResponse.json({ success: true });
     } catch (error) {
+        console.error("Failed to delete user:", error);
         return NextResponse.json(
             { error: "Server error" },
             { status: 500 }

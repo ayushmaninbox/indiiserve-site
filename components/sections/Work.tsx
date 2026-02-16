@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
-import { Project, defaultProjects } from "@/data/projects";
+import { Project } from "@/lib/types";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -13,7 +13,7 @@ export default function Work() {
     const containerRef = useRef<HTMLDivElement>(null);
     const headerRef = useRef<HTMLDivElement>(null);
     const horizontalWrapperRef = useRef<HTMLDivElement>(null);
-    const [projects, setProjects] = useState<Project[]>(defaultProjects);
+    const [projects, setProjects] = useState<Project[]>([]);
 
     useEffect(() => {
         // Load projects from API

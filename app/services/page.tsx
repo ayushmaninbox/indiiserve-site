@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { digitalBrandingServices } from "@/data/digital-branding";
+import { digitalBrandingServices } from "@/lib/serviceData";
 
 gsap.registerPlugin(ScrollTrigger);
 

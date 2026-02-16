@@ -1,12 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { readDb, writeDb, insertOne, deleteById } from "@/lib/db";
-import { AdminUser, defaultUsers } from "@/data/users";
+import { readUsers, createUser, findUserByEmail } from "@/lib/userUtils";
 
 // GET all users
 export async function GET() {
-    const users = readDb<AdminUser>("users", defaultUsers);
-    // Return users without passwords
-    const safeUsers = users.map(({ password, ...rest }) => rest);
+    const users = readUsers();
+    // Return users without password hashes
+    const safeUsers = users.map(({ passwordHash, ...rest }) => rest);
     return NextResponse.json(safeUsers);
 }
 
@@ -14,34 +13,31 @@ export async function GET() {
 export async function POST(request: NextRequest) {
     try {
         const data = await request.json();
+        const { name, email, password, role } = data;
 
-        const users = readDb<AdminUser>("users", defaultUsers);
+        if (!name || !email || !password) {
+            return NextResponse.json(
+                { error: "Name, email and password are required" },
+                { status: 400 }
+            );
+        }
 
         // Check if email exists
-        if (users.find((u) => u.email === data.email)) {
+        if (findUserByEmail(email)) {
             return NextResponse.json(
                 { error: "Email already exists" },
                 { status: 400 }
             );
         }
 
-        const newUser: AdminUser = {
-            id: Date.now().toString(),
-            name: data.name,
-            email: data.email,
-            password: data.password,
-            role: data.role || "admin",
-            createdAt: new Date().toISOString(),
-            lastLogin: null,
-        };
+        const newUser = await createUser(name, email, password, role || "admin");
 
-        insertOne("users", newUser);
-
-        const { password, ...safeUser } = newUser;
+        const { passwordHash, ...safeUser } = newUser;
         return NextResponse.json(safeUser, { status: 201 });
-    } catch (error) {
+    } catch (error: any) {
+        console.error("Failed to create user:", error);
         return NextResponse.json(
-            { error: "Server error" },
+            { error: error.message || "Server error" },
             { status: 500 }
         );
     }

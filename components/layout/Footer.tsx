@@ -30,7 +30,7 @@ export default function Footer() {
                             href="/"
                             className="inline-flex items-center gap-3"
                         >
-                            <img src="/white version.png" alt="InDiiServe" className="h-10 w-auto" />
+                            <img src="/white_logo.png" alt="InDiiServe" className="h-10 w-auto" />
                             <span style={{ fontFamily: 'Poppins, sans-serif' }} className="text-3xl font-bold text-white">
                                 InDiiServe
                             </span>

@@ -4,11 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import {
-    voiceAgentUseCases,
-    whatsappChatbotUseCases,
-    aiAutomationData,
-} from "@/data/ai-automation";
+import { voiceAgentUseCases, whatsappChatbotUseCases, aiAutomationData } from "@/lib/serviceData";
 
 gsap.registerPlugin(ScrollTrigger);
 
