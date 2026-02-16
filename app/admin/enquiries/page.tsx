@@ -159,8 +159,8 @@ export default function EnquiriesPage() {
                 {/* Header */}
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
                     <div>
-                        <h1 className="text-4xl font-semibold text-white tracking-tight">Intel Matrix</h1>
-                        <p className="mt-1 text-[10px] font-semibold text-violet-400/60 uppercase tracking-[0.4em]">Inbound Telemetry & CRM Node</p>
+                        <h1 className="text-4xl font-semibold text-white tracking-tight">Enquiries</h1>
+                        <p className="mt-1 text-[10px] font-semibold text-violet-400/60 uppercase tracking-[0.4em]">Manage and track customer enquiries</p>
                     </div>
                     <button
                         onClick={exportCSV}
@@ -176,21 +176,21 @@ export default function EnquiriesPage() {
                 {/* Stats */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <StatsCard 
-                        title="Total Streams" 
+                        title="Total Enquiries" 
                         value={enquiries.length} 
                         icon={<InboxIcon />} 
                         iconBgColor="bg-violet-500/10"
                         iconColor="text-violet-400"
                     />
                     <StatsCard 
-                        title="Synchronized" 
+                        title="Solved" 
                         value={solvedCount} 
                         icon={<CheckCircleIcon />} 
                         iconBgColor="bg-emerald-500/10"
                         iconColor="text-emerald-400"
                     />
                     <StatsCard 
-                        title="Pending Intel" 
+                        title="Pending" 
                         value={pendingCount} 
                         icon={<ClockIcon />} 
                         iconBgColor="bg-amber-500/10"
@@ -202,7 +202,7 @@ export default function EnquiriesPage() {
                 <div className="bg-white/[0.02] rounded-[2.5rem] border border-white/5 p-4 backdrop-blur-3xl shadow-2xl">
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                         <h3 className="text-[10px] font-semibold text-white uppercase tracking-[0.4em] flex items-center gap-3 px-4">
-                           <div className="h-2 w-2 rounded-full bg-violet-500 animate-pulse" /> Record Console
+                           <div className="h-2 w-2 rounded-full bg-violet-500 animate-pulse" /> Enquiries
                         </h3>
                         <div className="flex flex-1 max-w-2xl gap-4">
                             <div className="relative flex-1 group">
@@ -222,16 +222,16 @@ export default function EnquiriesPage() {
                                 onChange={(e) => setStatusFilter(e.target.value as any)}
                                 className="px-6 py-4 rounded-[1.5rem] bg-white/[0.03] border border-white/5 text-[10px] font-semibold text-slate-400 focus:outline-none focus:border-violet-500/40 cursor-pointer transition-all uppercase tracking-widest"
                             >
-                                <option value="all">Global Status</option>
-                                <option value="pending">Pending Intel</option>
-                                <option value="solved">Synchronized</option>
+                                <option value="all">All Statuses</option>
+                                <option value="pending">Pending</option>
+                                <option value="solved">Solved</option>
                             </select>
                         </div>
                     </div>
                 </div>
 
                 <div className="flex items-center justify-between px-2">
-                    <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.3em]">Telemetry Sequence: {startIndex + 1}-{endIndex} of {totalItems}</p>
+                    <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.3em]">Showing: {startIndex + 1}-{endIndex} of {totalItems}</p>
                     <PaginationControls
                         currentPage={currentPage}
                         totalItems={totalItems}
@@ -254,7 +254,7 @@ export default function EnquiriesPage() {
                 <div className="pt-6 text-center">
                     <div className="inline-flex items-center gap-3 px-6 py-2 rounded-full bg-white/[0.02] border border-white/5">
                         <div className="h-1 w-1 rounded-full bg-violet-500 animate-pulse" />
-                        <p className="text-[9px] font-semibold text-slate-500 uppercase tracking-[0.3em]">Central Telemetry Synchronized</p>
+                        <p className="text-[9px] font-semibold text-slate-500 uppercase tracking-[0.3em]">All systems operational</p>
                     </div>
                 </div>
             </div>
@@ -302,25 +302,25 @@ function EnquiryDetailModal({
                 <div className="space-y-10 mb-10 relative z-10">
                     <div className="grid grid-cols-2 gap-8">
                         <div className="space-y-2">
-                            <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.3em]">Source Address</p>
+                            <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.3em]">Email</p>
                             <p className="text-sm font-bold text-white tracking-tight break-all">{enquiry.email}</p>
                         </div>
                         <div className="space-y-2">
-                            <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.3em]">Signal ID</p>
+                            <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.3em]">Phone</p>
                             <p className="text-sm font-bold text-white tracking-tight tabular-nums">{enquiry.phone}</p>
                         </div>
                     </div>
 
                     <div className="space-y-4">
-                        <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.3em]">Narrative Fragment</p>
+                        <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.3em]">Message</p>
                         <div className="p-8 rounded-[2rem] bg-white/[0.02] border border-white/5 text-sm font-medium leading-[1.8] text-slate-300 shadow-inner">
-                            "{enquiry.message || "No contextual metadata provided for this signal."}"
+                            "{enquiry.message || "No message provided."}"
                         </div>
                     </div>
 
                     <div className="pt-4 text-center border-t border-white/5">
                         <p className="text-[9px] font-semibold text-slate-600 uppercase tracking-[0.4em]">
-                            Logged via gateway on {new Date(enquiry.submittedAt).toLocaleString(undefined, { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                            Submitted on {new Date(enquiry.submittedAt).toLocaleString(undefined, { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
                         </p>
                     </div>
                 </div>
@@ -332,13 +332,13 @@ function EnquiryDetailModal({
                         target="_blank"
                         className="flex-1 flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 py-4.5 text-[10px] font-semibold uppercase tracking-[0.4em] text-white shadow-2xl shadow-emerald-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
                     >
-                        Nexus Link
+                        WhatsApp
                     </a>
                     <a
                         href={`mailto:${enquiry.email}`}
                         className="flex-1 flex items-center justify-center gap-2 rounded-2xl border border-white/5 bg-white/[0.03] py-4.5 text-[10px] font-semibold uppercase tracking-[0.4em] text-slate-400 hover:text-white hover:bg-white/5 transition-all active:scale-[0.98] shadow-xl"
                     >
-                        Direct Transmit
+                        Email
                     </a>
                 </div>
 
@@ -349,7 +349,7 @@ function EnquiryDetailModal({
                         : "bg-gradient-to-r from-indigo-500 to-violet-600 shadow-violet-500/20 hover:scale-[1.02]"
                         }`}
                 >
-                    {enquiry.status === "solved" ? "Reopen Signal Sequence" : "Synchronize Intel"}
+                    {enquiry.status === "solved" ? "Mark as Pending" : "Mark as Solved"}
                 </button>
             </div>
         </div>

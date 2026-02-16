@@ -2,12 +2,20 @@
 
 import { usePathname } from "next/navigation";
 import { useLoader } from "@/context/LoaderContext";
+import { useEffect } from "react";
 import { Navbar, Footer } from "@/components/layout";
 import { PageLoader, CustomCursor, SmoothScroll } from "@/components/ui";
 
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
-    const { isLoading } = useLoader();
+    const { isLoading, setIsLoading } = useLoader();
     const pathname = usePathname();
+    const isHomePage = pathname === "/";
+
+    useEffect(() => {
+        if (!isHomePage) {
+            setIsLoading(false);
+        }
+    }, [pathname, isHomePage, setIsLoading]);
 
     // Don't apply site layout to admin pages
     const isAdminPage = pathname.startsWith("/admin");
@@ -18,16 +26,11 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
 
     return (
         <SmoothScroll>
-            <PageLoader />
+            {isHomePage && <PageLoader />}
             <CustomCursor />
 
-            {/* 
-              Conditionally render content:
-              User wanted the loader to be a "separate page".
-              We keep the content UNMOUNTED until loading completes (triggered by PageLoader).
-              This ensures animations (Hero, etc.) start fresh when revealed.
-            */}
-            {!isLoading && (
+            {/* Render content immediately if not homepage, or wait for loader if homepage */}
+            {(!isLoading || !isHomePage) && (
                 <>
                     <Navbar />
                     {children}

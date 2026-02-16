@@ -146,7 +146,7 @@ export default function DashboardPage() {
                     </div>
                     <div className="flex items-center gap-3 px-6 py-3 rounded-xl bg-white/[0.03] border border-white/5">
                         <div className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">System Online</span>
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">System Active</span>
                     </div>
                 </div>
 
@@ -195,7 +195,7 @@ export default function DashboardPage() {
                         <div className="flex items-center justify-between mb-10 relative z-10">
                             <div>
                                 <h3 className="text-xs font-bold text-white uppercase tracking-widest">Enquiry Trend</h3>
-                                <p className="text-[10px] text-slate-500 uppercase tracking-widest mt-1">Monthly engagement metrics</p>
+                                <p className="text-[10px] text-slate-500 uppercase tracking-widest mt-1">Monthly enquiries</p>
                             </div>
                             <span className="text-[10px] text-violet-400 font-bold bg-violet-500/10 border border-violet-500/20 px-4 py-1.5 rounded-full uppercase tracking-widest">Last 6 Months</span>
                         </div>
@@ -277,7 +277,7 @@ export default function DashboardPage() {
                                 </svg>
                                 <div className="absolute inset-0 flex flex-col items-center justify-center">
                                     <span className="text-5xl font-semibold text-white leading-none tracking-tighter tabular-nums">{enquiries.length}</span>
-                                    <span className="text-[9px] uppercase tracking-[0.4em] text-slate-500 mt-2 font-semibold">Total Nodes</span>
+                                    <span className="text-[9px] uppercase tracking-[0.4em] text-slate-500 mt-2 font-semibold">Total Enquiries</span>
                                 </div>
                             </div>
                             
@@ -306,13 +306,13 @@ export default function DashboardPage() {
                     <div className="flex items-center justify-between p-10 border-b border-white/5">
                         <div>
                              <h3 className="text-[11px] font-semibold text-white uppercase tracking-[0.4em]">Recent enquiries</h3>
-                             <p className="text-[9px] font-bold text-slate-600 uppercase tracking-widest mt-1">Latest incoming communications</p>
+                             <p className="text-[9px] font-bold text-slate-600 uppercase tracking-widest mt-1">Latest enquiries</p>
                         </div>
                         <Link
                             href="/admin/enquiries"
                             className="inline-flex items-center gap-3 rounded-xl bg-white/[0.03] border border-white/5 px-6 py-2.5 text-[9px] font-semibold uppercase tracking-[0.2em] text-slate-400 hover:text-violet-400 hover:bg-white/5 transition-all group"
                         >
-                            Open Matrix <ArrowRightIcon className="group-hover:translate-x-1 transition-transform" />
+                            View All <ArrowRightIcon className="group-hover:translate-x-1 transition-transform" />
                         </Link>
                     </div>
                     
@@ -330,7 +330,7 @@ export default function DashboardPage() {
                                 {enquiries.length === 0 ? (
                                     <tr>
                                         <td colSpan={4} className="py-24 text-center">
-                                            <p className="font-semibold uppercase tracking-[0.4em] text-[10px] text-slate-700">No incoming telemetry detected</p>
+                                            <p className="font-semibold uppercase tracking-[0.4em] text-[10px] text-slate-700">No recent enquiries</p>
                                         </td>
                                     </tr>
                                 ) : (
@@ -355,7 +355,7 @@ export default function DashboardPage() {
                                                         : "bg-amber-500/10 text-amber-400 border border-amber-500/20"
                                                 }`}>
                                                     <div className={`h-1.5 w-1.5 rounded-full ${enquiry.status === "solved" ? "bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]" : "bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.5)]"}`} />
-                                                    {enquiry.status === "solved" ? "Synchronized" : "Pending Intel"}
+                                                    {enquiry.status === "solved" ? "Solved" : "Pending"}
                                                 </span>
                                             </td>
                                         </tr>
