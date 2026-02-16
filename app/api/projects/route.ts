@@ -32,8 +32,7 @@ export async function POST(request: NextRequest) {
             type: data.type || "image",
             preview: data.preview || data.media || "",
             tags: data.tags || [],
-            gradient: data.gradient || "from-[#667eea] to-[#764ba2]",
-            order: (readProjects().length + 1)
+            gradient: data.gradient || "from-[#667eea] to-[#764ba2]"
         });
 
         return NextResponse.json(newProject, { status: 201 });
