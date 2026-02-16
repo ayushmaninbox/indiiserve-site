@@ -9,199 +9,42 @@ gsap.registerPlugin(ScrollTrigger);
 
 type MediaType = "video" | "image";
 
-interface WorkItem {
-    id: number;
-    title: string;
-    category: string;
-    description: string;
-    credits: string;
-    media: string;
-    type: MediaType;
-}
-
-const works: WorkItem[] = [
-    {
-        id: 1,
-        title: "Honeywell",
-        category: "Ad Film",
-        description: "A high-impact ad film showcasing Honeywell's innovative smart home solutions with cinematic visuals and compelling storytelling.",
-        credits: "Direction & Post-production — InDiiServe Creative Studio",
-        media: "/Works/honeywell_1.mp4",
-        type: "video",
-    },
-    {
-        id: 2,
-        title: "Rapidbox",
-        category: "Branding",
-        description: "Complete brand identity and promotional video for Rapidbox — a next-gen logistics solution built for speed and reliability.",
-        credits: "Brand Strategy, Motion Design — InDiiServe",
-        media: "/Works/Rapidbox Work_1.mp4",
-        type: "video",
-    },
-    {
-        id: 3,
-        title: "Fevicol Pod",
-        category: "Creative Campaign",
-        description: "A playful and engaging ad concept for Fevicol, blending humor with product storytelling in a snackable format.",
-        credits: "Concept & Editing — InDiiServe Creative",
-        media: "/Works/fevicol pod_1.mp4",
-        type: "video",
-    },
-    {
-        id: 4,
-        title: "Fashion Film I",
-        category: "Fashion",
-        description: "A cinematic fashion film capturing movement, texture, and styling with editorial-grade visuals.",
-        credits: "Direction, Cinematography & Color Grade — InDiiServe",
-        media: "/Works/femalemodel.mp4",
-        type: "video",
-    },
-    {
-        id: 5,
-        title: "Fashion Film II",
-        category: "Fashion",
-        description: "A continuation of the fashion series with bold transitions and contemporary styling that elevates the brand narrative.",
-        credits: "Creative Direction & Edit — InDiiServe",
-        media: "/Works/femalemodel2.mp4",
-        type: "video",
-    },
-    {
-        id: 6,
-        title: "Fashion Film III",
-        category: "Fashion",
-        description: "The final piece in the trilogy — a fluid blend of movement and attitude captured through a modern lens.",
-        credits: "Full Production — InDiiServe",
-        media: "/Works/femalemodel3.mp4",
-        type: "video",
-    },
-    {
-        id: 7,
-        title: "Treadfi",
-        category: "FinTech",
-        description: "Brand video for Treadfi, a fintech platform, featuring sleek UI animations and data-driven storytelling.",
-        credits: "Motion Graphics & Brand Film — InDiiServe",
-        media: "/Works/treadfi.mp4",
-        type: "video",
-    },
-    {
-        id: 8,
-        title: "SaaS Platform",
-        category: "SaaS",
-        description: "A polished product demo video for a SaaS platform, highlighting key features through elegant screen recordings and motion design.",
-        credits: "UI Animation & Edit — InDiiServe",
-        media: "/Works/saas2_1.mp4",
-        type: "video",
-    },
-    {
-        id: 9,
-        title: "Saree Collection",
-        category: "Product",
-        description: "A visually rich product showcase for a premium saree collection, blending traditional elegance with modern edit styles.",
-        credits: "Videography & Post-production — InDiiServe",
-        media: "/Works/saree.mp4",
-        type: "video",
-    },
-    {
-        id: 10,
-        title: "Ad Creative",
-        category: "Advertising",
-        description: "A quick-paced, attention-grabbing ad edit designed for social media engagement and conversion.",
-        credits: "Concept & Edit — InDiiServe",
-        media: "/Works/Ad edit_1.mp4",
-        type: "video",
-    },
-    {
-        id: 11,
-        title: "Illustration Motion",
-        category: "Design",
-        description: "An animated illustration bringing characters and concepts to life with playful motion and vibrant color palettes.",
-        credits: "Illustration & Animation — InDiiServe Design",
-        media: "/Works/illustrationgif.gif",
-        type: "image",
-    },
-    {
-        id: 12,
-        title: "Kicho Branding",
-        category: "Product Design",
-        description: "Clean and minimal product photography and branding for Kicho — a premium lifestyle brand.",
-        credits: "Photography & Brand Design — InDiiServe",
-        media: "/Works/kicho.jpeg",
-        type: "image",
-    },
-    {
-        id: 13,
-        title: "Kicho Collection",
-        category: "Product Design",
-        description: "Extended product line photography with consistent branding language and visual identity.",
-        credits: "Art Direction & Photography — InDiiServe",
-        media: "/Works/kicho2.jpeg",
-        type: "image",
-    },
-    {
-        id: 14,
-        title: "Fishy Business",
-        category: "Branding",
-        description: "A bold and quirky brand identity for a seafood startup, featuring playful graphics and strong typography.",
-        credits: "Brand Identity & Packaging — InDiiServe",
-        media: "/Works/fishy business1.png",
-        type: "image",
-    },
-    {
-        id: 15,
-        title: "App Interface",
-        category: "UI/UX",
-        description: "Sleek mobile app interface designs showcased through realistic iPhone mockups, highlighting clean navigation and modern aesthetics.",
-        credits: "UI/UX Design — InDiiServe Digital",
-        media: "/Works/iphones.jpeg",
-        type: "image",
-    },
-    {
-        id: 16,
-        title: "Card Design",
-        category: "Print",
-        description: "Premium business card designs featuring modern layouts, foil finishes, and brand-consistent color palettes.",
-        credits: "Print Design — InDiiServe",
-        media: "/Works/card.jpeg",
-        type: "image",
-    },
-    {
-        id: 17,
-        title: "Card Design II",
-        category: "Print",
-        description: "A second iteration of the card series exploring different materials and vertical layouts.",
-        credits: "Print Design — InDiiServe",
-        media: "/Works/card2.jpeg",
-        type: "image",
-    },
-    {
-        id: 18,
-        title: "Rifle Gear",
-        category: "Product",
-        description: "High-end product photography for a tactical gear brand with dramatic lighting and precision composition.",
-        credits: "Product Photography — InDiiServe",
-        media: "/Works/rifle.jpeg",
-        type: "image",
-    },
-    {
-        id: 19,
-        title: "TV Remote Concept",
-        category: "Product Design",
-        description: "A concept rendering of a next-gen TV remote with minimalist industrial design and ergonomic form.",
-        credits: "3D Rendering & Concept — InDiiServe",
-        media: "/Works/tvremote.jpeg",
-        type: "image",
-    },
-];
-
-const categories = ["All", ...Array.from(new Set(works.map((w) => w.category)))];
+import { Project } from "@/lib/types";
 
 export default function WorkPage() {
     const containerRef = useRef<HTMLDivElement>(null);
+    const [works, setWorks] = useState<Project[]>([]);
+    const [loading, setLoading] = useState(true);
     const [activeFilter, setActiveFilter] = useState("All");
-    const [selectedWork, setSelectedWork] = useState<WorkItem | null>(null);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [selectedWork, setSelectedWork] = useState<Project | null>(null);
     const gridRef = useRef<HTMLDivElement>(null);
 
-    const filtered = activeFilter === "All" ? works : works.filter((w) => w.category === activeFilter);
+    useEffect(() => {
+        const fetchWorks = async () => {
+            try {
+                const res = await fetch("/api/projects");
+                const data = await res.json();
+                setWorks(data);
+            } catch (error) {
+                console.error("Failed to fetch works:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchWorks();
+    }, []);
+
+    const categories = ["All", ...Array.from(new Set(works.map((w) => w.category)))];
+    const filtered = works.filter((w) => {
+        const matchesCategory = activeFilter === "All" || w.category === activeFilter;
+        const query = searchQuery.toLowerCase().trim();
+        const matchesSearch = !query
+            || w.title.toLowerCase().includes(query)
+            || w.category.toLowerCase().includes(query)
+            || (w.description && w.description.toLowerCase().includes(query));
+        return matchesCategory && matchesSearch;
+    });
 
     useEffect(() => {
         const ctx = gsap.context(() => {
@@ -253,22 +96,42 @@ export default function WorkPage() {
                 </div>
             </section>
 
-            {/* Filter Bar */}
-            <section className="sticky top-20 z-30 border-y border-white/5 bg-[#030014]/80 backdrop-blur-xl">
+            {/* Filter Bar — pinned below navbar */}
+            <section className="border-y border-white/5 bg-[#030014]/80 backdrop-blur-xl">
                 <div className="container mx-auto px-4 py-3">
-                    <div className="flex gap-2 overflow-x-auto no-scrollbar">
-                        {categories.map((cat) => (
-                            <button
-                                key={cat}
-                                onClick={() => setActiveFilter(cat)}
-                                className={`whitespace-nowrap rounded-full px-4 py-1.5 text-xs font-semibold transition-all ${activeFilter === cat
-                                        ? "bg-violet-500 text-white"
-                                        : "text-neutral-500 hover:text-white border border-white/[0.06] hover:border-white/10"
-                                    }`}
+                    <div className="flex items-center gap-4">
+                        {/* Category pills — scrollable */}
+                        <div className="flex gap-2 overflow-x-auto no-scrollbar flex-1 min-w-0">
+                            {categories.map((cat) => (
+                                <button
+                                    key={cat}
+                                    onClick={() => setActiveFilter(cat)}
+                                    className={`whitespace-nowrap rounded-full px-4 py-1.5 text-xs font-semibold transition-all ${activeFilter === cat
+                                            ? "bg-violet-500 text-white"
+                                            : "text-neutral-500 hover:text-white border border-white/[0.06] hover:border-white/10"
+                                        }`}
+                                >
+                                    {cat}
+                                </button>
+                            ))}
+                        </div>
+
+                        {/* Search bar */}
+                        <div className="relative flex-shrink-0 w-48 sm:w-64">
+                            <svg
+                                className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-neutral-500 pointer-events-none"
+                                fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"
                             >
-                                {cat}
-                            </button>
-                        ))}
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                            </svg>
+                            <input
+                                type="text"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                placeholder="Search works…"
+                                className="w-full rounded-full bg-white/[0.04] border border-white/[0.06] pl-9 pr-4 py-1.5 text-xs text-white placeholder-neutral-600 outline-none focus:border-violet-500/40 focus:ring-1 focus:ring-violet-500/20 transition-all"
+                            />
+                        </div>
                     </div>
                 </div>
             </section>
@@ -277,7 +140,11 @@ export default function WorkPage() {
             <section className="py-16">
                 <div className="container mx-auto px-4 sm:px-6">
                     <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {filtered.map((work) => (
+                        {loading ? (
+                            Array.from({ length: 6 }).map((_, i) => (
+                                <div key={i} className="aspect-[4/3] rounded-2xl bg-white/[0.03] animate-pulse" />
+                            ))
+                        ) : filtered.map((work) => (
                             <div
                                 key={work.id}
                                 onClick={() => setSelectedWork(work)}
@@ -287,7 +154,7 @@ export default function WorkPage() {
                                 <div className="relative aspect-[4/3] overflow-hidden bg-black">
                                     {work.type === "video" ? (
                                         <video
-                                            src={work.media}
+                                            src={work.preview || work.media}
                                             autoPlay
                                             loop
                                             muted
@@ -344,9 +211,9 @@ export default function WorkPage() {
                         ))}
                     </div>
 
-                    {filtered.length === 0 && (
+                    {filtered.length === 0 && !loading && (
                         <div className="text-center py-20 text-neutral-600">
-                            No works found in this category.
+                            {searchQuery ? `No results for "${searchQuery}"` : "No works found in this category."}
                         </div>
                     )}
                 </div>

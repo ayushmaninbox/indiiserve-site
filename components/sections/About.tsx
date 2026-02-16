@@ -35,6 +35,33 @@ export default function About() {
     const floatingShapesRef = useRef<HTMLDivElement[]>([]);
     const numberRefs = useRef<HTMLSpanElement[]>([]);
 
+    const labelRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const section = sectionRef.current;
+        if (!section) return;
+
+        // Hide label and physics shapes initially and show on scroll
+        const ctx = gsap.context(() => {
+            gsap.fromTo(
+                [labelRef.current, containerRef.current],
+                { opacity: 0 },
+                {
+                    opacity: 1,
+                    duration: 1,
+                    scrollTrigger: {
+                        trigger: section,
+                        start: "top 80%",
+                        end: "top 50%",
+                        scrub: true,
+                    },
+                }
+            );
+        }, sectionRef);
+
+        return () => ctx.revert();
+    }, []);
+
     useEffect(() => {
         const section = sectionRef.current;
         if (!section) return;
@@ -252,7 +279,7 @@ export default function About() {
 
             <div className="max-w-[1400px] mx-auto px-5 md:px-20 relative z-10">
                 <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-8 md:gap-20 items-start">
-                    <div>
+                    <div ref={labelRef}>
                         <span className="inline-block text-sm font-medium tracking-[0.15em] uppercase text-violet-400 mb-6">
                             OUR STORY PHILOSOPHY
                         </span>

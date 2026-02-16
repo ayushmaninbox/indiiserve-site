@@ -88,7 +88,7 @@ export default function EnquiriesTable({
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <span className="text-[10px] font-black text-white uppercase tracking-[0.3em]">{selectedIds.size} nodes selected</span>
+              <span className="text-[10px] font-semibold text-white uppercase tracking-[0.3em]">{selectedIds.size} nodes selected</span>
             </div>
 
             <div className="h-6 w-px bg-white/10"></div>
@@ -96,14 +96,14 @@ export default function EnquiriesTable({
             <div className="flex items-center gap-3">
               <button
                 onClick={handleBatchMarkSolved}
-                className="flex items-center gap-2 px-5 py-2 bg-emerald-500/80 hover:bg-emerald-500 text-white rounded-xl text-[10px] font-black uppercase tracking-[0.2em] transition-all shadow-lg shadow-emerald-500/10 active:scale-95"
+                className="flex items-center gap-2 px-5 py-2 bg-emerald-500/80 hover:bg-emerald-500 text-white rounded-lg text-[10px] font-semibold uppercase tracking-[0.2em] transition-all shadow-lg shadow-emerald-500/10 active:scale-95"
               >
                 Synchronize
               </button>
 
               <button
                 onClick={handleBatchDelete}
-                className="flex items-center gap-2 px-5 py-2 bg-red-500/80 hover:bg-red-500 text-white rounded-xl text-[10px] font-black uppercase tracking-[0.2em] transition-all shadow-lg shadow-red-500/10 active:scale-95"
+                className="flex items-center gap-2 px-5 py-2 bg-red-500/80 hover:bg-red-500 text-white rounded-lg text-[10px] font-semibold uppercase tracking-[0.2em] transition-all shadow-lg shadow-red-500/10 active:scale-95"
               >
                 Purge
               </button>
@@ -111,7 +111,7 @@ export default function EnquiriesTable({
           </div>
 
           <button
-            className="text-[9px] font-black text-slate-500 hover:text-white uppercase tracking-[0.3em] transition-colors"
+            className="text-[9px] font-semibold text-slate-500 hover:text-white uppercase tracking-[0.3em] transition-colors"
             onClick={() => setSelectedIds(new Set())}
           >
             Clear Selection
@@ -124,23 +124,23 @@ export default function EnquiriesTable({
           <table className="w-full">
             <thead className="bg-white/[0.03] border-b border-white/5">
               <tr>
-                <th className="w-12 px-8 py-6 text-left">
+                <th className="w-12 px-6 py-3 text-left">
                   <div className="flex items-center justify-center">
                     <input
                       type="checkbox"
                       checked={selectedIds.size === enquiries.length && enquiries.length > 0}
                       onChange={toggleAll}
-                      className="rounded-md border-white/10 bg-white/5 text-violet-600 focus:ring-violet-500/20 h-5 w-5 cursor-pointer transition-all border-none"
+                      className="rounded border-slate-600 bg-white/[0.05] text-violet-500 focus:ring-violet-500/30 h-4 w-4 cursor-pointer transition-all border-none"
                     />
                   </div>
                 </th>
-                <th className="w-16 px-4 py-6 text-left text-[10px] font-black uppercase tracking-[0.4em] text-slate-500 italic">
+                <th className="w-16 px-4 py-3 text-left text-[10px] font-semibold uppercase tracking-[0.4em] text-slate-500">
                   Status
                 </th>
-                <th className="px-6 py-6 text-left text-[10px] font-black uppercase tracking-[0.4em] text-slate-500 italic">Originator / Node</th>
-                <th className="px-6 py-6 text-left text-[10px] font-black uppercase tracking-[0.4em] text-slate-500 italic">Message Payload</th>
-                <th className="px-6 py-6 text-left text-[10px] font-black uppercase tracking-[0.4em] text-slate-500 italic">Log Timestamp</th>
-                <th className="px-8 py-6 text-right text-[10px] font-black uppercase tracking-[0.4em] text-slate-500 italic">Actions</th>
+                <th className="px-6 py-3 text-left text-[10px] font-semibold uppercase tracking-[0.4em] text-slate-500">Originator / Node</th>
+                <th className="px-6 py-3 text-left text-[10px] font-semibold uppercase tracking-[0.4em] text-slate-500">Message Payload</th>
+                <th className="px-6 py-3 text-left text-[10px] font-semibold uppercase tracking-[0.4em] text-slate-500">Log Timestamp</th>
+                <th className="px-6 py-3 text-right text-[10px] font-semibold uppercase tracking-[0.4em] text-slate-500">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-white/[0.02]">
@@ -151,7 +151,7 @@ export default function EnquiriesTable({
                       <div className="h-20 w-20 rounded-full bg-white/[0.03] flex items-center justify-center border border-white/5">
                         <span className="text-4xl filter grayscale">📭</span>
                       </div>
-                      <p className="text-[10px] font-black uppercase tracking-[0.4em]">Subspace is currently silent</p>
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.4em]">Subspace is currently silent</p>
                     </div>
                   </td>
                 </tr>
@@ -162,7 +162,7 @@ export default function EnquiriesTable({
                     onClick={() => onRowClick?.(enquiry)}
                     className={`group transition-all hover:bg-white/[0.03] cursor-pointer relative overflow-hidden ${selectedIds.has(enquiry.id) ? 'bg-violet-500/5' : ''}`}
                   >
-                    <td className="px-8 py-6" onClick={(e) => e.stopPropagation()}>
+                    <td className="px-6 py-2.5" onClick={(e) => e.stopPropagation()}>
                        <div className="flex items-center justify-center">
                         <input
                             type="checkbox"
@@ -172,10 +172,10 @@ export default function EnquiriesTable({
                         />
                        </div>
                     </td>
-                    <td className="px-4 py-6" onClick={(e) => e.stopPropagation()}>
+                    <td className="px-4 py-2.5" onClick={(e) => e.stopPropagation()}>
                       <button
                         onClick={() => handleStatusClick(enquiry)}
-                        className={`h-8 w-8 rounded-xl border-2 flex items-center justify-center transition-all shadow-xl ${enquiry.status === 'solved'
+                        className={`h-8 w-8 rounded-lg border-2 flex items-center justify-center transition-all shadow-xl ${enquiry.status === 'solved'
                           ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-400 shadow-emerald-500/10'
                           : 'bg-white/5 border-white/10 text-transparent hover:border-violet-500/40 hover:bg-violet-500/5'
                           }`}
@@ -185,49 +185,54 @@ export default function EnquiriesTable({
                         </svg>
                       </button>
                     </td>
-                    <td className="px-6 py-6">
+                    <td className="px-6 py-2.5">
                       <div className="flex flex-col">
-                        <span className={`text-base font-black tracking-tight transition-all ${enquiry.status === 'solved' ? 'text-slate-500 line-through opacity-50' : 'text-white'}`}>
+                        <span className={`text-base font-semibold tracking-tight transition-all ${enquiry.status === 'solved' ? 'text-slate-500 line-through opacity-50' : 'text-white'}`}>
                           {enquiry.name}
                         </span>
-                        <span className="text-[9px] font-black text-violet-400/60 uppercase tracking-[0.4em] mt-1.5">{enquiry.company || 'Individual Node'}</span>
+                        <span className="text-[9px] font-semibold text-violet-400/60 uppercase tracking-[0.4em] mt-1.5">{enquiry.company || 'Individual Node'}</span>
                       </div>
                     </td>
-                    <td className="px-6 py-6">
+                    <td className="px-6 py-2.5">
                       <p className="max-w-[300px] truncate text-xs font-bold text-slate-400 italic" title={enquiry.message}>
                         "{enquiry.message || '-'}"
                       </p>
                     </td>
-                    <td className="px-6 py-6">
+                    <td className="px-6 py-2.5">
                       <div className="flex flex-col">
-                        <span className="text-xs font-black text-slate-400 tabular-nums">
+                        <span className="text-xs font-semibold text-slate-400 tabular-nums">
                         {new Date(enquiry.submittedAt).toLocaleDateString(undefined, {
                             day: '2-digit',
                             month: 'short',
                             year: 'numeric'
                         })}
                         </span>
-                        <span className="text-[9px] font-black text-slate-600 uppercase tracking-widest mt-1">
+                        <span className="text-[9px] font-semibold text-slate-600 uppercase tracking-widest mt-1">
                             {new Date(enquiry.submittedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                         </span>
                       </div>
                     </td>
-                    <td className="px-8 py-6 text-right" onClick={(e) => e.stopPropagation()}>
-                      <div className="flex justify-end gap-3 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-4 group-hover:translate-x-0">
+                    <td className="px-6 py-2.5 text-right" onClick={(e) => e.stopPropagation()}>
+                      <div className="flex justify-end gap-2">
                         <a
-                          href={`https://wa.me/${enquiry.phone.replace(/\D/g, '')}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="h-10 w-10 flex items-center justify-center rounded-xl bg-white/[0.03] border border-white/5 text-slate-400 hover:text-emerald-400 hover:bg-emerald-500/10 hover:border-emerald-500/30 transition-all"
-                          title="Open Nexus Link"
+                          href={`tel:${enquiry.phone}`}
+                          className="h-8 w-8 flex items-center justify-center rounded-lg bg-white/[0.03] border border-white/5 text-slate-400 hover:text-white hover:bg-white/10 transition-all"
+                          title="Call"
+                          onClick={(e) => e.stopPropagation()}
                         >
-                          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.506-.669-.516-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.296-1.04 1.015-1.04 2.479 0 1.462 1.065 2.876 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
-                          </svg>
+                          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
+                        </a>
+                        <a
+                          href={`mailto:${enquiry.email}`}
+                          className="h-8 w-8 flex items-center justify-center rounded-lg bg-white/[0.03] border border-white/5 text-slate-400 hover:text-white hover:bg-white/10 transition-all"
+                          title="Email"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
                         </a>
                         <button
                           onClick={() => onDelete(enquiry.id)}
-                          className="h-10 w-10 flex items-center justify-center rounded-xl bg-white/[0.03] border border-white/5 text-slate-400 hover:text-red-400 hover:bg-red-500/10 hover:border-red-500/30 transition-all"
+                          className="h-8 w-8 flex items-center justify-center rounded-lg bg-white/[0.03] border border-white/5 text-slate-400 hover:text-red-400 hover:bg-red-500/10 hover:border-red-500/30 transition-all"
                           title="Purge Node"
                         >
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

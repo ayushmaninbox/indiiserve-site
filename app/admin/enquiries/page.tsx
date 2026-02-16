@@ -159,12 +159,12 @@ export default function EnquiriesPage() {
                 {/* Header */}
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
                     <div>
-                        <h1 className="text-4xl font-black text-white tracking-tight italic">Intel Matrix</h1>
-                        <p className="mt-1 text-[10px] font-black text-violet-400/60 uppercase tracking-[0.4em]">Inbound Telemetry & CRM Node</p>
+                        <h1 className="text-4xl font-semibold text-white tracking-tight">Intel Matrix</h1>
+                        <p className="mt-1 text-[10px] font-semibold text-violet-400/60 uppercase tracking-[0.4em]">Inbound Telemetry & CRM Node</p>
                     </div>
                     <button
                         onClick={exportCSV}
-                        className="inline-flex items-center gap-2 rounded-2xl border border-white/5 bg-white/[0.03] px-8 py-3 text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 transition-all hover:bg-white/5 hover:text-white"
+                        className="inline-flex items-center gap-2 rounded-2xl border border-white/5 bg-white/[0.03] px-8 py-3 text-[10px] font-semibold uppercase tracking-[0.3em] text-slate-400 transition-all hover:bg-white/5 hover:text-white"
                     >
                         <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -201,7 +201,7 @@ export default function EnquiriesPage() {
                 {/* Toolbar */}
                 <div className="bg-white/[0.02] rounded-[2.5rem] border border-white/5 p-4 backdrop-blur-3xl shadow-2xl">
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-                        <h3 className="text-[10px] font-black text-white uppercase tracking-[0.4em] flex items-center gap-3 px-4">
+                        <h3 className="text-[10px] font-semibold text-white uppercase tracking-[0.4em] flex items-center gap-3 px-4">
                            <div className="h-2 w-2 rounded-full bg-violet-500 animate-pulse" /> Record Console
                         </h3>
                         <div className="flex flex-1 max-w-2xl gap-4">
@@ -220,7 +220,7 @@ export default function EnquiriesPage() {
                             <select
                                 value={statusFilter}
                                 onChange={(e) => setStatusFilter(e.target.value as any)}
-                                className="px-6 py-4 rounded-[1.5rem] bg-white/[0.03] border border-white/5 text-[10px] font-black text-slate-400 focus:outline-none focus:border-violet-500/40 cursor-pointer transition-all uppercase tracking-widest"
+                                className="px-6 py-4 rounded-[1.5rem] bg-white/[0.03] border border-white/5 text-[10px] font-semibold text-slate-400 focus:outline-none focus:border-violet-500/40 cursor-pointer transition-all uppercase tracking-widest"
                             >
                                 <option value="all">Global Status</option>
                                 <option value="pending">Pending Intel</option>
@@ -231,7 +231,7 @@ export default function EnquiriesPage() {
                 </div>
 
                 <div className="flex items-center justify-between px-2">
-                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">Telemetry Sequence: {startIndex + 1}-{endIndex} of {totalItems}</p>
+                    <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.3em]">Telemetry Sequence: {startIndex + 1}-{endIndex} of {totalItems}</p>
                     <PaginationControls
                         currentPage={currentPage}
                         totalItems={totalItems}
@@ -254,7 +254,7 @@ export default function EnquiriesPage() {
                 <div className="pt-6 text-center">
                     <div className="inline-flex items-center gap-3 px-6 py-2 rounded-full bg-white/[0.02] border border-white/5">
                         <div className="h-1 w-1 rounded-full bg-violet-500 animate-pulse" />
-                        <p className="text-[9px] font-black text-slate-500 uppercase tracking-[0.3em]">Central Telemetry Synchronized</p>
+                        <p className="text-[9px] font-semibold text-slate-500 uppercase tracking-[0.3em]">Central Telemetry Synchronized</p>
                     </div>
                 </div>
             </div>
@@ -291,8 +291,8 @@ function EnquiryDetailModal({
                 
                 <div className="flex items-start justify-between mb-10 relative z-10">
                     <div>
-                        <h2 className="text-3xl font-black tracking-tight text-white uppercase italic">{enquiry.name}</h2>
-                        <p className="text-[10px] font-black text-violet-400 uppercase tracking-[0.4em] mt-2">{enquiry.company || "Individual Operator"}</p>
+                        <h2 className="text-3xl font-semibold tracking-tight text-white uppercase">{enquiry.name}</h2>
+                        <p className="text-[10px] font-semibold text-violet-400 uppercase tracking-[0.4em] mt-2">{enquiry.company || "Individual Operator"}</p>
                     </div>
                     <button onClick={onClose} className="h-12 w-12 rounded-2xl border border-white/5 bg-white/[0.03] text-slate-500 flex items-center justify-center hover:bg-white/5 hover:text-white transition-all shadow-xl">
                         <CloseIcon />
@@ -302,24 +302,24 @@ function EnquiryDetailModal({
                 <div className="space-y-10 mb-10 relative z-10">
                     <div className="grid grid-cols-2 gap-8">
                         <div className="space-y-2">
-                            <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">Source Address</p>
+                            <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.3em]">Source Address</p>
                             <p className="text-sm font-bold text-white tracking-tight break-all">{enquiry.email}</p>
                         </div>
                         <div className="space-y-2">
-                            <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">Signal ID</p>
+                            <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.3em]">Signal ID</p>
                             <p className="text-sm font-bold text-white tracking-tight tabular-nums">{enquiry.phone}</p>
                         </div>
                     </div>
 
                     <div className="space-y-4">
-                        <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">Narrative Fragment</p>
-                        <div className="p-8 rounded-[2rem] bg-white/[0.02] border border-white/5 text-sm font-medium leading-[1.8] text-slate-300 shadow-inner italic">
+                        <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.3em]">Narrative Fragment</p>
+                        <div className="p-8 rounded-[2rem] bg-white/[0.02] border border-white/5 text-sm font-medium leading-[1.8] text-slate-300 shadow-inner">
                             "{enquiry.message || "No contextual metadata provided for this signal."}"
                         </div>
                     </div>
 
                     <div className="pt-4 text-center border-t border-white/5">
-                        <p className="text-[9px] font-black text-slate-600 uppercase tracking-[0.4em]">
+                        <p className="text-[9px] font-semibold text-slate-600 uppercase tracking-[0.4em]">
                             Logged via gateway on {new Date(enquiry.submittedAt).toLocaleString(undefined, { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
                         </p>
                     </div>
@@ -330,13 +330,13 @@ function EnquiryDetailModal({
                     <a
                         href={`https://wa.me/${enquiry.phone.replace(/\D/g, "")}`}
                         target="_blank"
-                        className="flex-1 flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 py-4.5 text-[10px] font-black uppercase tracking-[0.4em] text-white shadow-2xl shadow-emerald-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
+                        className="flex-1 flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 py-4.5 text-[10px] font-semibold uppercase tracking-[0.4em] text-white shadow-2xl shadow-emerald-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
                     >
                         Nexus Link
                     </a>
                     <a
                         href={`mailto:${enquiry.email}`}
-                        className="flex-1 flex items-center justify-center gap-2 rounded-2xl border border-white/5 bg-white/[0.03] py-4.5 text-[10px] font-black uppercase tracking-[0.4em] text-slate-400 hover:text-white hover:bg-white/5 transition-all active:scale-[0.98] shadow-xl"
+                        className="flex-1 flex items-center justify-center gap-2 rounded-2xl border border-white/5 bg-white/[0.03] py-4.5 text-[10px] font-semibold uppercase tracking-[0.4em] text-slate-400 hover:text-white hover:bg-white/5 transition-all active:scale-[0.98] shadow-xl"
                     >
                         Direct Transmit
                     </a>
@@ -344,7 +344,7 @@ function EnquiryDetailModal({
 
                 <button
                     onClick={() => onStatusChange(enquiry.status === "solved" ? "pending" : "solved")}
-                    className={`w-full rounded-2xl py-5 text-[10px] font-black uppercase tracking-[0.4em] text-white shadow-2xl transition-all active:scale-[0.95] relative z-10 ${enquiry.status === "solved"
+                    className={`w-full rounded-2xl py-5 text-[10px] font-semibold uppercase tracking-[0.4em] text-white shadow-2xl transition-all active:scale-[0.95] relative z-10 ${enquiry.status === "solved"
                         ? "bg-amber-500/80 shadow-amber-500/20 hover:bg-amber-500"
                         : "bg-gradient-to-r from-indigo-500 to-violet-600 shadow-violet-500/20 hover:scale-[1.02]"
                         }`}

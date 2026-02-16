@@ -1,5 +1,6 @@
 import { Project } from './types';
 import { readCsv, writeCsv } from './csvUtils';
+import path from 'path';
 
 const PORTFOLIO_CSV_FILENAME = 'portfolio.csv';
 
@@ -20,14 +21,21 @@ export const writeProjects = (projects: Project[]): void => {
 
 export const addProject = (project: Omit<Project, 'id' | 'createdAt'>): Project => {
   const projects = readProjects();
+  // Shift all existing projects down by 1 so the new one goes to the top
+  const shifted: Project[] = projects.map(p => ({
+    ...p,
+    order: (p.order ?? 0) + 1,
+    displayOrder: (p.displayOrder ?? 0) + 1,
+  }));
   const newProject: Project = {
     ...project,
     id: Date.now().toString(),
     createdAt: new Date().toISOString(),
-    displayOrder: projects.length
+    order: 0,
+    displayOrder: 0,
   };
-  projects.push(newProject);
-  writeProjects(projects);
+  shifted.unshift(newProject);
+  writeProjects(shifted);
   return newProject;
 };
 
@@ -41,11 +49,30 @@ export const updateProject = (id: string, updates: Partial<Project>): Project | 
   return projects[index];
 };
 
-export const deleteProject = (id: string): boolean => {
+export const deleteProject = async (id: string): Promise<boolean> => {
   const projects = readProjects();
-  const filtered = projects.filter(p => p.id !== id);
-  if (filtered.length === projects.length) return false;
+  const projectIndex = projects.findIndex(p => p.id === id);
+  
+  if (projectIndex === -1) return false;
 
+  const project = projects[projectIndex];
+  
+  // Delete associated files
+  const filePaths = [project.media, project.preview].filter(Boolean);
+  for (const relativePath of filePaths) {
+    if (relativePath.startsWith('/uploads/portfolio/')) {
+      const fullPath = path.join(process.cwd(), 'public', relativePath);
+      try {
+        if (require('fs').existsSync(fullPath)) {
+          await require('fs/promises').unlink(fullPath);
+        }
+      } catch (err) {
+        console.error(`Failed to delete file: ${fullPath}`, err);
+      }
+    }
+  }
+
+  const filtered = projects.filter(p => p.id !== id);
   writeProjects(filtered);
   return true;
 };

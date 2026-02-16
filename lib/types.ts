@@ -59,8 +59,10 @@ export interface Project {
     title: string;
     category: string;
     description: string;
-    image: string;
-    video?: string;
+    credits: string;
+    media: string;
+    type: 'video' | 'image';
+    preview: string;
     tags: string[];
     createdAt: string;
     displayOrder?: number;

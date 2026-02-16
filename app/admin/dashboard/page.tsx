@@ -141,7 +141,7 @@ export default function DashboardPage() {
                 {/* Header */}
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
                     <div>
-                        <h1 className="text-4xl font-black text-white tracking-tight italic">Dashboard</h1>
+                        <h1 className="text-4xl font-semibold text-white tracking-tight">Dashboard</h1>
                         <p className="mt-1 text-xs text-slate-500 uppercase tracking-widest font-medium">Hello, {userName} 👋</p>
                     </div>
                     <div className="flex items-center gap-3 px-6 py-3 rounded-xl bg-white/[0.03] border border-white/5">
@@ -201,7 +201,7 @@ export default function DashboardPage() {
                         </div>
                         
                         <div className="flex gap-6 h-64 w-full pt-4 relative z-10">
-                            <div className="flex flex-col justify-between py-0 text-[10px] text-slate-600 font-black text-right w-10 h-full select-none tabular-nums">
+                            <div className="flex flex-col justify-between py-0 text-[10px] text-slate-600 font-semibold text-right w-10 h-full select-none tabular-nums">
                                 {[1, 0.75, 0.5, 0.25, 0].map((ratio) => (
                                     <span key={ratio} className="leading-none transform -translate-y-[50%] first:translate-y-0 last:translate-y-0">
                                         {Math.round(maxMonthlyCount * ratio)}
@@ -234,7 +234,7 @@ export default function DashboardPage() {
                                     })}
                                 </svg>
                                 
-                                <div className="flex justify-between mt-6 text-[9px] text-slate-500 font-black uppercase tracking-[0.3em] absolute top-full left-0 w-full">
+                                <div className="flex justify-between mt-6 text-[9px] text-slate-500 font-semibold uppercase tracking-[0.3em] absolute top-full left-0 w-full">
                                     {monthlyData.map((d, i) => (
                                         <span key={i}>{d.month}</span>
                                     ))}
@@ -249,10 +249,10 @@ export default function DashboardPage() {
                         
                         <div className="flex items-center justify-between mb-10 relative z-10">
                             <div>
-                                <h3 className="text-[11px] font-black text-white uppercase tracking-[0.4em]">Status</h3>
+                                <h3 className="text-[11px] font-semibold text-white uppercase tracking-[0.4em]">Status</h3>
                                 <p className="text-[9px] font-bold text-slate-500 uppercase tracking-widest mt-1">Today</p>
                             </div>
-                            <span className="text-[9px] text-slate-500 bg-white/[0.03] border border-white/5 px-4 py-1.5 rounded-full font-black uppercase tracking-[0.2em]">Live Data</span>
+                            <span className="text-[9px] text-slate-500 bg-white/[0.03] border border-white/5 px-4 py-1.5 rounded-full font-semibold uppercase tracking-[0.2em]">Live Data</span>
                         </div>
                         
                         <div className="flex flex-col items-center justify-center py-4 relative z-10">
@@ -276,8 +276,8 @@ export default function DashboardPage() {
                                     />
                                 </svg>
                                 <div className="absolute inset-0 flex flex-col items-center justify-center">
-                                    <span className="text-5xl font-black text-white leading-none tracking-tighter tabular-nums">{enquiries.length}</span>
-                                    <span className="text-[9px] uppercase tracking-[0.4em] text-slate-500 mt-2 font-black">Total Nodes</span>
+                                    <span className="text-5xl font-semibold text-white leading-none tracking-tighter tabular-nums">{enquiries.length}</span>
+                                    <span className="text-[9px] uppercase tracking-[0.4em] text-slate-500 mt-2 font-semibold">Total Nodes</span>
                                 </div>
                             </div>
                             
@@ -285,16 +285,16 @@ export default function DashboardPage() {
                                 <div className="flex items-center justify-between p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:bg-white/[0.04] transition-colors">
                                     <div className="flex items-center gap-4">
                                         <div className="w-2.5 h-2.5 bg-emerald-500 rounded-full shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
-                                        <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest">Resolved</span>
+                                        <span className="text-[10px] font-semibold text-slate-300 uppercase tracking-widest">Resolved</span>
                                     </div>
-                                    <span className="text-sm font-black text-emerald-400 tabular-nums">{(enquiries.length > 0 ? (solvedCount / enquiries.length * 100) : 0).toFixed(0)}%</span>
+                                    <span className="text-sm font-semibold text-emerald-400 tabular-nums">{(enquiries.length > 0 ? (solvedCount / enquiries.length * 100) : 0).toFixed(0)}%</span>
                                 </div>
                                 <div className="flex items-center justify-between p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:bg-white/[0.04] transition-colors">
                                     <div className="flex items-center gap-4">
                                         <div className="w-2.5 h-2.5 bg-amber-500 rounded-full shadow-[0_0_10px_rgba(245,158,11,0.5)]" />
-                                        <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest">Pending</span>
+                                        <span className="text-[10px] font-semibold text-slate-300 uppercase tracking-widest">Pending</span>
                                     </div>
-                                    <span className="text-sm font-black text-amber-400 tabular-nums">{(enquiries.length > 0 ? (pendingCount / enquiries.length * 100) : 0).toFixed(0)}%</span>
+                                    <span className="text-sm font-semibold text-amber-400 tabular-nums">{(enquiries.length > 0 ? (pendingCount / enquiries.length * 100) : 0).toFixed(0)}%</span>
                                 </div>
                             </div>
                         </div>
@@ -305,12 +305,12 @@ export default function DashboardPage() {
                 <div className="bg-white/[0.02] rounded-[2.5rem] border border-white/5 shadow-2xl overflow-hidden mb-12 backdrop-blur-3xl">
                     <div className="flex items-center justify-between p-10 border-b border-white/5">
                         <div>
-                             <h3 className="text-[11px] font-black text-white uppercase tracking-[0.4em]">Recent enquiries</h3>
+                             <h3 className="text-[11px] font-semibold text-white uppercase tracking-[0.4em]">Recent enquiries</h3>
                              <p className="text-[9px] font-bold text-slate-600 uppercase tracking-widest mt-1">Latest incoming communications</p>
                         </div>
                         <Link
                             href="/admin/enquiries"
-                            className="inline-flex items-center gap-3 rounded-xl bg-white/[0.03] border border-white/5 px-6 py-2.5 text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 hover:text-violet-400 hover:bg-white/5 transition-all group"
+                            className="inline-flex items-center gap-3 rounded-xl bg-white/[0.03] border border-white/5 px-6 py-2.5 text-[9px] font-semibold uppercase tracking-[0.2em] text-slate-400 hover:text-violet-400 hover:bg-white/5 transition-all group"
                         >
                             Open Matrix <ArrowRightIcon className="group-hover:translate-x-1 transition-transform" />
                         </Link>
@@ -320,36 +320,36 @@ export default function DashboardPage() {
                         <table className="w-full text-left">
                             <thead>
                                 <tr className="bg-white/[0.03]">
-                                     <th className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] px-10 py-5 italic">Customer</th>
-                                     <th className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] px-10 py-5 italic">Service</th>
-                                     <th className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] px-10 py-5 italic">Date</th>
-                                     <th className="text-right text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] px-10 py-5 italic">Status</th>
+                                     <th className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.3em] px-6 py-3">Customer</th>
+                                     <th className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.3em] px-6 py-3">Service</th>
+                                     <th className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.3em] px-6 py-3">Date</th>
+                                     <th className="text-right text-[10px] font-semibold text-slate-500 uppercase tracking-[0.3em] px-6 py-3">Status</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-white/5">
                                 {enquiries.length === 0 ? (
                                     <tr>
                                         <td colSpan={4} className="py-24 text-center">
-                                            <p className="font-black uppercase tracking-[0.4em] text-[10px] text-slate-700 italic">No incoming telemetry detected</p>
+                                            <p className="font-semibold uppercase tracking-[0.4em] text-[10px] text-slate-700">No incoming telemetry detected</p>
                                         </td>
                                     </tr>
                                 ) : (
                                     enquiries.slice(0, 5).map((enquiry) => (
                                         <tr key={enquiry.id} className="group hover:bg-white/[0.03] transition-all duration-500">
-                                            <td className="px-10 py-8">
-                                                <div className="font-black text-sm text-white tracking-tight group-hover:text-violet-400 transition-colors uppercase italic">{enquiry.name}</div>
+                                            <td className="px-6 py-2.5">
+                                                <div className="font-semibold text-sm text-white tracking-tight group-hover:text-violet-400 transition-colors uppercase">{enquiry.name}</div>
                                                 <div className="text-[10px] font-bold text-slate-600 mt-1 lowercase tracking-widest">{enquiry.email}</div>
                                             </td>
-                                            <td className="px-10 py-8">
-                                                <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">{enquiry.service}</span>
+                                            <td className="px-6 py-2.5">
+                                                <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-[0.2em]">{enquiry.service}</span>
                                             </td>
-                                            <td className="px-10 py-8">
-                                                <span className="text-[11px] font-black text-slate-500 tabular-nums uppercase tracking-widest">
+                                            <td className="px-6 py-2.5">
+                                                <span className="text-[11px] font-semibold text-slate-500 tabular-nums uppercase tracking-widest">
                                                     {new Date(enquiry.submittedAt).toLocaleDateString("en-US", { month: 'short', day: 'numeric', year: 'numeric' })}
                                                 </span>
                                             </td>
-                                            <td className="px-10 py-8 text-right">
-                                                <span className={`inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-[0.3em] ${
+                                            <td className="px-6 py-2.5 text-right">
+                                                <span className={`inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full text-[9px] font-semibold uppercase tracking-[0.3em] ${
                                                     enquiry.status === "solved"
                                                         ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
                                                         : "bg-amber-500/10 text-amber-400 border border-amber-500/20"

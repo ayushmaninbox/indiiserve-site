@@ -1,83 +1,34 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-const projects = [
-    {
-        id: 1,
-        title: "Honeywell",
-        category: "Ad Film",
-        media: "/Works/honeywell_1.mp4",
-        type: "video" as const,
-        direction: "left",
-    },
-    {
-        id: 2,
-        title: "Rapidbox",
-        category: "Branding",
-        media: "/Works/Rapidbox Work_1.mp4",
-        type: "video" as const,
-        direction: "down",
-    },
-    {
-        id: 3,
-        title: "Fevicol",
-        category: "Creative",
-        media: "/Works/fevicol pod_1.mp4",
-        type: "video" as const,
-        direction: "right",
-    },
-    {
-        id: 4,
-        title: "Kicho",
-        category: "Product",
-        media: "/Works/kicho2.jpeg",
-        type: "image" as const,
-        direction: "up",
-    },
-    {
-        id: 5,
-        title: "Treadfi",
-        category: "FinTech",
-        media: "/Works/treadfi.mp4",
-        type: "video" as const,
-        direction: "left",
-    },
-    {
-        id: 6,
-        title: "Fashion Film",
-        category: "Fashion",
-        media: "/Works/femalemodel2.mp4",
-        type: "video" as const,
-        direction: "down",
-    },
-    {
-        id: 7,
-        title: "Saree Collection",
-        category: "Product",
-        media: "/Works/saree.mp4",
-        type: "video" as const,
-        direction: "right",
-    },
-    {
-        id: 8,
-        title: "Illustration",
-        category: "Design",
-        media: "/Works/illustrationgif.gif",
-        type: "image" as const,
-        direction: "up",
-    },
-];
+import { Project } from "@/lib/types";
 
 export default function ScrollPortfolio() {
     const containerRef = useRef<HTMLDivElement>(null);
     const titleRef = useRef<HTMLHeadingElement>(null);
     const gridRef = useRef<HTMLDivElement>(null);
     const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
+    const [projects, setProjects] = useState<Project[]>([]);
 
     useEffect(() => {
+        const fetchProjects = async () => {
+            try {
+                const res = await fetch("/api/projects");
+                const data: Project[] = await res.json();
+                // Take only the first 8 items for homepage as requested
+                setProjects(data.slice(0, 8));
+            } catch (error) {
+                console.error("Failed to fetch projects:", error);
+            }
+        };
+        fetchProjects();
+    }, []);
+
+    useEffect(() => {
+        if (projects.length === 0) return;
+
         const ctx = gsap.context(() => {
             gsap.registerPlugin(ScrollTrigger);
 
@@ -101,37 +52,25 @@ export default function ScrollPortfolio() {
                 }
             );
 
-            // Cards Animation - triggered by grid entering viewport
+            // Cards Animation
+            const directions = ["left", "down", "right", "up"];
             cardsRef.current.forEach((card, index) => {
                 if (!card) return;
 
-                const direction = projects[index].direction;
+                const direction = directions[index % 4];
                 let xFrom = 0;
                 let yFrom = 0;
 
                 switch (direction) {
-                    case "left":
-                        xFrom = -80;
-                        break;
-                    case "right":
-                        xFrom = 80;
-                        break;
-                    case "up":
-                        yFrom = 80;
-                        break;
-                    case "down":
-                        yFrom = -80;
-                        break;
+                    case "left": xFrom = -80; break;
+                    case "right": xFrom = 80; break;
+                    case "up": yFrom = 80; break;
+                    case "down": yFrom = -80; break;
                 }
 
                 gsap.fromTo(
                     card,
-                    {
-                        x: xFrom,
-                        y: yFrom,
-                        opacity: 0,
-                        scale: 0.9
-                    },
+                    { x: xFrom, y: yFrom, opacity: 0, scale: 0.9 },
                     {
                         x: 0,
                         y: 0,
@@ -150,7 +89,7 @@ export default function ScrollPortfolio() {
         }, containerRef);
 
         return () => ctx.revert();
-    }, []);
+    }, [projects]);
 
     return (
         <section
@@ -188,7 +127,7 @@ export default function ScrollPortfolio() {
                             {/* Video or Image */}
                             {project.type === "video" ? (
                                 <video
-                                    src={project.media}
+                                    src={project.preview || project.media}
                                     autoPlay
                                     loop
                                     muted

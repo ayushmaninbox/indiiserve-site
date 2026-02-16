@@ -1,12 +1,15 @@
 import { Blog, BlogComment } from './types';
 import { readCsv, writeCsv } from './csvUtils';
 
+import { readComments } from './commentUtils';
+
 const BLOGS_CSV_FILENAME = 'blogs.csv';
 
 export const readBlogs = (): Blog[] => {
+  const allComments = readComments();
   return readCsv<any>(BLOGS_CSV_FILENAME).map(row => ({
     ...row,
-    comments: [] // Comments are now loaded from comments.json separately
+    comments: allComments[row.slug] || []
   })) as Blog[];
 };
 

@@ -244,7 +244,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                                         </div>
                                         <span>{item.label}</span>
                                         {item.badge !== undefined && item.badge > 0 && (
-                                            <span className="ml-auto rounded-full bg-gradient-to-r from-violet-500 to-indigo-500 text-white px-2 py-0.5 text-[9px] font-black shadow-lg shadow-violet-500/20">
+                                            <span className="ml-auto rounded-full bg-gradient-to-r from-violet-500 to-indigo-500 text-white px-2 py-0.5 text-[9px] font-semibold shadow-lg shadow-violet-500/20">
                                                 {item.badge}
                                             </span>
                                         )}

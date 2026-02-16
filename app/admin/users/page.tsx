@@ -159,12 +159,12 @@ export default function UsersPage() {
                 {/* Header */}
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
                     <div>
-                        <h1 className="text-4xl font-black text-white tracking-tight italic">Users</h1>
-                        <p className="mt-1 text-[10px] font-black text-violet-400/60 uppercase tracking-[0.4em]">Manage administrative personnel and access levels</p>
+                        <h1 className="text-4xl font-semibold text-white tracking-tight">Users</h1>
+                        <p className="mt-1 text-[10px] font-semibold text-violet-400/60 uppercase tracking-[0.4em]">Manage administrative personnel and access levels</p>
                     </div>
                     <button
                         onClick={() => setIsAddModalOpen(true)}
-                        className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 px-8 py-3.5 text-[10px] font-black uppercase tracking-[0.3em] text-white shadow-2xl shadow-violet-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
+                        className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 px-8 py-3.5 text-[10px] font-semibold uppercase tracking-[0.3em] text-white shadow-2xl shadow-violet-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
                     >
                         <span>+</span> New User
                     </button>
@@ -173,7 +173,7 @@ export default function UsersPage() {
                 {/* Toolbar */}
                 <div className="bg-white/[0.02] rounded-[2.5rem] border border-white/5 p-4 backdrop-blur-3xl shadow-2xl">
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-                        <h3 className="text-[10px] font-black text-white uppercase tracking-[0.4em] flex items-center gap-3 px-4">
+                        <h3 className="text-[10px] font-semibold text-white uppercase tracking-[0.4em] flex items-center gap-3 px-4">
                            <div className="h-2 w-2 rounded-full bg-violet-500 animate-pulse" /> Personnel Registry
                         </h3>
                         <div className="relative w-full md:w-96 group">
@@ -192,7 +192,7 @@ export default function UsersPage() {
                 </div>
 
                 <div className="flex items-center justify-between px-2">
-                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">Sector Capacity: {paginatedUsers.length} of {totalItems} active entities</p>
+                    <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.3em]">Sector Capacity: {paginatedUsers.length} of {totalItems} active entities</p>
                     <PaginationControls
                         currentPage={currentPage}
                         totalItems={totalItems}
@@ -209,11 +209,11 @@ export default function UsersPage() {
                         <table className="w-full">
                             <thead>
                                 <tr className="bg-white/[0.03] border-b border-white/5">
-                                    <th className="px-8 py-6 text-left text-[10px] font-black uppercase tracking-[0.4em] text-slate-500 italic">User</th>
-                                    <th className="px-6 py-6 text-left text-[10px] font-black uppercase tracking-[0.4em] text-slate-500 italic">Role</th>
-                                    <th className="px-6 py-6 text-left text-[10px] font-black uppercase tracking-[0.4em] text-slate-500 italic">Created</th>
-                                    <th className="px-6 py-6 text-left text-[10px] font-black uppercase tracking-[0.4em] text-slate-500 italic">Last Sync</th>
-                                    <th className="px-8 py-6 text-right text-[10px] font-black uppercase tracking-[0.4em] text-slate-500 italic">Actions</th>
+                                    <th className="px-6 py-2.5 text-left text-[10px] font-semibold uppercase tracking-[0.4em] text-slate-500">User</th>
+                                    <th className="px-6 py-2.5 text-left text-[10px] font-semibold uppercase tracking-[0.4em] text-slate-500">Role</th>
+                                    <th className="px-6 py-2.5 text-left text-[10px] font-semibold uppercase tracking-[0.4em] text-slate-500">Created</th>
+                                    <th className="px-6 py-2.5 text-left text-[10px] font-semibold uppercase tracking-[0.4em] text-slate-500">Last Sync</th>
+                                    <th className="px-6 py-2.5 text-right text-[10px] font-semibold uppercase tracking-[0.4em] text-slate-500">Actions</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-white/[0.02]">
@@ -222,32 +222,32 @@ export default function UsersPage() {
                                         <td colSpan={5} className="text-center py-24">
                                             <div className="flex flex-col items-center gap-6 text-slate-600">
                                                  <div className="h-20 w-20 rounded-full bg-white/[0.03] flex items-center justify-center border border-white/5 text-4xl filter grayscale">👤</div>
-                                                 <p className="text-[10px] font-black uppercase tracking-[0.4em]">No active personnel found in this sector</p>
+                                                 <p className="text-[10px] font-semibold uppercase tracking-[0.4em]">No active personnel found in this sector</p>
                                             </div>
                                         </td>
                                     </tr>
                                 ) : (
                                     paginatedUsers.map((user) => (
                                         <tr key={user.id} className="group hover:bg-white/[0.03] transition-all relative">
-                                            <td className="px-8 py-6">
+                                            <td className="px-6 py-2.5">
                                                 <div className="flex items-center gap-5">
-                                                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/[0.03] text-slate-400 text-sm font-black border border-white/10 group-hover:bg-violet-600 group-hover:text-white group-hover:border-violet-600 transition-all duration-500 group-hover:scale-110 shadow-xl group-hover:shadow-violet-600/20">
+                                                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/[0.03] text-slate-400 text-sm font-semibold border border-white/10 group-hover:bg-violet-600 group-hover:text-white group-hover:border-violet-600 transition-all duration-500 group-hover:scale-110 shadow-xl group-hover:shadow-violet-600/20">
                                                         {user.name.charAt(0).toUpperCase()}
                                                     </div>
                                                     <div>
                                                         <div className="flex items-center gap-3">
-                                                            <p className="font-black text-white text-base leading-tight tracking-tight italic">{user.name}</p>
+                                                            <p className="font-semibold text-white text-base leading-tight tracking-tight">{user.name}</p>
                                                             {user.id === currentUser?.id && (
-                                                                <span className="rounded-lg bg-violet-500/10 px-2.5 py-1 text-[8px] font-black uppercase tracking-[0.3em] text-violet-400 border border-violet-500/20">Prime Operator</span>
+                                                                <span className="rounded-lg bg-violet-500/10 px-2.5 py-1 text-[8px] font-semibold uppercase tracking-[0.3em] text-violet-400 border border-violet-500/20">Prime Operator</span>
                                                             )}
                                                         </div>
                                                         <p className="text-[10px] font-bold text-slate-500 mt-1.5 transition-colors group-hover:text-slate-400">{user.email}</p>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td className="px-6 py-6">
+                                            <td className="px-6 py-2.5">
                                                 <span className={cn(
-                                                    "inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-[0.2em] border shadow-lg",
+                                                    "inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[9px] font-semibold uppercase tracking-[0.2em] border shadow-lg",
                                                     user.role === 'super_admin' ? "bg-red-500/10 text-red-400 border-red-500/20 shadow-red-500/5" :
                                                     user.role === 'admin' ? "bg-blue-500/10 text-blue-400 border-blue-500/20 shadow-blue-500/5" :
                                                     user.role === 'product_manager' ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20 shadow-emerald-500/5" :
@@ -258,26 +258,26 @@ export default function UsersPage() {
                                                     {roleLabels[user.role]}
                                                 </span>
                                             </td>
-                                            <td className="px-6 py-6 text-xs font-black text-slate-500 tabular-nums">
+                                            <td className="px-6 py-2.5 text-xs font-semibold text-slate-500 tabular-nums">
                                                 {new Date(user.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
                                             </td>
-                                            <td className="px-6 py-6 text-xs font-black text-slate-500 tabular-nums">
+                                            <td className="px-6 py-2.5 text-xs font-semibold text-slate-500 tabular-nums">
                                                 {user.lastLogin ? new Date(user.lastLogin).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }) : "--"}
                                             </td>
-                                            <td className="px-8 py-6 text-right">
-                                                <div className="flex items-center justify-end gap-3 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-4 group-hover:translate-x-0">
-                                                    <button onClick={() => setEditUser(user)} className="h-10 w-10 flex items-center justify-center rounded-xl bg-white/[0.03] border border-white/5 text-slate-500 hover:text-white hover:bg-white/10 transition-all shadow-xl">
+                                            <td className="px-6 py-2.5 text-right">
+                                                <div className="flex items-center justify-end gap-2">
+                                                    <button onClick={() => setEditUser(user)} className="h-8 w-8 flex items-center justify-center rounded-xl bg-white/[0.03] border border-white/5 text-slate-500 hover:text-white hover:bg-white/10 transition-all shadow-xl">
                                                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                                         </svg>
                                                     </button>
-                                                    <button onClick={() => setResetPasswordUser(user)} className="h-10 w-10 flex items-center justify-center rounded-xl bg-white/[0.03] border border-white/5 text-slate-500 hover:text-amber-400 hover:bg-amber-500/10 hover:border-amber-500/30 transition-all shadow-xl">
+                                                    <button onClick={() => setResetPasswordUser(user)} className="h-8 w-8 flex items-center justify-center rounded-xl bg-white/[0.03] border border-white/5 text-slate-500 hover:text-amber-400 hover:bg-amber-500/10 hover:border-amber-500/30 transition-all shadow-xl">
                                                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
                                                         </svg>
                                                     </button>
                                                     {user.id !== currentUser?.id && (
-                                                        <button onClick={() => deleteUser(user.id)} className="h-10 w-10 flex items-center justify-center rounded-xl bg-white/[0.03] border border-white/5 text-slate-500 hover:text-red-400 hover:bg-red-500/10 hover:border-red-500/30 transition-all shadow-xl">
+                                                        <button onClick={() => deleteUser(user.id)} className="h-8 w-8 flex items-center justify-center rounded-xl bg-white/[0.03] border border-white/5 text-slate-500 hover:text-red-400 hover:bg-red-500/10 hover:border-red-500/30 transition-all shadow-xl">
                                                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                                             </svg>
@@ -296,7 +296,7 @@ export default function UsersPage() {
                 <div className="pt-6 text-center">
                     <div className="inline-flex items-center gap-3 px-6 py-2 rounded-full bg-white/[0.02] border border-white/5">
                         <div className="h-1 w-1 rounded-full bg-violet-500 animate-pulse" />
-                        <p className="text-[9px] font-black text-slate-500 uppercase tracking-[0.3em]">Access Cluster Terminal Synchronized</p>
+                        <p className="text-[9px] font-semibold text-slate-500 uppercase tracking-[0.3em]">Access Cluster Terminal Synchronized</p>
                     </div>
                 </div>
             </div>
@@ -337,7 +337,7 @@ function UserModal({ user, onClose, onSave }: { user: AdminUser | null; onClose:
                 <div className="absolute top-0 right-0 w-64 h-64 bg-violet-600/10 rounded-full blur-[100px] -mr-32 -mt-32" />
                 
                 <div className="flex items-center justify-between mb-10 relative z-10">
-                    <h2 className="text-2xl font-black text-white uppercase tracking-tight italic">
+                    <h2 className="text-2xl font-semibold text-white uppercase tracking-tight">
                         {user ? "Edit User" : "New User"}
                     </h2>
                     <button onClick={onClose} className="h-12 w-12 rounded-2xl border border-white/5 bg-white/[0.03] text-slate-500 flex items-center justify-center hover:bg-white/5 hover:text-white transition-all shadow-xl">
@@ -347,21 +347,21 @@ function UserModal({ user, onClose, onSave }: { user: AdminUser | null; onClose:
 
                 <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
                     <div>
-                        <label className="mb-2 block text-[10px] font-black uppercase tracking-[0.4em] text-slate-500 ml-1 italic">Name</label>
+                        <label className="mb-2 block text-[10px] font-semibold uppercase tracking-[0.4em] text-slate-500 ml-1">Name</label>
                         <input type="text" value={name} onChange={(e) => setName(e.target.value)} required className={inputClasses} placeholder="Operator Name" />
                     </div>
                     <div>
-                        <label className="mb-2 block text-[10px] font-black uppercase tracking-[0.4em] text-slate-500 ml-1 italic">Email</label>
+                        <label className="mb-2 block text-[10px] font-semibold uppercase tracking-[0.4em] text-slate-500 ml-1">Email</label>
                         <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required disabled={!!user} className={cn(inputClasses, "disabled:opacity-40 disabled:bg-transparent disabled:border-white/5")} placeholder="identity@nexus.io" />
                     </div>
                     {!user && (
                         <div>
-                            <label className="mb-2 block text-[10px] font-black uppercase tracking-[0.4em] text-slate-500 ml-1 italic">Password</label>
+                            <label className="mb-2 block text-[10px] font-semibold uppercase tracking-[0.4em] text-slate-500 ml-1">Password</label>
                             <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required className={inputClasses} placeholder="••••••••" />
                         </div>
                     )}
                     <div>
-                        <label className="mb-2 block text-[10px] font-black uppercase tracking-[0.4em] text-slate-500 ml-1 italic">Role</label>
+                        <label className="mb-2 block text-[10px] font-semibold uppercase tracking-[0.4em] text-slate-500 ml-1">Role</label>
                         <select value={role} onChange={(e) => setRole(e.target.value as AdminRole)} className={cn(inputClasses, "cursor-pointer appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%22%20fill%3D%22none%22%20viewBox%3D%220%200%2024%2024%22%20stroke%3D%22%234b5563%22%3E%3Cpath%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%222%22%20d%3D%22m19%209-7%207-7-7%22%2F%3E%3C%2Fsvg%3E')] bg-[length:1.2em] bg-[right_1.5rem_center] bg-no-repeat uppercase text-[11px] tracking-widest")}>
                             <option value="super_admin" className="bg-[#030014]">Super Admin</option>
                             <option value="admin" className="bg-[#030014]">Admin</option>
@@ -370,8 +370,8 @@ function UserModal({ user, onClose, onSave }: { user: AdminUser | null; onClose:
                         </select>
                     </div>
                     <div className="flex gap-4 pt-6">
-                        <button type="button" onClick={onClose} className="flex-1 rounded-2xl border border-white/5 bg-white/[0.03] py-4.5 text-[10px] font-black uppercase tracking-[0.4em] text-slate-400 hover:text-white hover:bg-white/5 transition-all shadow-xl">Abort</button>
-                        <button type="submit" className="flex-1 rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 py-4.5 text-[10px] font-black uppercase tracking-[0.4em] text-white shadow-2xl shadow-violet-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all">
+                        <button type="button" onClick={onClose} className="flex-1 rounded-2xl border border-white/5 bg-white/[0.03] py-4.5 text-[10px] font-semibold uppercase tracking-[0.4em] text-slate-400 hover:text-white hover:bg-white/5 transition-all shadow-xl">Abort</button>
+                        <button type="submit" className="flex-1 rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 py-4.5 text-[10px] font-semibold uppercase tracking-[0.4em] text-white shadow-2xl shadow-violet-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all">
                             {user ? "Save Changes" : "Create User"}
                         </button>
                     </div>
@@ -399,18 +399,18 @@ function ResetPasswordModal({ user, onClose, onReset }: { user: AdminUser; onClo
                 <div className="absolute top-0 right-0 w-64 h-64 bg-amber-600/10 rounded-full blur-[100px] -mr-32 -mt-32" />
 
                 <div className="flex items-center justify-between mb-4 relative z-10">
-                    <h2 className="text-2xl font-black text-white uppercase tracking-tight italic">Reset Password</h2>
+                    <h2 className="text-2xl font-semibold text-white uppercase tracking-tight">Reset Password</h2>
                     <button onClick={onClose} className="h-12 w-12 rounded-2xl border border-white/5 bg-white/[0.03] text-slate-500 flex items-center justify-center hover:bg-white/5 hover:text-white transition-all shadow-xl">
                         <CloseIcon />
                     </button>
                 </div>
-                <p className="mb-10 text-[10px] font-black text-amber-500 uppercase tracking-[0.3em] border-b border-white/5 pb-4 relative z-10">Personnel Node: {user.email}</p>
+                <p className="mb-10 text-[10px] font-semibold text-amber-500 uppercase tracking-[0.3em] border-b border-white/5 pb-4 relative z-10">Personnel Node: {user.email}</p>
                 <form onSubmit={handleSubmit} className="space-y-8 relative z-10">
                     <div>
-                        <label className="mb-2 block text-[10px] font-black uppercase tracking-[0.4em] text-slate-500 ml-1 italic">New Password</label>
+                        <label className="mb-2 block text-[10px] font-semibold uppercase tracking-[0.4em] text-slate-500 ml-1">New Password</label>
                         <input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} required placeholder="••••••••" className={inputClasses} />
                     </div>
-                    <button type="submit" className="w-full rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 py-5 text-[10px] font-black uppercase tracking-[0.4em] text-white shadow-2xl shadow-amber-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all">Reset Password</button>
+                    <button type="submit" className="w-full rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 py-5 text-[10px] font-semibold uppercase tracking-[0.4em] text-white shadow-2xl shadow-amber-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all">Reset Password</button>
                 </form>
             </div>
         </div>
