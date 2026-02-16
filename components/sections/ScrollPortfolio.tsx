@@ -12,6 +12,9 @@ export default function ScrollPortfolio() {
     const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
     const [projects, setProjects] = useState<Project[]>([]);
 
+    const [isMobile, setIsMobile] = useState(false);
+    const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+
     useEffect(() => {
         const fetchProjects = async () => {
             try {
@@ -24,7 +27,37 @@ export default function ScrollPortfolio() {
             }
         };
         fetchProjects();
+
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
     }, []);
+
+    // Smart Video Playback with Intersection Observer
+    useEffect(() => {
+        if (!isMobile || projects.length === 0) return;
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    const video = entry.target as HTMLVideoElement;
+                    if (entry.isIntersecting) {
+                        video.play().catch(() => {});
+                    } else {
+                        video.pause();
+                    }
+                });
+            },
+            { threshold: 0.5 }
+        );
+
+        videoRefs.current.forEach((video) => {
+            if (video) observer.observe(video);
+        });
+
+        return () => observer.disconnect();
+    }, [projects, isMobile]);
 
     useEffect(() => {
         if (projects.length === 0) return;
@@ -39,57 +72,78 @@ export default function ScrollPortfolio() {
             // Title Animation
             gsap.fromTo(
                 titleRef.current,
-                { opacity: 0, y: 50 },
+                { opacity: 0, y: 30 },
                 {
                     opacity: 1,
                     y: 0,
-                    duration: 1,
+                    duration: 0.8,
                     ease: "power3.out",
                     scrollTrigger: {
                         trigger: container,
-                        start: "top 80%",
+                        start: "top 85%",
                     },
                 }
             );
 
             // Cards Animation
-            const directions = ["left", "down", "right", "up"];
-            cardsRef.current.forEach((card, index) => {
-                if (!card) return;
+            if (isMobile) {
+                // Simpler animation for mobile - no scrub, just fade in up
+                cardsRef.current.forEach((card, index) => {
+                    if (!card) return;
+                    gsap.fromTo(
+                        card,
+                        { y: 30, opacity: 0 },
+                        {
+                            y: 0,
+                            opacity: 1,
+                            duration: 0.6,
+                            ease: "power2.out",
+                            scrollTrigger: {
+                                trigger: card,
+                                start: "top 90%",
+                            },
+                        }
+                    );
+                });
+            } else {
+                const directions = ["left", "down", "right", "up"];
+                cardsRef.current.forEach((card, index) => {
+                    if (!card) return;
 
-                const direction = directions[index % 4];
-                let xFrom = 0;
-                let yFrom = 0;
+                    const direction = directions[index % 4];
+                    let xFrom = 0;
+                    let yFrom = 0;
 
-                switch (direction) {
-                    case "left": xFrom = -80; break;
-                    case "right": xFrom = 80; break;
-                    case "up": yFrom = 80; break;
-                    case "down": yFrom = -80; break;
-                }
-
-                gsap.fromTo(
-                    card,
-                    { x: xFrom, y: yFrom, opacity: 0, scale: 0.9 },
-                    {
-                        x: 0,
-                        y: 0,
-                        opacity: 1,
-                        scale: 1,
-                        ease: "none",
-                        scrollTrigger: {
-                            trigger: grid,
-                            start: "top 85%",
-                            end: "top 40%",
-                            scrub: true,
-                        },
+                    switch (direction) {
+                        case "left": xFrom = -80; break;
+                        case "right": xFrom = 80; break;
+                        case "up": yFrom = 80; break;
+                        case "down": yFrom = -80; break;
                     }
-                );
-            });
+
+                    gsap.fromTo(
+                        card,
+                        { x: xFrom, y: yFrom, opacity: 0, scale: 0.9 },
+                        {
+                            x: 0,
+                            y: 0,
+                            opacity: 1,
+                            scale: 1,
+                            ease: "none",
+                            scrollTrigger: {
+                                trigger: grid,
+                                start: "top 85%",
+                                end: "top 40%",
+                                scrub: true,
+                            },
+                        }
+                    );
+                });
+            }
         }, containerRef);
 
         return () => ctx.revert();
-    }, [projects]);
+    }, [projects, isMobile]);
 
     return (
         <section
@@ -127,8 +181,9 @@ export default function ScrollPortfolio() {
                             {/* Video or Image */}
                             {project.type === "video" ? (
                                 <video
+                                    ref={(el) => { videoRefs.current[index] = el }}
                                     src={project.preview || project.media}
-                                    autoPlay
+                                    autoPlay={!isMobile}
                                     loop
                                     muted
                                     playsInline

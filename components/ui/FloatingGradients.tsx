@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -63,6 +63,14 @@ export default function FloatingGradients() {
     const pathname = usePathname();
     const containerRef = useRef<HTMLDivElement>(null);
     const orbsRef = useRef<(HTMLDivElement | null)[]>([]);
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
 
     // Disable gradients on admin pages
     if (pathname?.startsWith("/admin")) {
@@ -72,30 +80,33 @@ export default function FloatingGradients() {
     useEffect(() => {
         const orbs = orbsRef.current.filter(Boolean);
 
+        // If mobile, simplify GSAP (less vertical movement)
+        const verticalMult = isMobile ? 0.05 : 1;
+
         // Scroll-based movement for each orb
         orbs.forEach((orb, index) => {
             if (!orb) return;
 
             const direction = index % 2 === 0 ? 1 : -1;
-            const speed = 0.1 + (index * 0.05);
+            const speed = (0.1 + (index * 0.05)) * verticalMult;
 
             gsap.to(orb, {
                 y: () => window.innerHeight * speed * direction,
-                x: () => 100 * direction * (index % 3 === 0 ? 1 : -1),
+                x: () => (isMobile ? 50 : 100) * direction * (index % 3 === 0 ? 1 : -1),
                 ease: "none",
                 scrollTrigger: {
                     trigger: document.body,
                     start: "top top",
                     end: "bottom bottom",
-                    scrub: 1.5,
+                    scrub: isMobile ? 0.5 : 1.5,
                 },
             });
 
-            // Subtle floating animation
+            // Subtle floating animation - slower on mobile
             gsap.to(orb, {
-                x: `+=${30 * direction}`,
-                y: `+=${20 * direction}`,
-                duration: 8 + index * 2,
+                x: `+=${(isMobile ? 15 : 30) * direction}`,
+                y: `+=${(isMobile ? 10 : 20) * direction}`,
+                duration: (isMobile ? 12 : 8) + index * 2,
                 repeat: -1,
                 yoyo: true,
                 ease: "sine.inOut",
@@ -105,7 +116,9 @@ export default function FloatingGradients() {
         return () => {
             ScrollTrigger.getAll().forEach(trigger => trigger.kill());
         };
-    }, []);
+    }, [isMobile]);
+
+    const displayOrbs = isMobile ? gradientOrbs.slice(0, 3) : gradientOrbs;
 
     return (
         <div
@@ -113,11 +126,11 @@ export default function FloatingGradients() {
             className="fixed inset-0 pointer-events-none overflow-hidden z-[-1]"
             aria-hidden="true"
         >
-            {gradientOrbs.map((orb, index) => (
+            {displayOrbs.map((orb, index) => (
                 <div
                     key={orb.id}
                     ref={(el) => { orbsRef.current[index] = el; }}
-                    className={`absolute rounded-full ${orb.color} ${orb.size} ${orb.position} ${orb.blur} ${orb.opacity} animate-pulse-glow`}
+                    className={`absolute rounded-full ${orb.color} ${orb.size} ${orb.position} ${orb.blur} ${orb.opacity} ${isMobile ? '' : 'animate-pulse-glow'}`}
                     style={{
                         animationDelay: `${index * 0.5}s`,
                         animationDuration: `${4 + index}s`,

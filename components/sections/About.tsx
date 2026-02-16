@@ -66,6 +66,8 @@ export default function About() {
         const section = sectionRef.current;
         if (!section) return;
 
+        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
         // Physics simulation
         const particles: Particle[] = [];
         const gravity = 0.4;
@@ -110,41 +112,80 @@ export default function About() {
 
         if (containerRef.current) {
             const containerWidth = containerRef.current.offsetWidth;
+            const containerHeight = containerRef.current.offsetHeight;
 
-            floatingShapesRef.current.forEach((el, i) => {
-                if (!el) return;
+            if (isTouchDevice) {
+                // Static non-overlapping positioning for mobile
+                const staticPositions = [
+                    { x: 10, y: 15 }, // Top Left
+                    { x: 75, y: 20 }, // Top Right
+                    { x: 35, y: 45 }, // Middle
+                    { x: 15, y: 70 }, // Bottom Left
+                    { x: 80, y: 75 }  // Bottom Right
+                ];
 
-                const startX = Math.random() * (containerWidth - 100);
-                const startY = -Math.random() * 500 - 100;
-
-                particles.push({
-                    element: el,
-                    x: startX,
-                    y: startY,
-                    vx: (Math.random() - 0.5) * 15,
-                    vy: Math.random() * 10,
-                    rotation: Math.random() * 360,
-                    vRot: (Math.random() - 0.5) * 10,
-                    radius: 40
+                floatingShapesRef.current.forEach((el, i) => {
+                    if (!el) return;
+                    const pos = staticPositions[i];
+                    
+                    // Simple entrance: Fall from top then stay static
+                    gsap.fromTo(el,
+                        { 
+                            x: `${pos.x}%`, 
+                            y: -200, 
+                            opacity: 0,
+                            rotation: Math.random() * 360
+                        },
+                        {
+                            y: () => (containerHeight * (pos.y / 100)),
+                            opacity: 0.5,
+                            duration: 1.5,
+                            delay: i * 0.2,
+                            ease: "bounce.out",
+                            scrollTrigger: {
+                                trigger: section,
+                                start: "top 60%",
+                            }
+                        }
+                    );
                 });
-            });
+            } else {
+                // Desktop Physics Path
+                floatingShapesRef.current.forEach((el, i) => {
+                    if (!el) return;
 
-            ScrollTrigger.create({
-                trigger: section,
-                start: "top center",
-                onEnter: () => gsap.ticker.add(updatePhysics),
-                onLeave: () => gsap.ticker.remove(updatePhysics),
-                onEnterBack: () => gsap.ticker.add(updatePhysics),
-                onLeaveBack: () => gsap.ticker.remove(updatePhysics)
-            });
+                    const startX = Math.random() * (containerWidth - 100);
+                    const startY = -Math.random() * 500 - 100;
 
-            particles.forEach(p => {
-                p.element.addEventListener('mouseenter', () => {
-                    p.vy -= 15;
-                    p.vx += (Math.random() - 0.5) * 20;
-                    p.vRot += (Math.random() - 0.5) * 50;
+                    particles.push({
+                        element: el,
+                        x: startX,
+                        y: startY,
+                        vx: (Math.random() - 0.5) * 15,
+                        vy: Math.random() * 10,
+                        rotation: Math.random() * 360,
+                        vRot: (Math.random() - 0.5) * 10,
+                        radius: 40
+                    });
                 });
-            });
+
+                ScrollTrigger.create({
+                    trigger: section,
+                    start: "top center",
+                    onEnter: () => gsap.ticker.add(updatePhysics),
+                    onLeave: () => gsap.ticker.remove(updatePhysics),
+                    onEnterBack: () => gsap.ticker.add(updatePhysics),
+                    onLeaveBack: () => gsap.ticker.remove(updatePhysics)
+                });
+
+                particles.forEach(p => {
+                    p.element.addEventListener('mouseenter', () => {
+                        p.vy -= 15;
+                        p.vx += (Math.random() - 0.5) * 20;
+                        p.vRot += (Math.random() - 0.5) * 50;
+                    });
+                });
+            }
         }
 
         // Title animation

@@ -11,6 +11,13 @@ export default function CustomCursor() {
     const trailRefs = useRef<HTMLDivElement[]>([]);
     const [cursorText, setCursorText] = useState("");
     const [isHovering, setIsHovering] = useState(false);
+    const [isTouch, setIsTouch] = useState(false);
+
+    // Initial check for touch capability
+    useEffect(() => {
+        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+        setIsTouch(isTouchDevice);
+    }, []);
 
     // Trail positions with smooth interpolation
     const trailPositions = useRef<{ x: number; y: number }[]>(
@@ -19,6 +26,8 @@ export default function CustomCursor() {
     const mousePos = useRef({ x: 0, y: 0 });
 
     useEffect(() => {
+        if (isTouch) return;
+
         const cursor = cursorRef.current;
         const cursorDot = cursorDotRef.current;
 
@@ -145,6 +154,8 @@ export default function CustomCursor() {
         { color: "rgba(147, 85, 239, 0.22)", size: 4, glow: 4 },   // violet
         { color: "rgba(155, 78, 232, 0.15)", size: 3, glow: 3 },   // violet-purple
     ];
+
+    if (isTouch) return null;
 
     return (
         <>
