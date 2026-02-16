@@ -26,7 +26,7 @@ export default function AboutPage() {
     return (
         <main className="bg-[#030014] text-white pt-32 min-h-screen">
             {/* Simple Hero Section */}
-            <div ref={headerRef} className="max-w-[1400px] mx-auto px-5 md:px-20 mb-20 text-center">
+            <div ref={headerRef} className="max-w-[1400px] mx-auto px-5 md:px-20 mb-20 text-center relative z-10">
                 <span className="inline-block text-sm font-medium tracking-[0.25em] uppercase text-violet-400 mb-6">
                     InDiiServe Stories
                 </span>
@@ -60,7 +60,7 @@ export default function AboutPage() {
                                 Whether you have a project in mind or just want to say hello, we&apos;re all ears. Let&apos;s build something extraordinary together.
                             </p>
 
-                            <div className="space-y-6">
+                            <div className="flex flex-col md:flex-row gap-6 md:gap-12 flex-wrap">
                                 <a href="mailto:info@indiiserve.com" className="flex items-center gap-4 group/link text-xl hover:text-violet-400 transition-colors">
                                     <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center group-hover/link:border-violet-500/50 transition-colors">
                                         <Mail className="w-5 h-5" />
@@ -75,7 +75,7 @@ export default function AboutPage() {
                                 </a>
                             </div>
 
-                            <div className="flex gap-6 mt-12">
+                            <div className="flex gap-6 mt-12 flex-wrap">
                                 {[
                                     { icon: <Linkedin />, href: "https://www.linkedin.com/company/indiiserve-solutions/" },
                                     { icon: <Instagram />, href: "https://www.instagram.com/indiiservedigital/" },

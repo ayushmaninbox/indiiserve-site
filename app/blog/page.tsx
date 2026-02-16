@@ -11,13 +11,13 @@ export default function BlogPage() {
     return (
         <main className="min-h-screen bg-[#030014] text-white pt-32 pb-24">
             {/* Hero Section */}
-            <div className="text-center py-16 px-4">
+            <div className="text-center py-16 px-4 relative z-10">
                 <div className="flex items-center justify-center gap-4 text-[10px] font-bold uppercase tracking-[0.4em] text-violet-400 mb-6 animate-fade-in">
                     <span className="w-8 h-[1px] bg-violet-500/50" />
                     Editorial
                     <span className="w-8 h-[1px] bg-violet-500/50" />
                 </div>
-                <h1 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-white mb-6 leading-none">
+                <h1 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-white mb-6 leading-none relative z-10">
                     Insights & <span className="text-violet-500">Innovation</span>
                 </h1>
                 <div className="h-1 w-20 bg-violet-600 mx-auto mb-8" />

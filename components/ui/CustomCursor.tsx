@@ -134,11 +134,6 @@ export default function CustomCursor() {
         };
     }, []);
 
-    // Hide cursor on touch devices
-    if (typeof window !== "undefined" && "ontouchstart" in window) {
-        return null;
-    }
-
     // Trail colors - flowing gradient from blue to violet
     const trailColors = [
         { color: "rgba(59, 130, 246, 0.6)", size: 8, glow: 12 },   // blue-500
@@ -153,68 +148,68 @@ export default function CustomCursor() {
 
     return (
         <>
-            {/* Trail particles - render in reverse so first (closest) is on top */}
-            {trailColors.map((config, i) => (
+            {/* Cursor elements - hidden on touch devices via CSS */}
+            <div className="hidden md:block">
+                {/* Trail particles - render in reverse so first (closest) is on top */}
+                {trailColors.map((config, i) => (
+                    <div
+                        key={i}
+                        ref={(ref) => { if (ref) trailRefs.current[i] = ref; }}
+                        className="fixed top-0 left-0 pointer-events-none z-[9996] rounded-full"
+                        style={{
+                            width: `${config.size}px`,
+                            height: `${config.size}px`,
+                            marginLeft: `${-config.size / 2}px`,
+                            marginTop: `${-config.size / 2}px`,
+                            backgroundColor: config.color,
+                            boxShadow: `0 0 ${config.glow}px ${config.color}`,
+                            willChange: 'transform',
+                        }}
+                    />
+                ))}
+
+                {/* Main cursor with glow */}
                 <div
-                    key={i}
-                    ref={(ref) => { if (ref) trailRefs.current[i] = ref; }}
-                    className="fixed top-0 left-0 pointer-events-none z-[9996] rounded-full"
+                    ref={cursorRef}
+                    className={`fixed top-0 left-0 w-12 h-12 -ml-6 -mt-6 pointer-events-none z-[9998] rounded-full border-2 transition-colors duration-300 flex items-center justify-center ${isHovering
+                        ? "border-violet-500 bg-violet-500/20"
+                        : "border-violet-500/50 bg-transparent"
+                        }`}
                     style={{
-                        width: `${config.size}px`,
-                        height: `${config.size}px`,
-                        marginLeft: `${-config.size / 2}px`,
-                        marginTop: `${-config.size / 2}px`,
-                        backgroundColor: config.color,
-                        boxShadow: `0 0 ${config.glow}px ${config.color}`,
-                        willChange: 'transform',
+                        mixBlendMode: cursorText ? "normal" : "difference",
+                        boxShadow: isHovering
+                            ? "0 0 20px rgba(139, 92, 246, 0.6), 0 0 40px rgba(139, 92, 246, 0.3)"
+                            : "0 0 10px rgba(139, 92, 246, 0.3)",
+                    }}
+                >
+                    {cursorText && (
+                        <span className="text-[8px] font-medium lowercase tracking-wider text-violet-400">
+                            {cursorText}
+                        </span>
+                    )}
+                </div>
+
+                {/* Cursor dot with glow */}
+                <div
+                    ref={cursorDotRef}
+                    className="fixed top-0 left-0 w-2 h-2 -ml-1 -mt-1 pointer-events-none z-[9999] rounded-full bg-violet-500"
+                    style={{
+                        boxShadow: "0 0 8px rgba(139, 92, 246, 0.8), 0 0 16px rgba(139, 92, 246, 0.5)",
                     }}
                 />
-            ))}
-
-            {/* Main cursor with glow */}
-            <div
-                ref={cursorRef}
-                className={`fixed top-0 left-0 w-12 h-12 -ml-6 -mt-6 pointer-events-none z-[9998] rounded-full border-2 transition-colors duration-300 flex items-center justify-center ${isHovering
-                    ? "border-violet-500 bg-violet-500/20"
-                    : "border-violet-500/50 bg-transparent"
-                    }`}
-                style={{
-                    mixBlendMode: cursorText ? "normal" : "difference",
-                    boxShadow: isHovering
-                        ? "0 0 20px rgba(139, 92, 246, 0.6), 0 0 40px rgba(139, 92, 246, 0.3)"
-                        : "0 0 10px rgba(139, 92, 246, 0.3)",
-                }}
-            >
-                {cursorText && (
-                    <span className="text-[8px] font-medium lowercase tracking-wider text-violet-400">
-                        {cursorText}
-                    </span>
-                )}
             </div>
 
-            {/* Cursor dot with glow */}
-            <div
-                ref={cursorDotRef}
-                className="fixed top-0 left-0 w-2 h-2 -ml-1 -mt-1 pointer-events-none z-[9999] rounded-full bg-violet-500"
-                style={{
-                    boxShadow: "0 0 8px rgba(139, 92, 246, 0.8), 0 0 16px rgba(139, 92, 246, 0.5)",
-                }}
-            />
-
-            {/* Hide default cursor except for elements with .no-cursor */}
+            {/* Hide default cursor only on devices that support hover */}
             <style jsx global>{`
-        * {
-          cursor: none !important;
-        }
-        .no-cursor, .no-cursor * {
-          cursor: auto !important;
-        }
-        @media (hover: none) {
-          * {
-            cursor: auto !important;
-          }
-        }
-      `}</style>
+                @media (hover: hover) and (pointer: fine) {
+                    * {
+                        cursor: none !important;
+                    }
+                    .no-cursor, .no-cursor * {
+                        cursor: auto !important;
+                    }
+                }
+            `}</style>
         </>
     );
 }
