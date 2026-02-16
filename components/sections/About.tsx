@@ -237,7 +237,7 @@ export default function About() {
         <section
             ref={sectionRef}
             id="about"
-            className="py-32 md:py-48 bg-transparent text-white relative overflow-hidden"
+            className="py-20 md:py-48 bg-transparent text-white relative overflow-hidden"
         >
             {/* Physics Container */}
             <div ref={containerRef} className="absolute inset-0 pointer-events-none z-0">

@@ -30,13 +30,13 @@ export default function AboutPage() {
                 <span className="inline-block text-sm font-medium tracking-[0.25em] uppercase text-violet-400 mb-6">
                     InDiiServe Stories
                 </span>
-                <h1 className="text-[clamp(3.5rem,10vw,7rem)] font-bold font-migra leading-[0.95] mb-8">
+                <h1 className="text-[clamp(2.5rem,10vw,7rem)] font-bold font-migra leading-[0.95] mb-8">
                     Crafting Narratives <br />
                     <span className="bg-gradient-to-r from-indigo-400 via-violet-400 to-purple-400 bg-clip-text text-transparent italic">
                         That Resonate.
                     </span>
                 </h1>
-                <p className="text-xl md:text-2xl opacity-70 max-w-[800px] mx-auto leading-relaxed">
+                <p className="text-lg md:text-2xl opacity-70 max-w-[800px] mx-auto leading-relaxed">
                     We don&apos;t just build brands; we build legacies. Every business has a story, and we make sure yours is the one people remember.
                 </p>
             </div>
@@ -45,7 +45,7 @@ export default function AboutPage() {
             <About />
 
             {/* Comprehensive Contact Section */}
-            <div ref={contactRef} className="py-32 md:py-48 bg-gradient-to-b from-transparent to-violet-950/20 relative overflow-hidden">
+            <div ref={contactRef} className="py-20 md:py-48 bg-gradient-to-b from-transparent to-violet-950/20 relative overflow-hidden">
                 <div className="max-w-[1400px] mx-auto px-5 md:px-20 relative z-10">
                     <div className="max-w-[800px] mx-auto">
                         <div>

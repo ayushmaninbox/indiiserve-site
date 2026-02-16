@@ -98,7 +98,7 @@ export default function Services() {
     }, []);
 
     return (
-        <section ref={sectionRef} id="services" className="py-32 md:py-48 bg-transparent relative">
+        <section ref={sectionRef} id="services" className="py-20 md:py-48 bg-transparent relative">
             <div className="max-w-[1400px] mx-auto px-5 md:px-20">
                 <div className="text-center max-w-[900px] mx-auto mb-20">
                     <span className="inline-block text-sm font-medium tracking-[0.15em] uppercase text-violet-400 mb-6">

@@ -16,7 +16,7 @@ export default function TermsPage() {
     }, []);
 
     return (
-        <main className="bg-[#030014] text-white pt-40 pb-20 min-h-screen">
+        <main className="bg-[#030014] text-white pt-32 md:pt-40 pb-20 min-h-screen">
             <div ref={containerRef} className="max-w-[800px] mx-auto px-5">
                 <Link
                     href="/"

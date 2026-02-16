@@ -151,7 +151,7 @@ export default function Hero() {
                     Strategic Consulting
                 </p>
 
-                <h1 className="text-[clamp(3.5rem,12vw,8rem)] font-bold leading-[0.95] mb-10 font-migra text-white">
+                <h1 className="text-[clamp(2.5rem,12vw,8rem)] font-bold leading-[0.95] mb-10 font-migra text-white">
                     <span className="block overflow-hidden">
                         <span ref={title1Ref} className="block">
                             We Build Stories
@@ -174,18 +174,18 @@ export default function Hero() {
 
                 <p
                     ref={descRef}
-                    className="text-lg md:text-xl max-w-[750px] mx-auto mb-14 opacity-70 leading-relaxed text-white"
+                    className="text-base md:text-xl max-w-[750px] mx-auto mb-14 opacity-70 leading-relaxed text-white px-4 md:px-0"
                 >
-                    At InDiiServe, storytelling isn’t a service. It’s our core.<br />
+                    At InDiiServe, storytelling isn’t a service. It’s our core.<br className="hidden md:block" />
                     We turn businesses into narratives people remember, <br className="hidden md:block" />
                     and narratives into momentum brands can build on.
                 </p>
 
-                <div ref={ctaRef} className="flex gap-5 justify-center flex-wrap">
+                <div ref={ctaRef} className="flex gap-4 md:gap-5 justify-center flex-wrap px-4 md:px-0">
                     <Link
                         href="#contact"
                         data-cursor="View"
-                        className="group inline-flex items-center justify-center px-10 py-5 bg-gradient-to-r from-blue-600 via-indigo-500 to-violet-500 text-white rounded-full font-semibold text-lg overflow-hidden relative transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(99,102,241,0.4)]"
+                        className="group inline-flex items-center justify-center px-8 py-4 md:px-10 md:py-5 bg-gradient-to-r from-blue-600 via-indigo-500 to-violet-500 text-white rounded-full font-semibold text-base md:text-lg overflow-hidden relative transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(99,102,241,0.4)]"
                     >
                         <span className="relative z-10">Build My Brand Story</span>
                         <span className="absolute inset-0 bg-gradient-to-r from-blue-500 via-indigo-400 to-violet-400 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-500" />
@@ -193,7 +193,7 @@ export default function Hero() {
                     <Link
                         href="#work"
                         data-cursor="View"
-                        className="group inline-flex items-center justify-center px-10 py-5 bg-white/5 backdrop-blur-sm text-white border border-violet-500/30 rounded-full font-semibold text-lg overflow-hidden relative transition-all hover:border-violet-400 hover:bg-violet-500/10"
+                        className="group inline-flex items-center justify-center px-8 py-4 md:px-10 md:py-5 bg-white/5 backdrop-blur-sm text-white border border-violet-500/30 rounded-full font-semibold text-base md:text-lg overflow-hidden relative transition-all hover:border-violet-400 hover:bg-violet-500/10"
                     >
                         <span className="relative z-10 group-hover:text-violet-300 transition-colors duration-300">
                             Explore Our Thinking

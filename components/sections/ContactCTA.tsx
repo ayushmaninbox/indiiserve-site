@@ -38,7 +38,7 @@ export default function ContactCTA() {
         <section
             ref={sectionRef}
             id="contact"
-            className="py-32 md:py-48 bg-transparent text-white text-center relative overflow-hidden"
+            className="py-20 md:py-48 bg-transparent text-white text-center relative overflow-hidden"
         >
             <div ref={containerRef} className="max-w-[800px] mx-auto px-5 relative z-10">
                 <span className="contact-reveal inline-block text-sm font-medium tracking-[0.15em] uppercase text-violet-400 mb-8">

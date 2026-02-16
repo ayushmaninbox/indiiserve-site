@@ -81,7 +81,7 @@ export default function WorkPage() {
     return (
         <main ref={containerRef} className="min-h-screen bg-[#030014] relative z-10">
             {/* Hero — extra top padding to clear fixed navbar */}
-            <section className="relative pt-44 pb-12">
+            <section className="relative pt-32 md:pt-44 pb-12">
                 <div className="work-hero container mx-auto px-4 text-center max-w-3xl">
                     <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-violet-500/20 bg-violet-500/5 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-violet-400">
                         <span className="h-1.5 w-1.5 rounded-full bg-violet-400" />

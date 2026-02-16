@@ -66,16 +66,16 @@ export default function FAQ() {
     };
 
     return (
-        <section ref={sectionRef} id="faq" className="py-32 md:py-48 bg-transparent text-white">
+        <section ref={sectionRef} id="faq" className="py-20 md:py-48 bg-transparent text-white">
             <div className="max-w-[1400px] mx-auto px-5 md:px-20">
                 <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-12 md:gap-24 items-start">
-                    <div className="sticky top-32">
+                    <div className="static md:sticky md:top-32 text-center md:text-left">
                         <span className="inline-block text-sm font-medium tracking-[0.15em] uppercase text-violet-400 mb-6">
                             FAQs
                         </span>
-                        <h2 className="text-[clamp(2.5rem,5vw,4rem)] font-semibold font-migra leading-[1.1] text-white">
+                        <h2 className="text-[clamp(2rem,5vw,4rem)] font-semibold font-migra leading-[1.1] text-white">
                             Questions?{" "}
-                            <span className="bg-gradient-to-r from-indigo-400 via-violet-400 to-purple-400 bg-clip-text text-transparent">
+                            <span className="bg-gradient-to-r from-indigo-400 via-violet-400 to-purple-400 bg-clip-text text-transparent block md:inline">
                                 We&apos;ve got answers
                             </span>
                         </h2>
@@ -91,7 +91,7 @@ export default function FAQ() {
                                     }`}
                             >
                                 <button
-                                    className="w-full flex justify-between items-center p-6 md:p-8 text-left font-medium text-lg md:text-xl hover:text-violet-400 transition-colors text-white"
+                                    className="w-full flex justify-between items-center p-6 md:p-8 text-left font-medium text-base md:text-xl hover:text-violet-400 transition-colors text-white"
                                     onClick={() => toggleFAQ(index)}
                                     data-cursor={openIndex === index ? "Close" : "Open"}
                                 >
@@ -108,7 +108,7 @@ export default function FAQ() {
                                     className={`overflow-hidden transition-all duration-500 ease-in-out ${openIndex === index ? "max-h-64 opacity-100" : "max-h-0 opacity-0"
                                         }`}
                                 >
-                                    <p className="px-6 pb-6 md:px-8 md:pb-8 text-base md:text-lg leading-relaxed opacity-70 text-white">
+                                    <p className="px-6 pb-6 md:px-8 md:pb-8 text-sm md:text-lg leading-relaxed opacity-70 text-white">
                                         {faq.answer}
                                     </p>
                                 </div>

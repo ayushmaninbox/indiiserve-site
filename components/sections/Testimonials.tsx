@@ -113,7 +113,7 @@ export default function Testimonials() {
         <section
             ref={sectionRef}
             id="testimonials"
-            className="py-32 md:py-48 bg-transparent text-white overflow-hidden perspective-[1000px]"
+            className="py-20 md:py-48 bg-transparent text-white overflow-hidden perspective-[1000px]"
         >
             <div className="max-w-[1400px] mx-auto px-5 md:px-20">
                 <div className="testimonials-header text-center max-w-[900px] mx-auto mb-20">
