@@ -17,8 +17,7 @@ const serviceDropdownItems = [
 
 const navLinks = [
     { href: "/work", label: "Work" },
-    { href: "#about", label: "About" },
-    { href: "#faq", label: "FAQ" },
+    { href: "/about", label: "About" },
     { href: "/blog", label: "Blog" },
 ];
 
@@ -131,7 +130,7 @@ export default function Navbar() {
                 <div ref={containerRef} className="relative group">
                     {/* Pulsing Border Glow */}
                     <div className="absolute -inset-[2px] rounded-full bg-gradient-to-r from-violet-500/0 via-violet-500/20 to-violet-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 blur-sm" />
-                    
+
                     {/* Glass Background */}
                     <div
                         ref={bgRef}
@@ -224,7 +223,7 @@ export default function Navbar() {
                 <div className="absolute inset-0 bg-gradient-to-br from-violet-500/10 via-transparent to-indigo-500/10 pointer-events-none" />
                 <div className="relative z-10 flex flex-col items-center gap-10">
                     <img src="/white_logo.png" alt="InDiiServe" className="h-10 w-auto mb-8 mobile-link" />
-                    
+
                     <div className="flex flex-col gap-8 text-center">
                         {navLinks.map((link) => (
                             <Link

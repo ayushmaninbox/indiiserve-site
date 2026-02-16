@@ -148,7 +148,7 @@ export default function EnquiryModal({ isOpen, onClose }: EnquiryModalProps) {
                                         value={formData.phone}
                                         onChange={handleChange}
                                         className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-neutral-500 outline-none transition-all focus:border-violet-500/50"
-                                        placeholder="+1 234 567 890"
+                                        placeholder="+91 98747 09182"
                                     />
                                 </div>
                                 <div>
@@ -192,10 +192,10 @@ export default function EnquiryModal({ isOpen, onClose }: EnquiryModalProps) {
                                         className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white outline-none transition-all focus:border-violet-500/50"
                                     >
                                         <option value="" className="bg-neutral-900">Select budget range</option>
-                                        <option value="5k-10k" className="bg-neutral-900">$5,000 - $10,000</option>
-                                        <option value="10k-25k" className="bg-neutral-900">$10,000 - $25,000</option>
-                                        <option value="25k-50k" className="bg-neutral-900">$25,000 - $50,000</option>
-                                        <option value="50k+" className="bg-neutral-900">$50,000+</option>
+                                        <option value="10k-30k" className="bg-neutral-900">₹10,000 - ₹30,000</option>
+                                        <option value="30k-1l" className="bg-neutral-900">₹30,000 - ₹1,00,000</option>
+                                        <option value="1l-5l" className="bg-neutral-900">₹1,00,000 - ₹5,00,000</option>
+                                        <option value="5l+" className="bg-neutral-900">₹5,00,000+</option>
                                     </select>
                                 </div>
                             </div>

@@ -56,7 +56,7 @@ export default function ContactCTA() {
 
                 <div className="contact-reveal mb-16">
                     <Link
-                        href="mailto:hello@indiiserve.com"
+                        href="mailto:info@indiiserve.com"
                         className="group inline-flex items-center justify-center px-12 py-6 bg-gradient-to-r from-indigo-500 to-violet-500 text-white rounded-full text-xl font-bold overflow-hidden relative transition-all hover:scale-105 hover:shadow-[0_0_50px_rgba(139,92,246,0.4)]"
                         data-cursor="email"
                     >
@@ -70,18 +70,18 @@ export default function ContactCTA() {
 
                 <div className="contact-reveal flex justify-center gap-12 flex-wrap text-sm uppercase tracking-widest opacity-60">
                     <Link
-                        href="mailto:hello@indiiserve.com"
+                        href="mailto:info@indiiserve.com"
                         className="hover:text-violet-400 hover:opacity-100 transition-all text-white"
                         data-cursor="link"
                     >
-                        hello@indiiserve.com
+                        info@indiiserve.com
                     </Link>
                     <Link
-                        href="tel:+1234567890"
+                        href="tel:+919874709182"
                         className="hover:text-violet-400 hover:opacity-100 transition-all text-white"
                         data-cursor="link"
                     >
-                        +1 (234) 567-890
+                        +91 98747 09182
                     </Link>
                 </div>
             </div>

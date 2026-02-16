@@ -1,11 +1,11 @@
 import Link from "next/link";
+import { Linkedin, Instagram, Facebook } from "lucide-react";
 
 const siteLinks = [
     { href: "#hero", label: "Home" },
     { href: "#services", label: "Services" },
     { href: "/work", label: "Work" },
-    { href: "#about", label: "About" },
-    { href: "#contact", label: "Contact" },
+    { href: "/about", label: "About" },
 ];
 
 const serviceLinks = [
@@ -39,15 +39,21 @@ export default function Footer() {
                             Transforming businesses through data-driven digital excellence.
                         </p>
                         <div className="flex gap-4 pt-2">
-                            {['LinkedIn', 'Twitter', 'Instagram'].map((social) => (
+                            {[
+                                { name: 'LinkedIn', icon: <Linkedin className="w-4 h-4" />, href: 'https://www.linkedin.com/company/indiiserve-solutions/' },
+                                { name: 'Instagram', icon: <Instagram className="w-4 h-4" />, href: 'https://www.instagram.com/indiiservedigital/' },
+                                { name: 'Facebook', icon: <Facebook className="w-4 h-4" />, href: 'https://www.facebook.com/IndiiserveDigitalSolutions' }
+                            ].map((social) => (
                                 <Link
-                                    key={social}
-                                    href="#"
+                                    key={social.name}
+                                    href={social.href}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
                                     className="no-cursor w-10 h-10 rounded-full border border-violet-500/30 flex items-center justify-center hover:bg-gradient-to-r hover:from-indigo-500 hover:to-violet-500 hover:border-transparent transition-all duration-300"
-                                    aria-label={social}
+                                    aria-label={social.name}
                                 >
-                                    <span className="sr-only">{social}</span>
-                                    <div className="w-4 h-4 bg-current rounded-sm" />
+                                    <span className="sr-only">{social.name}</span>
+                                    {social.icon}
                                 </Link>
                             ))}
                         </div>
@@ -120,8 +126,8 @@ export default function Footer() {
                 <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-violet-500/20 text-xs opacity-40 uppercase tracking-widest gap-4">
                     <p>&copy; 2026 InDiiServe. All rights reserved.</p>
                     <div className="flex gap-8">
-                        <Link href="#" className="no-cursor hover:text-violet-400 transition-colors">Privacy Policy</Link>
-                        <Link href="#" className="no-cursor hover:text-violet-400 transition-colors">Terms of Service</Link>
+                        <Link href="/privacy" className="no-cursor hover:text-violet-400 transition-colors">Privacy Policy</Link>
+                        <Link href="/terms" className="no-cursor hover:text-violet-400 transition-colors">Terms of Service</Link>
                     </div>
                 </div>
             </div>

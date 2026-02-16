@@ -166,9 +166,6 @@ export default function Hero() {
                         <span
                             ref={title3Ref}
                             className="block text-white"
-                            style={{
-                                textShadow: '0 0 40px rgba(139,92,246,0.8), 0 0 80px rgba(139,92,246,0.5), 0 0 120px rgba(99,102,241,0.4)'
-                            }}
                         >
                             Grow Into.
                         </span>
