@@ -6,6 +6,7 @@ import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { digitalBrandingServices } from "@/lib/serviceData";
+import { Sparkles, Bot, Users } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -17,7 +18,7 @@ const mainServices = [
         tagline: "Build credibility. Create consistency. Elevate perception.",
         description: "We design digital brand experiences that don’t just look good, they say something. From visuals to voice, every element works together to tell one clear, compelling story across platforms. Intentional. Memorable. Human.",
         href: "/services/digital-branding",
-        icon: "✦",
+        icon: Sparkles,
         color: "from-indigo-500/20 to-violet-500/20",
         subServices: ["Branding", "Social Media", "SEO/AEO", "Performance Marketing", "Photography", "Video Editing", "Catalogues", "Logo Design", "Graphic Design"],
     },
@@ -28,7 +29,7 @@ const mainServices = [
         tagline: "Intelligent Solutions at Scale",
         description: "Transform your business operations with cutting-edge AI voice agents and WhatsApp chatbots. Automate conversations and provide 24/7 customer support.",
         href: "/services/ai-automation",
-        icon: "🤖",
+        icon: Bot,
         color: "from-violet-500/20 to-purple-500/20",
         subServices: ["Voice Agent AI", "WhatsApp Chatbots", "Lead Qualification", "Customer Support", "Appointment Booking", "Order Tracking"],
     },
@@ -39,7 +40,7 @@ const mainServices = [
         tagline: "Find the Right Talent",
         description: "End-to-end recruitment services that help you find, attract, and hire the best talent for your organization across industries.",
         href: "/services/recruitment",
-        icon: "👥",
+        icon: Users,
         color: "from-purple-500/20 to-pink-500/20",
         subServices: ["Permanent Staffing", "Contract Staffing", "Executive Search", "Bulk Hiring", "HR Consulting"],
     },
@@ -57,22 +58,25 @@ export default function ServicesPage() {
                 { y: 0, opacity: 1, duration: 0.8, stagger: 0.15, ease: "power3.out" }
             );
 
-            gsap.fromTo(
-                ".service-card",
-                { y: 80, opacity: 0, scale: 0.95 },
-                {
-                    y: 0,
-                    opacity: 1,
-                    scale: 1,
-                    duration: 0.8,
-                    stagger: 0.2,
-                    ease: "power3.out",
-                    scrollTrigger: {
-                        trigger: ".services-grid",
-                        start: "top 80%",
-                    },
-                }
-            );
+            const cards = containerRef.current?.querySelectorAll(".service-card");
+            if (cards) {
+                cards.forEach((card, i) => {
+                    gsap.from(card, {
+                        y: 60,
+                        duration: 0.8,
+                        delay: i * 0.15,
+                        ease: "power3.out",
+                        clearProps: "all",
+                        scrollTrigger: {
+                            trigger: card,
+                            start: "top 88%",
+                        },
+                        onStart: () => {
+                            (card as HTMLElement).classList.remove("opacity-0");
+                        },
+                    });
+                });
+            }
 
             gsap.fromTo(
                 ".sub-service-card",
@@ -131,7 +135,7 @@ export default function ServicesPage() {
                             <Link
                                 key={service.id}
                                 href={service.href}
-                                className="service-card group relative overflow-hidden rounded-3xl glass-card p-8 transition-all duration-500 hover:bg-violet-500/10 hover:border-violet-500/30 hover:-translate-y-2 block"
+                                className="service-card group relative overflow-hidden rounded-3xl glass-card p-8 transition-all duration-500 hover:bg-violet-500/10 hover:border-violet-500/30 hover:-translate-y-2 block opacity-0 will-change-transform"
                             >
                                 {/* Background gradient */}
                                 <div className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
@@ -144,7 +148,9 @@ export default function ServicesPage() {
                                         <span className="text-6xl font-bold text-violet-500/20 group-hover:text-violet-500/40 transition-colors duration-500">
                                             {service.number}
                                         </span>
-                                        <span className="text-4xl">{service.icon}</span>
+                                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-violet-500/20 to-indigo-500/20 border border-violet-500/20 flex items-center justify-center group-hover:from-violet-500/30 group-hover:to-indigo-500/30 transition-all duration-500">
+                                            <service.icon className="w-6 h-6 text-violet-400" />
+                                        </div>
                                     </div>
 
                                     <span className="inline-block rounded-full bg-violet-500/10 px-4 py-1.5 text-sm font-medium text-violet-400 mb-4">

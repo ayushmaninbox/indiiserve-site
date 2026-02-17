@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { Navbar, Footer } from "@/components/layout";
 import { PageLoader, CustomCursor, SmoothScroll, EnquiryModal } from "@/components/ui";
 import { useEnquiry } from "@/context/EnquiryContext";
+import WhatsAppButton from "@/components/ui/WhatsAppButton";
 
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
     const { isLoading, setIsLoading } = useLoader();
@@ -39,6 +40,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
                     {children}
                     <Footer />
                     <EnquiryModal isOpen={isOpen} onClose={closeEnquiry} />
+                    <WhatsAppButton />
                 </div>
             )}
         </SmoothScroll>

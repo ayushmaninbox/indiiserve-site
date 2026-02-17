@@ -73,22 +73,20 @@ export default function Services() {
         cardsRef.current.forEach((card, i) => {
             if (!card) return;
 
-            gsap.fromTo(
-                card,
-                { opacity: 0, y: 80, rotateX: -10 },
-                {
-                    opacity: 1,
-                    y: 0,
-                    rotateX: 0,
-                    duration: 1,
-                    delay: i * 0.2,
-                    ease: "power3.out",
-                    scrollTrigger: {
-                        trigger: card,
-                        start: "top 85%",
-                    },
-                }
-            );
+            gsap.from(card, {
+                y: 60,
+                duration: 0.8,
+                delay: i * 0.15,
+                ease: "power3.out",
+                clearProps: "all",
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 88%",
+                },
+                onStart: () => {
+                    card.classList.remove("opacity-0");
+                },
+            });
         });
 
         return () => {
@@ -116,7 +114,7 @@ export default function Services() {
                             key={service.number}
                             href={service.href}
                             ref={(el) => { cardsRef.current[index] = el; }}
-                            className="service-card group relative glass-card rounded-3xl p-10 transition-all duration-500 hover:bg-violet-500/10 hover:border-violet-500/30 hover:-translate-y-2 block"
+                            className="service-card group relative glass-card rounded-3xl p-10 transition-all duration-500 hover:bg-violet-500/10 hover:border-violet-500/30 hover:-translate-y-2 block opacity-0 will-change-transform"
                             onMouseEnter={() => setActiveIndex(index)}
                             data-cursor="View"
                         >
