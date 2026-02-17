@@ -37,9 +37,15 @@ export default function BlogsPage() {
         try {
             const res = await fetch("/api/blogs");
             const data = await res.json();
-            setBlogs(data);
+            if (Array.isArray(data)) {
+                setBlogs(data);
+            } else {
+                console.error("API returned non-array data:", data);
+                setBlogs([]);
+            }
         } catch (error) {
             console.error("Error fetching blogs:", error);
+            setBlogs([]);
         } finally {
             setLoading(false);
         }
@@ -267,7 +273,7 @@ export default function BlogsPage() {
                                 ))}
                                 {paginatedBlogs.length === 0 && (
                                     <tr>
-                                        <td colSpan={6} className="px-6 py-20 text-center text-slate-500 font-semibold uppercase tracking-widest text-[10px]">
+                                        <td colSpan={7} className="px-6 py-20 text-center text-slate-500 font-semibold uppercase tracking-widest text-[10px]">
                                             No industrial logs found matching the filter
                                         </td>
                                     </tr>

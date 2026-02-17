@@ -136,7 +136,7 @@ export default function Footer() {
                         <p className="font-bold text-violet-400 shadow-[0_0_20px_rgba(167,139,250,0.15)]">INDIISERVE SOLUTIONS PRIVATE LIMITED</p>
                         <div className="flex flex-col md:flex-row gap-3 md:gap-8">
                             <span className="flex items-center gap-1.5"><span className="text-violet-400 font-bold">CIN:</span> <span className="text-white">U82990WB2025PTC283844</span></span>
-                            <span className="flex items-center gap-1.5"><span className="text-violet-400 font-bold">GST NO:</span> <span className="text-white">[PENDING]</span></span>
+                            <span className="flex items-center gap-1.5"><span className="text-violet-400 font-bold">GST NO:</span> <span className="text-white">19AAICI4940G1ZE</span></span>
                         </div>
                     </div>
                 </div>

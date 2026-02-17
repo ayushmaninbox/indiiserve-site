@@ -60,27 +60,33 @@ export default function DashboardPage() {
     const [userName, setUserName] = useState('Admin');
 
     useEffect(() => {
-        // Load enquiries
-        const stored = localStorage.getItem("enquiries");
-        if (stored) {
-            setEnquiries(JSON.parse(stored));
-        }
+        // Load enquiries from API
+        const loadEnquiries = async () => {
+            try {
+                const res = await fetch("/api/enquiries");
+                if (res.ok) {
+                    const data = await res.json();
+                    if (Array.isArray(data)) {
+                        setEnquiries(data);
+                    }
+                }
+            } catch (error) {
+                console.error("Failed to load enquiries:", error);
+            }
+        };
+        loadEnquiries();
 
-        // Load blog stats
+        // Load blog stats from API
         const loadBlogStats = async () => {
             try {
                 const res = await fetch("/api/blogs");
                 if (res.ok) {
                     const blogs = await res.json();
-                    let totalLikes = 0;
-                    let totalComments = 0;
-                    blogs.forEach((blog: any) => {
-                        const likes = parseInt(localStorage.getItem(`blog-likes-${blog.slug}`) || "0", 10);
-                        const comments = JSON.parse(localStorage.getItem(`blog-comments-${blog.slug}`) || "[]");
-                        totalLikes += (blog.likes || 0) + likes;
-                        totalComments += (blog.comments?.length || 0) + comments.length;
-                    });
-                    setBlogStats({ total: blogs.length, likes: totalLikes, comments: totalComments });
+                    if (Array.isArray(blogs)) {
+                        const totalLikes = blogs.reduce((sum: number, b: any) => sum + (b.likes || 0), 0);
+                        const totalComments = blogs.reduce((sum: number, b: any) => sum + (b.comments?.length || 0), 0);
+                        setBlogStats({ total: blogs.length, likes: totalLikes, comments: totalComments });
+                    }
                 }
             } catch (error) {
                 console.error("Failed to load blog stats:", error);

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { updateUser, deleteUser, hashPassword } from "@/lib/userUtils";
+import { updateUser, deleteUser, hashPassword, findUserById, validatePassword } from "@/lib/userUtils";
 
 type Params = { params: Promise<{ id: string }> };
 
@@ -11,10 +11,21 @@ export async function PUT(request: NextRequest, { params }: Params) {
         
         let updates = { ...data };
         
-        // If password is being updated, hash it
+        // If password is being updated, verify current password first
         if (updates.password) {
+            if (updates.currentPassword) {
+                const user = findUserById(id);
+                if (!user) {
+                    return NextResponse.json({ error: "User not found" }, { status: 404 });
+                }
+                const isValid = await validatePassword(updates.currentPassword, user.passwordHash);
+                if (!isValid) {
+                    return NextResponse.json({ error: "Current password is incorrect" }, { status: 403 });
+                }
+            }
             updates.passwordHash = await hashPassword(updates.password);
             delete updates.password;
+            delete updates.currentPassword;
         }
 
         const updated = updateUser(id, updates);

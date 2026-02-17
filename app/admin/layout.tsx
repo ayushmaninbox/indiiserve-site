@@ -94,25 +94,22 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             setUser(JSON.parse(userStr));
         }
 
-        // Get initial enquiry count
-        const updateCount = () => {
+        // Fetch enquiry count from API
+        const fetchEnquiryCount = async () => {
             try {
-                const enquiriesStr = localStorage.getItem("enquiries");
-                if (enquiriesStr) {
-                    const enquiries = JSON.parse(enquiriesStr);
-                    if (Array.isArray(enquiries)) {
-                        const pending = enquiries.filter((e: { status?: string }) => e.status !== "solved").length;
+                const res = await fetch("/api/enquiries");
+                if (res.ok) {
+                    const data = await res.json();
+                    if (Array.isArray(data)) {
+                        const pending = data.filter((e: { status?: string }) => e.status !== "solved").length;
                         setEnquiryCount(pending);
                     }
                 }
             } catch (error) {
-                console.warn("Failed to parse enquiries from localStorage", error);
+                console.warn("Failed to fetch enquiry count", error);
             }
         };
-        
-        updateCount();
-        window.addEventListener('storage', updateCount);
-        return () => window.removeEventListener('storage', updateCount);
+        fetchEnquiryCount();
     }, [isLoginPage]);
 
     // Don't apply layout to login page
@@ -128,36 +125,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         router.push("/admin/login");
     };
 
-    const handleChangePassword = (e: React.FormEvent) => {
-        e.preventDefault();
-        setPasswordError("");
-        if (!user) return;
-
-        const users = JSON.parse(localStorage.getItem("adminUsers") || "[]");
-        const currentUser = users.find((u: AdminUser) => u.id === user.id);
-
-        if (!currentUser || currentUser.password !== passwordForm.current) {
-            setPasswordError("Current password is incorrect");
-            return;
-        }
-        if (passwordForm.new.length < 6) {
-            setPasswordError("New password must be at least 6 characters");
-            return;
-        }
-        if (passwordForm.new !== passwordForm.confirm) {
-            setPasswordError("Passwords do not match");
-            return;
-        }
-
-        const updatedUsers = users.map((u: AdminUser) =>
-            u.id === user.id ? { ...u, password: passwordForm.new } : u
-        );
-        localStorage.setItem("adminUsers", JSON.stringify(updatedUsers));
-        
-        setIsPasswordModalOpen(false);
-        setPasswordForm({ current: '', new: '', confirm: '' });
-        (window as any).showToast?.("Password updated successfully", "success");
-    };
+    // handleChangePassword is now handled entirely by the PasswordModal component via API
 
     const navItems: NavItem[] = [
         {
@@ -343,21 +311,13 @@ function PasswordModal({ user, onClose }: { user: AdminUser | null; onClose: () 
     const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState("");
     const [success, setSuccess] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError("");
 
         if (!user) return;
-
-        // Validate current password
-        const users = JSON.parse(localStorage.getItem("adminUsers") || "[]");
-        const currentUser = users.find((u: AdminUser) => u.id === user.id);
-
-        if (!currentUser || currentUser.password !== currentPassword) {
-            setError("Current password is incorrect");
-            return;
-        }
 
         if (newPassword.length < 6) {
             setError("New password must be at least 6 characters");
@@ -369,14 +329,28 @@ function PasswordModal({ user, onClose }: { user: AdminUser | null; onClose: () 
             return;
         }
 
-        // Update password
-        const updatedUsers = users.map((u: AdminUser) =>
-            u.id === user.id ? { ...u, password: newPassword } : u
-        );
-        localStorage.setItem("adminUsers", JSON.stringify(updatedUsers));
+        setIsSubmitting(true);
+        try {
+            const res = await fetch(`/api/users/${user.id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ currentPassword, password: newPassword }),
+            });
 
-        setSuccess(true);
-        setTimeout(onClose, 1500);
+            const data = await res.json();
+
+            if (!res.ok) {
+                setError(data.error || "Failed to update password");
+                return;
+            }
+
+            setSuccess(true);
+            setTimeout(onClose, 1500);
+        } catch (err) {
+            setError("Network error. Please try again.");
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     return (
@@ -445,9 +419,10 @@ function PasswordModal({ user, onClose }: { user: AdminUser | null; onClose: () 
                             </button>
                             <button
                                 type="submit"
-                                className="flex-1 rounded-2xl bg-gradient-to-r from-indigo-500 to-violet-600 py-4 text-[10px] font-bold uppercase tracking-widest text-white shadow-xl shadow-violet-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
+                                disabled={isSubmitting}
+                                className="flex-1 rounded-2xl bg-gradient-to-r from-indigo-500 to-violet-600 py-4 text-[10px] font-bold uppercase tracking-widest text-white shadow-xl shadow-violet-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50"
                             >
-                                Update Security
+                                {isSubmitting ? "Updating..." : "Update Security"}
                             </button>
                         </div>
                     </form>
