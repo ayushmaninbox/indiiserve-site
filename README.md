@@ -1,36 +1,91 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div align="center">
+  <img src="./public/white_logo.png" alt="InDiiServe Logo" width="200"/>
+  
+  # InDiiServe
+  ### Strategic Consulting & Business Solutions
+  
+  [![Next.js](https://img.shields.io/badge/Next.js-15+-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+  [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.0-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
+  [![GSAP](https://img.shields.io/badge/GSAP-3.14-green?style=for-the-badge&logo=greensock)](https://greensock.com/gsap/)
+  [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
 
-## Getting Started
+  **A modern, high-performance web platform for high-impact consulting services.**
+</div>
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 🌟 Executive Summary
+
+InDiiServe is a premium digital presence for a strategic consulting firm. It leverages cutting-edge web technologies to deliver a seamless, cinematic user experience. From orbital GSAP animations to a full-featured content management system, it is designed for speed, aesthetics, and conversion.
+
+## �️ Tech Architecture
+
+| Layer | Technology | Purpose |
+| :--- | :--- | :--- |
+| **Frontend** | [Next.js 15+](https://nextjs.org/) | App Router, Server Components, Optimized Performance |
+| **Styling** | [Tailwind CSS 4](https://tailwindcss.com/) | Next-gen utility-first styling with native CSS variables |
+| **Motion** | [GSAP](https://greensock.com/gsap/) | Premium micro-animations, ScrollTrigger, and SplitType |
+| **Scrolling** | [Lenis](https://lenis.darkroom.engineering/) | Smooth, inertial scrolling across all devices |
+| **CMS** | [Tiptap](https://tiptap.dev/) | Headless, extensible rich text editor for dynamic blogging |
+| **UI Icons** | [Lucide React](https://lucide.dev/) | Consistent, lightweight vector iconography |
+
+## ✨ Core Features
+
+### 🎨 Cinematic UI/UX
+- **Smooth Interaction**: Integrated Lenis smooth-scrolling for a buttery-soft navigation experience.
+- **Narrative Motion**: GSAP ScrollTrigger animations that bring sections to life as the user explores.
+- **Micro-animations**: Specialized text splitting and hover transitions for a premium feel.
+
+### ✍️ Advanced Blog CMS
+- **Rich Text Editing**: Powered by Tiptap with support for floating menus, bubble menus, and embedded media.
+- **Dynamic Routing**: SEO-friendly blog paths with optimized metadata for maximum reach.
+- **Media Management**: Robust upload and handling for featured imagery.
+
+### � Portfolio Showcase
+-**Sector Optimized**: Categorized portfolio system covering E-Commerce, FinTech, SaaS, Healthcare, and more.
+- **Interactive Workflows**: Seamlessly browse through successfully implemented client strategies.
+
+### 🔒 Operational Admin
+- **Role-Based Access**: Secure dashboard for content creators and administrators.
+- **Enquiry Management**: Real-time tracking of client outreach and project requests.
+
+## 📂 Project Navigation
+
+```text
+├── app/                  # Next.js 15 App Router (Pages & API)
+├── components/           
+│   ├── animations/      # Specialized GSAP motion wrappers
+│   ├── sections/        # High-level page sections (Hero, Services, Portfolio)
+│   ├── admin/           # Dashboard-specific UI components
+│   └── ui/              # Atom-level reusable components
+├── lib/                  # Core Utilities & Business Logic
+│   ├── serviceData.ts   # Specialized consulting data definitions
+│   └── portfolioUtils.ts # Portfolio categorization logic
+├── public/               # Static Assets (Images, Logo, Video)
+└── context/              # Global React State Providers
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Development Workflow
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Quick Start
+```bash
+# Install dependencies
+npm install
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# Run development server
+npm run dev
 
-## Learn More
+# Build for production
+npm run build
+```
 
-To learn more about Next.js, take a look at the following resources:
+### Official Repository
+[https://github.com/namaninnovates/indiiserve-site](https://github.com/namaninnovates/indiiserve-site)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
+<div align="center">
+  Built with ❤️ by InDiiServe Engineering
+</div>
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
