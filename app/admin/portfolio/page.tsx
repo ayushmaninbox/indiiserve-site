@@ -512,7 +512,7 @@ function ProjectModal({
                                 onChange={(e) => setTitle(e.target.value)}
                                 required
                                 className={inputClasses}
-                                placeholder="The Future of IndiiServe"
+                                placeholder="The Future of InDiiServe.ai"
                             />
                         </div>
 
@@ -599,7 +599,7 @@ function ProjectModal({
                             onChange={(e) => setCredits(e.target.value)}
                             required
                             className={inputClasses}
-                            placeholder="Direction & Post-production — InDiiServe"
+                            placeholder="Direction & Post-production — InDiiServe.ai"
                         />
                     </div>
 

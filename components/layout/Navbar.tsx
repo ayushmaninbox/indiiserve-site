@@ -25,6 +25,7 @@ export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
     const { openEnquiry } = useEnquiry();
     const [isServicesOpen, setIsServicesOpen] = useState(false);
+    const [isMobileServicesOpen, setIsMobileServicesOpen] = useState(false);
     const navRef = useRef<HTMLElement>(null);
     const bgRef = useRef<HTMLDivElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
@@ -54,7 +55,7 @@ export default function Navbar() {
                             duration: 0.4
                         });
                         gsap.to(navRef.current, {
-                            top: "1.5rem",
+                            top: "1rem",
                             duration: 0.4,
                             ease: "power2.out"
                         });
@@ -66,7 +67,7 @@ export default function Navbar() {
                             duration: 0.4
                         });
                         gsap.to(navRef.current, {
-                            top: "2rem",
+                            top: "2.5rem",
                             duration: 0.4,
                             ease: "power2.out"
                         });
@@ -138,27 +139,27 @@ export default function Navbar() {
                     />
 
                     {/* Navbar content */}
-                    <div className="relative z-10 flex items-center h-14 px-6 md:px-8">
+                    <div className="relative z-10 flex items-center h-16 px-8 md:px-10">
                         {/* Logo */}
                         <Link
                             href="/"
                             className="flex items-center mr-8 group/logo"
                             data-cursor="home"
                         >
-                            <img src="/white_logo.png" alt="InDiiServe" className="h-7 w-auto transition-transform duration-500 group-hover/logo:scale-105" />
+                            <img src="/white_logo.png" alt="InDiiServe.ai" className="h-8 w-auto transition-transform duration-500 group-hover/logo:scale-105" />
                         </Link>
 
                         {/* Desktop Links */}
-                        <div className="hidden md:flex items-center gap-7">
+                        <div className="hidden md:flex items-center gap-9">
                             {/* Services Dropdown */}
                             <div
                                 className="relative py-4"
                                 onMouseEnter={handleServicesMouseEnter}
                                 onMouseLeave={handleServicesMouseLeave}
                             >
-                                <button className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-[0.2em] text-white/70 hover:text-white transition-colors">
+                                <button className="flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.2em] text-white/70 hover:text-white transition-colors">
                                     Services
-                                    <ChevronDown className={`w-3 h-3 transition-transform duration-500 ${isServicesOpen ? "rotate-180" : ""}`} />
+                                    <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-500 ${isServicesOpen ? "rotate-180" : ""}`} />
                                 </button>
 
                                 {/* Dropdown Menu */}
@@ -188,10 +189,10 @@ export default function Navbar() {
                                 <Link
                                     key={link.href}
                                     href={link.href}
-                                    className="relative py-4 text-[10px] font-black uppercase tracking-[0.2em] text-white/70 hover:text-white transition-colors group/nav"
+                                    className="relative py-4 text-[11px] font-black uppercase tracking-[0.2em] text-white/70 hover:text-white transition-colors group/nav"
                                 >
                                     {link.label}
-                                    <span className="absolute bottom-3 left-0 w-full h-[2px] bg-violet-500 scale-x-0 group-hover/nav:scale-x-100 transition-transform duration-500 origin-right group-hover/nav:origin-left" />
+                                    <span className="absolute bottom-3 left-0 w-full h-[2.5px] bg-violet-500 scale-x-0 group-hover/nav:scale-x-100 transition-transform duration-500 origin-right group-hover/nav:origin-left" />
                                 </Link>
                             ))}
                         </div>
@@ -200,10 +201,10 @@ export default function Navbar() {
                         <div className="flex items-center gap-4 ml-8">
                             <button
                                 onClick={openEnquiry}
-                                className="hidden md:flex items-center gap-2 relative overflow-hidden rounded-full bg-white px-6 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] text-black transition-all hover:bg-violet-500 hover:text-white group/cta"
+                                className="hidden md:flex items-center gap-3 relative overflow-hidden rounded-full bg-white px-8 py-3 text-[11px] font-black uppercase tracking-[0.2em] text-black transition-all hover:bg-violet-500 hover:text-white group/cta"
                             >
                                 <span className="relative z-10">Start Project</span>
-                                <Send className="w-3 h-3 relative z-10 group-hover/cta:translate-x-1 group-hover/cta:-translate-y-1 transition-transform" />
+                                <Send className="w-3.5 h-3.5 relative z-10 group-hover/cta:translate-x-1 group-hover/cta:-translate-y-1 transition-transform" />
                             </button>
 
                             {/* Mobile Toggle */}
@@ -222,9 +223,32 @@ export default function Navbar() {
             <div className="mobile-menu fixed inset-0 z-[4900] bg-[#030014]/98 backdrop-blur-3xl opacity-0 pointer-events-none flex flex-col items-center justify-center">
                 <div className="absolute inset-0 bg-gradient-to-br from-violet-500/10 via-transparent to-indigo-500/10 pointer-events-none" />
                 <div className="relative z-10 flex flex-col items-center gap-10">
-                    <img src="/white_logo.png" alt="InDiiServe" className="h-10 w-auto mb-8 mobile-link" />
+                    <img src="/white_logo.png" alt="InDiiServe.ai" className="h-12 w-auto mb-8 mobile-link" />
 
-                    <div className="flex flex-col gap-8 text-center">
+                    <div className="flex flex-col gap-6 text-center w-full px-10">
+                        {/* Services Accordion for Mobile */}
+                        <div className="flex flex-col gap-4">
+                            <button 
+                                onClick={() => setIsMobileServicesOpen(!isMobileServicesOpen)}
+                                className={`mobile-link text-4xl font-black italic uppercase tracking-tighter transition-colors ${isMobileServicesOpen ? "text-violet-500 scale-105" : "text-white"}`}
+                            >
+                                Services
+                            </button>
+                            
+                            <div className={`flex flex-col gap-4 overflow-hidden transition-all duration-500 ${isMobileServicesOpen ? "max-h-[400px] opacity-100 mt-6 mb-4" : "max-h-0 opacity-0"}`}>
+                                {serviceDropdownItems.map((item) => (
+                                    <Link
+                                        key={item.href}
+                                        href={item.href}
+                                        className="mobile-link text-lg font-bold uppercase tracking-[0.15em] text-white/50 hover:text-white transition-colors"
+                                        onClick={() => setIsOpen(false)}
+                                    >
+                                        {item.label}
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
+
                         {navLinks.map((link) => (
                             <Link
                                 key={link.href}

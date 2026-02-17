@@ -24,11 +24,11 @@ export default function AboutPage() {
     }, []);
 
     return (
-        <main className="bg-[#030014] text-white pt-32 min-h-screen">
+        <main className="bg-[#030014] text-white pt-24 md:pt-32 min-h-screen">
             {/* Simple Hero Section */}
-            <div ref={headerRef} className="max-w-[1400px] mx-auto px-5 md:px-20 mb-20 text-center relative z-10">
+            <div ref={headerRef} className="max-w-[1400px] mx-auto px-6 md:px-20 mb-12 md:mb-20 text-center relative z-10">
                 <span className="inline-block text-sm font-medium tracking-[0.25em] uppercase text-violet-400 mb-6">
-                    InDiiServe Stories
+                    InDiiServe.ai Stories
                 </span>
                 <h1 className="text-[clamp(2.5rem,10vw,7rem)] font-bold font-migra leading-[0.95] mb-8">
                     Crafting Narratives <br />
@@ -52,7 +52,7 @@ export default function AboutPage() {
                             <span className="inline-block text-sm font-medium tracking-[0.15em] uppercase text-violet-400 mb-6">
                                 Get In Touch
                             </span>
-                            <h2 className="text-[clamp(2.5rem,5vw,4rem)] font-bold font-migra mb-10 leading-[1.1]">
+                            <h2 className="text-[clamp(2.25rem,5vw,4rem)] font-bold font-migra mb-8 md:mb-10 leading-[1.1]">
                                 Ready to start <br />
                                 <span className="text-violet-400">your next chapter?</span>
                             </h2>
@@ -77,9 +77,9 @@ export default function AboutPage() {
 
                             <div className="flex gap-6 mt-12 flex-wrap">
                                 {[
-                                    { icon: <Linkedin />, href: "https://www.linkedin.com/company/indiiserve-solutions/" },
-                                    { icon: <Instagram />, href: "https://www.instagram.com/indiiservedigital/" },
-                                    { icon: <Facebook />, href: "https://www.facebook.com/IndiiserveDigitalSolutions" },
+                                    { icon: <Linkedin />, href: "https://www.linkedin.com/company/indiiserve-ai/" },
+                                    { icon: <Instagram />, href: "https://www.instagram.com/indiiserve.ai/" },
+                                    { icon: <Facebook />, href: "https://www.facebook.com/InDiiServe.ai" },
                                 ].map((social, i) => (
                                     <a
                                         key={i}

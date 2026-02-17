@@ -1,7 +1,7 @@
 <div align="center">
-  <img src="./public/white_logo.png" alt="InDiiServe Logo" width="200"/>
+  <img src="./public/white_logo.png" alt="InDiiServe.ai Logo" width="200"/>
   
-  # InDiiServe
+  # InDiiServe.ai
   ### Strategic Consulting & Business Solutions
   
   [![Next.js](https://img.shields.io/badge/Next.js-15+-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
@@ -16,7 +16,7 @@
 
 ## 🌟 Executive Summary
 
-InDiiServe is a premium digital presence for a strategic consulting firm. It leverages cutting-edge web technologies to deliver a seamless, cinematic user experience. From orbital GSAP animations to a full-featured content management system, it is designed for speed, aesthetics, and conversion.
+InDiiServe.ai is a premium digital presence for a strategic consulting firm. It leverages cutting-edge web technologies to deliver a seamless, cinematic user experience. From orbital GSAP animations to a full-featured content management system, it is designed for speed, aesthetics, and conversion.
 
 ## �️ Tech Architecture
 
@@ -84,7 +84,7 @@ npm run build
 
 ---
 <div align="center">
-  Built with ❤️ by InDiiServe Engineering
+  Built with ❤️ for InDiiServe.ai Team
 </div>
 
 

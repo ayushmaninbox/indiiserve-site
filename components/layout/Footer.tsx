@@ -30,9 +30,9 @@ export default function Footer() {
                             href="/"
                             className="inline-flex items-center gap-3"
                         >
-                            <img src="/white_logo.png" alt="InDiiServe" className="h-10 w-auto" />
+                            <img src="/white_logo.png" alt="InDiiServe.ai" className="h-10 w-auto" />
                             <span style={{ fontFamily: 'Poppins, sans-serif' }} className="text-3xl font-bold text-white">
-                                InDiiServe
+                                InDiiServe.ai
                             </span>
                         </Link>
                         <p className="text-base opacity-50 max-w-[250px]">
@@ -40,9 +40,9 @@ export default function Footer() {
                         </p>
                         <div className="flex gap-4 pt-2">
                             {[
-                                { name: 'LinkedIn', icon: <Linkedin className="w-4 h-4" />, href: 'https://www.linkedin.com/company/indiiserve-solutions/' },
-                                { name: 'Instagram', icon: <Instagram className="w-4 h-4" />, href: 'https://www.instagram.com/indiiservedigital/' },
-                                { name: 'Facebook', icon: <Facebook className="w-4 h-4" />, href: 'https://www.facebook.com/IndiiserveDigitalSolutions' }
+                                { name: 'LinkedIn', icon: <Linkedin className="w-4 h-4" />, href: 'https://www.linkedin.com/company/indiiserve-ai/' },
+                                { name: 'Instagram', icon: <Instagram className="w-4 h-4" />, href: 'https://www.instagram.com/indiiserve.ai/' },
+                                { name: 'Facebook', icon: <Facebook className="w-4 h-4" />, href: 'https://www.facebook.com/InDiiServe.ai' }
                             ].map((social) => (
                                 <Link
                                     key={social.name}
@@ -123,11 +123,21 @@ export default function Footer() {
                 </div>
 
                 {/* Bottom */}
-                <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-violet-500/20 text-xs opacity-40 uppercase tracking-widest gap-4">
-                    <p>&copy; 2026 InDiiServe. All rights reserved.</p>
-                    <div className="flex gap-8">
-                        <Link href="/privacy" className="no-cursor hover:text-violet-400 transition-colors">Privacy Policy</Link>
-                        <Link href="/terms" className="no-cursor hover:text-violet-400 transition-colors">Terms of Service</Link>
+                <div className="pt-8 border-t border-violet-500/10">
+                    <div className="flex flex-col md:flex-row justify-between items-center text-[10px] sm:text-xs text-white/80 uppercase tracking-[0.2em] gap-4 mb-6">
+                        <p className="font-semibold text-white/90">&copy; 2026 InDiiServe.ai. All rights reserved.</p>
+                        <div className="flex gap-8">
+                            <Link href="/privacy" className="no-cursor hover:text-violet-400 transition-colors">Privacy Policy</Link>
+                            <Link href="/terms" className="no-cursor hover:text-violet-400 transition-colors">Terms of Service</Link>
+                        </div>
+                    </div>
+                    {/* Legal Info */}
+                    <div className="flex flex-col md:flex-row justify-between items-center text-[10px] sm:text-xs text-white uppercase tracking-[0.2em] gap-3 text-center md:text-left pt-6 border-t border-white/10">
+                        <p className="font-bold text-violet-400 shadow-[0_0_20px_rgba(167,139,250,0.15)]">INDIISERVE SOLUTIONS PRIVATE LIMITED</p>
+                        <div className="flex flex-col md:flex-row gap-3 md:gap-8">
+                            <span className="flex items-center gap-1.5"><span className="text-violet-400 font-bold">CIN:</span> <span className="text-white">U82990WB2025PTC283844</span></span>
+                            <span className="flex items-center gap-1.5"><span className="text-violet-400 font-bold">GST NO:</span> <span className="text-white">[PENDING]</span></span>
+                        </div>
                     </div>
                 </div>
             </div>

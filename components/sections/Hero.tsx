@@ -151,7 +151,7 @@ export default function Hero() {
                     Strategic Consulting
                 </p>
 
-                <h1 className="text-[clamp(2.5rem,12vw,8rem)] font-bold leading-[0.95] mb-10 font-migra text-white">
+                <h1 className="text-[clamp(2.25rem,12vw,8rem)] font-bold leading-[0.95] mb-8 md:mb-10 font-migra text-white">
                     <span className="block overflow-hidden">
                         <span ref={title1Ref} className="block">
                             We Build Stories
@@ -174,9 +174,9 @@ export default function Hero() {
 
                 <p
                     ref={descRef}
-                    className="text-base md:text-xl max-w-[750px] mx-auto mb-14 opacity-70 leading-relaxed text-white px-4 md:px-0"
+                    className="text-base md:text-xl max-w-[750px] mx-auto mb-10 md:mb-14 opacity-70 leading-relaxed text-white px-6 md:px-0"
                 >
-                    At InDiiServe, storytelling isn’t a service. It’s our core.<br className="hidden md:block" />
+                    At InDiiServe.ai, storytelling isn’t a service. It’s our core.<br className="hidden md:block" />
                     We turn businesses into narratives people remember, <br className="hidden md:block" />
                     and narratives into momentum brands can build on.
                 </p>

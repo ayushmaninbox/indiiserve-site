@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { useEnquiry } from "@/context/EnquiryContext";
 import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -65,6 +66,7 @@ function ServiceIcon({ name, className = "w-6 h-6" }: { name: string; className?
 export default function DigitalBrandingPage() {
     const containerRef = useRef<HTMLDivElement>(null);
     const [expandedId, setExpandedId] = useState<string | null>(null);
+    const { openEnquiry } = useEnquiry();
 
     useEffect(() => {
         const ctx = gsap.context(() => {
@@ -101,13 +103,13 @@ export default function DigitalBrandingPage() {
     return (
         <main ref={containerRef} className="min-h-screen bg-[#030014] relative z-10">
             {/* Hero */}
-            <section className="relative flex min-h-[50vh] items-center justify-center pt-32 pb-12">
+            <section className="relative flex min-h-[40vh] md:min-h-[50vh] items-center justify-center pt-24 md:pt-32 pb-10 md:pb-12">
                 <div className="hero-content container mx-auto px-4 text-center max-w-3xl">
                     <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-violet-500/20 bg-violet-500/5 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-violet-400">
                         <span className="h-1.5 w-1.5 rounded-full bg-violet-400" />
                         Digital Branding
                     </span>
-                    <h1 className="mb-5 text-4xl font-bold text-white sm:text-5xl lg:text-6xl leading-[1.1]">
+                    <h1 className="mb-5 text-[clamp(2rem,8vw,3.75rem)] font-bold text-white sm:text-5xl lg:text-6xl leading-[1.1]">
                         Build Your Digital Presence
                     </h1>
                     <p className="mx-auto max-w-2xl text-base text-neutral-400 leading-relaxed">
@@ -117,8 +119,8 @@ export default function DigitalBrandingPage() {
             </section>
 
             {/* Services Grid — Compact, Expandable */}
-            <section className="pb-20">
-                <div className="container mx-auto px-4 sm:px-6 max-w-5xl">
+            <section className="pb-16 md:pb-20">
+                <div className="container mx-auto px-6 max-w-5xl">
                     <div className="services-grid space-y-3">
                         {digitalBrandingServices.map((service) => {
                             const isOpen = expandedId === service.id;
@@ -126,7 +128,10 @@ export default function DigitalBrandingPage() {
                                 <div
                                     key={service.id}
                                     id={service.id}
-                                    className="service-card rounded-2xl border border-white/[0.06] bg-white/[0.02] overflow-hidden transition-colors duration-300 hover:border-violet-500/20"
+                                    className={`service-card rounded-2xl border transition-all duration-300 overflow-hidden ${isOpen 
+                                        ? "border-violet-500/50 bg-violet-500/10 shadow-[0_0_30px_rgba(139,92,246,0.15)]" 
+                                        : "border-white/[0.06] bg-white/[0.02] hover:border-violet-500/20"
+                                    }`}
                                 >
                                     {/* Collapsed Header — always visible */}
                                     <button
@@ -146,32 +151,33 @@ export default function DigitalBrandingPage() {
                                             <p className="text-xs text-neutral-500 mt-0.5">{service.tagline}</p>
                                         </div>
 
-                                        {/* Expand Arrow */}
-                                        <svg
-                                            className={`w-4 h-4 text-neutral-600 transition-transform duration-300 flex-shrink-0 ${isOpen ? "rotate-180 text-violet-400" : ""}`}
-                                            fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"
-                                        >
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                                        </svg>
+                                        {/* FAQ-style Plus/Minus Icon */}
+                                        <div className="relative w-5 h-5 flex-shrink-0">
+                                            <span className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-[1.5px] bg-current transition-transform duration-300 ${isOpen ? "text-violet-400" : "text-neutral-600"}`} />
+                                            <span
+                                                className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1.5px] h-4 bg-current transition-transform duration-300 ${isOpen ? "rotate-90 opacity-0 text-violet-400" : "text-neutral-600"
+                                                    }`}
+                                            />
+                                        </div>
                                     </button>
 
-                                    {/* Expanded Content */}
-                                    {isOpen && (
+                                    {/* Expanded Content — FAQ-style Animation */}
+                                    <div className={`overflow-hidden transition-all duration-500 ease-in-out ${isOpen ? "max-h-[800px] opacity-100" : "max-h-0 opacity-0"}`}>
                                         <div className="px-6 pb-6 sm:px-8 sm:pb-8 border-t border-white/5">
-                                            <p className="mt-5 text-sm text-neutral-400 leading-relaxed max-w-2xl">
+                                            <p className="mt-5 text-sm md:text-base text-neutral-400 leading-relaxed max-w-2xl">
                                                 {service.description}
                                             </p>
 
-                                            <div className="mt-6 grid gap-6 sm:grid-cols-2">
+                                            <div className="mt-8 grid gap-8 sm:grid-cols-2">
                                                 {/* Features */}
                                                 <div>
-                                                    <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-neutral-500 mb-3">
+                                                    <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-violet-400/80 mb-4">
                                                         What We Offer
                                                     </h4>
-                                                    <ul className="space-y-2">
+                                                    <ul className="space-y-3">
                                                         {service.features.map((f) => (
-                                                            <li key={f} className="flex items-center gap-2.5 text-sm text-neutral-300">
-                                                                <svg className="h-3.5 w-3.5 flex-shrink-0 text-violet-400" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
+                                                            <li key={f} className="flex items-center gap-3 text-sm text-neutral-300">
+                                                                <svg className="h-4 w-4 flex-shrink-0 text-violet-400" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
                                                                     <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                                                                 </svg>
                                                                 {f}
@@ -182,13 +188,13 @@ export default function DigitalBrandingPage() {
 
                                                 {/* Benefits */}
                                                 <div>
-                                                    <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-neutral-500 mb-3">
+                                                    <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-violet-400/80 mb-4">
                                                         Key Results
                                                     </h4>
-                                                    <ul className="space-y-2">
+                                                    <ul className="space-y-3">
                                                         {service.benefits.map((b) => (
-                                                            <li key={b} className="flex items-center gap-2.5 text-sm text-neutral-300">
-                                                                <span className="h-1.5 w-1.5 rounded-full bg-violet-400 flex-shrink-0" />
+                                                            <li key={b} className="flex items-center gap-3 text-sm text-neutral-300">
+                                                                <span className="h-2 w-2 rounded-full bg-violet-400 flex-shrink-0 shadow-[0_0_8px_rgba(167,139,250,0.5)]" />
                                                                 {b}
                                                             </li>
                                                         ))}
@@ -196,7 +202,7 @@ export default function DigitalBrandingPage() {
                                                 </div>
                                             </div>
                                         </div>
-                                    )}
+                                    </div>
                                 </div>
                             );
                         })}
@@ -213,15 +219,15 @@ export default function DigitalBrandingPage() {
                     <p className="mx-auto mb-8 text-neutral-400">
                         Let&apos;s discuss how our digital branding services can drive real results for your business.
                     </p>
-                    <Link
-                        href="/#contact"
+                    <button
+                        onClick={openEnquiry}
                         className="inline-flex items-center gap-2 rounded-full bg-violet-500 px-8 py-3.5 text-sm font-bold text-white transition-all hover:bg-violet-400 active:scale-95"
                     >
                         Get Started
                         <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                         </svg>
-                    </Link>
+                    </button>
                 </div>
             </section>
         </main>

@@ -3,10 +3,10 @@ export type AdminRole = 'super_admin' | 'admin' | 'product_manager' | 'content_w
 export interface BlogComment {
   id: string;
   name: string;
-  email?: string; // Optional for IndiiServe
+  email?: string; // Optional for InDiiServe.ai
   content: string;
   createdAt?: string; // Marble field
-  date?: string; // IndiiServe field
+  date?: string; // InDiiServe.ai field
 }
 
 export interface Blog {
@@ -16,14 +16,14 @@ export interface Blog {
   excerpt: string;
   content: string;
   coverImage: string;
-  image?: string; // IndiiServe alias
+  image?: string; // InDiiServe.ai alias
   author: string;
   likes: number;
   comments: BlogComment[];
   createdAt: string;
   updatedAt: string;
-  date?: string; // IndiiServe field
-  readTime?: string; // IndiiServe field
+  date?: string; // InDiiServe.ai field
+  readTime?: string; // InDiiServe.ai field
   category: string;
 }
 
@@ -39,18 +39,18 @@ export interface AdminUser {
 
 export interface Enquiry {
   id: string;
-  name?: string; // IndiiServe field
+  name?: string; // InDiiServe.ai field
   firstName?: string; // Marble field
   lastName?: string; // Marble field
   email: string;
   phone: string;
-  company?: string; // IndiiServe field
+  company?: string; // InDiiServe.ai field
   productCategory?: string; // Marble field
   productName?: string; // Marble field
   quantity?: number; // Marble field
   message?: string;
   createdAt?: string; // Marble field
-  submittedAt?: string; // IndiiServe field
+  submittedAt?: string; // InDiiServe.ai field
   status: 'pending' | 'solved';
 }
 
@@ -66,8 +66,8 @@ export interface Project {
     tags: string[];
     createdAt: string;
     displayOrder?: number;
-    gradient?: string; // IndiiServe field
-    order?: number; // IndiiServe field
+    gradient?: string; // InDiiServe.ai field
+    order?: number; // InDiiServe.ai field
     imageScale?: string;
 }
 

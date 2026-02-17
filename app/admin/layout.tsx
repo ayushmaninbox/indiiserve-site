@@ -225,12 +225,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                         <div className="p-8 border-b border-white/5">
                             <Link href="/admin/dashboard" className="flex items-center gap-3 group">
                                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/[0.03] border border-white/5 shadow-lg transition-transform group-hover:scale-110 overflow-hidden p-2">
-                                    <img src="/white_logo.png" alt="InDiiServe Logo" className="h-full w-full object-contain" />
+                                    <img src="/white_logo.png" alt="InDiiServe.ai Logo" className="h-full w-full object-contain" />
                                 </div>
                                 <div>
                                     <div className="text-sm font-bold text-white tracking-tight">Admin Console</div>
                                     <div className="text-[10px] font-bold tracking-wider text-slate-500 uppercase group-hover:text-violet-400 transition-colors">
-                                        InDii<span className="text-violet-500">Serve</span> Consulting
+                                        InDii<span className="text-violet-500">Serve.ai</span> Consulting
                                     </div>
                                 </div>
                             </Link>

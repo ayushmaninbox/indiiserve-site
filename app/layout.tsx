@@ -62,9 +62,9 @@ const migra = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "InDiiServe | Strategic Consulting",
+  title: "InDiiServe.ai | Strategic Consulting",
   description:
-    "Transform your business with InDiiServe. We provide cutting-edge strategic consulting services that leverage data-driven strategies and innovative campaigns.",
+    "Transform your business with InDiiServe.ai. We provide cutting-edge strategic consulting services that leverage data-driven strategies and innovative campaigns.",
   icons: {
     icon: "/white_logo.png",
     shortcut: "/white_logo.png",

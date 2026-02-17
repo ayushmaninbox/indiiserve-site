@@ -13,7 +13,7 @@ import {
   X, Filter, Download, Plus, ChevronRight
 } from "lucide-react";
 
-// Icons (Mirrored from Marble for structure but following IndiiServe style)
+// Icons (Mirrored from Marble for structure but following InDiiServe.ai style)
 const BlogIcon = () => <BookOpen className="w-4 h-4" />;
 const HeartIcon = () => <Heart className="w-4 h-4" />;
 const CommentIcon = () => <MessageSquare className="w-4 h-4" />;
@@ -289,7 +289,7 @@ export default function BlogsPage() {
                 </div>
             </main>
 
-            {/* Comments Modal (Keeping present logic but matching IndiiServe theme) */}
+            {/* Comments Modal (Keeping present logic but matching InDiiServe.ai theme) */}
             {commentsModal && (
                 <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
                     <div className="absolute inset-0 bg-black/80 backdrop-blur-md" onClick={() => setCommentsModal(null)} />

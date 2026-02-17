@@ -2,8 +2,8 @@ import { readBlogs } from "@/lib/blogUtils";
 import BlogCard from "@/components/blog/BlogCard";
 
 export const metadata = {
-    title: "Blog | InDiiServe",
-    description: "Insights, tutorials, and updates from the InDiiServe team.",
+    title: "Blog | InDiiServe.ai",
+    description: "Insights, tutorials, and updates from the InDiiServe.ai team.",
 };
 
 export default function BlogPage() {

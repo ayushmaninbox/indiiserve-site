@@ -27,7 +27,7 @@ function EditorContent() {
 
     const [formData, setFormData] = useState({
         title: "",
-        author: "IndiiServe Team",
+        author: "InDiiServe.ai Team",
         excerpt: "",
         content: "",
         category: "Technology",
@@ -43,7 +43,7 @@ function EditorContent() {
                         const blog = await res.json();
                         setFormData({
                             title: blog.title || "",
-                            author: blog.author || "IndiiServe Team",
+                            author: blog.author || "InDiiServe.ai Team",
                             excerpt: blog.excerpt || "",
                             content: blog.content || "",
                             category: blog.category || "Technology",

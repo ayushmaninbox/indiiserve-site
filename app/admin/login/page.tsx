@@ -78,7 +78,7 @@ export default function AdminLoginPage() {
                     {/* Header */}
                     <div className="text-center mb-16 relative z-10">
                         <div className="inline-flex h-20 w-20 items-center justify-center rounded-[2rem] bg-white/[0.03] border border-white/10 text-white shadow-2xl shadow-indigo-500/10 mb-8 transition-transform duration-700 hover:rotate-[10deg] hover:scale-110 overflow-hidden p-4">
-                            <img src="/white_logo.png" alt="InDiiServe Logo" className="w-full h-full object-contain" />
+                            <img src="/white_logo.png" alt="InDiiServe.ai Logo" className="w-full h-full object-contain" />
                         </div>
                         <h1 className="text-4xl font-semibold text-white tracking-tight mb-2">Admin Console</h1>
                         <p className="text-[10px] font-semibold text-violet-400/60 uppercase tracking-[0.4em] leading-relaxed">Secure Asset & Editorial Management</p>

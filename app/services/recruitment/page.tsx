@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useEnquiry } from "@/context/EnquiryContext";
 import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -10,6 +11,12 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function RecruitmentPage() {
     const containerRef = useRef<HTMLDivElement>(null);
+    const [expandedServiceId, setExpandedServiceId] = useState<string | null>(null);
+    const { openEnquiry } = useEnquiry();
+
+    const toggleService = (id: string) => {
+        setExpandedServiceId(expandedServiceId === id ? null : id);
+    };
 
     useEffect(() => {
         const ctx = gsap.context(() => {
@@ -74,12 +81,12 @@ export default function RecruitmentPage() {
     return (
         <main ref={containerRef} className="min-h-screen bg-transparent">
             {/* Hero Section */}
-            <section className="relative flex min-h-[70vh] items-center justify-center overflow-hidden pt-32 pb-20">
+            <section className="relative flex min-h-[40vh] md:min-h-[70vh] items-center justify-center overflow-hidden pt-24 md:pt-32 pb-12 md:pb-20">
                 <div className="hero-content container mx-auto px-4 text-center sm:px-6">
                     <span className="mb-4 inline-block text-sm font-medium uppercase tracking-[0.2em] text-violet-400">
                         {recruitmentData.tagline}
                     </span>
-                    <h1 className="mb-6 text-4xl font-bold text-white sm:text-5xl lg:text-7xl">
+                    <h1 className="mb-6 text-[clamp(2rem,8vw,4.5rem)] font-bold text-white sm:text-5xl lg:text-7xl">
                         {recruitmentData.title.split(" ")[0]}{" "}
                         <span className="bg-gradient-to-r from-indigo-400 via-violet-400 to-purple-400 bg-clip-text text-transparent">{recruitmentData.title.split(" ").slice(1).join(" ")}</span>
                     </h1>
@@ -105,8 +112,8 @@ export default function RecruitmentPage() {
             </section>
 
             {/* Stats Section */}
-            <section className="border-t border-violet-500/20 py-16">
-                <div className="container mx-auto px-4 sm:px-6">
+            <section className="border-t border-violet-500/20 py-12 md:py-16">
+                <div className="container mx-auto px-6 max-w-7xl">
                     <div className="stats-grid grid grid-cols-2 md:grid-cols-4 gap-8">
                         {recruitmentData.stats.map((stat) => (
                             <div key={stat.label} className="stat-item text-center">
@@ -123,8 +130,8 @@ export default function RecruitmentPage() {
             </section>
 
             {/* Services Section */}
-            <section className="services-section border-t border-violet-500/20 py-24 lg:py-32">
-                <div className="container mx-auto px-4 sm:px-6">
+            <section className="services-section border-t border-violet-500/20 py-16 md:py-24 lg:py-32">
+                <div className="container mx-auto px-6 max-w-7xl">
                     <div className="text-center mb-16">
                         <span className="mb-4 inline-block text-sm font-medium uppercase tracking-[0.2em] text-violet-400">
                             Our Services
@@ -134,40 +141,63 @@ export default function RecruitmentPage() {
                         </h2>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        {recruitmentData.services.map((service, index) => (
-                            <div
-                                key={service.id}
-                                className="service-card group relative overflow-hidden rounded-2xl glass-card p-8 transition-all duration-500 hover:bg-violet-500/10 hover:border-violet-500/30"
-                            >
-                                <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-violet-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-                                <div className="flex items-center gap-4 mb-6">
-                                    <span className="text-5xl font-bold text-violet-500/20">
-                                        0{index + 1}
-                                    </span>
-                                    <h3 className="text-2xl font-bold text-white group-hover:text-violet-400 transition-colors">
-                                        {service.title}
-                                    </h3>
-                                </div>
-
-                                <p className="text-neutral-400 mb-6 leading-relaxed">
-                                    {service.description}
-                                </p>
-
-                                <div className="grid grid-cols-2 gap-3">
-                                    {service.features.map((feature) => (
-                                        <div
-                                            key={feature}
-                                            className="flex items-center gap-2 text-sm text-neutral-500"
-                                        >
-                                            <span className="text-violet-400">→</span>
-                                            {feature}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 items-start gap-8">
+                        {recruitmentData.services.map((service, index) => {
+                            const isOpen = expandedServiceId === service.id;
+                            return (
+                                <div
+                                    key={service.id}
+                                    className={`service-card group relative overflow-hidden rounded-2xl border transition-all duration-300 ${isOpen 
+                                        ? "border-violet-500/50 bg-violet-500/10 shadow-[0_0_30px_rgba(139,92,246,0.15)]" 
+                                        : "border-white/[0.06] bg-white/[0.02] hover:border-violet-500/20"
+                                    }`}
+                                >
+                                    <button 
+                                        onClick={() => toggleService(service.id)}
+                                        className="w-full flex items-center justify-between p-8 text-left group"
+                                    >
+                                        <div className="flex items-center gap-6">
+                                            <span className={`text-5xl font-bold transition-opacity duration-300 ${isOpen ? "text-violet-500/40" : "text-violet-500/10"}`}>
+                                                0{index + 1}
+                                            </span>
+                                            <h3 className={`text-2xl font-bold transition-colors duration-300 ${isOpen ? "text-violet-400" : "text-white group-hover:text-violet-400"}`}>
+                                                {service.title}
+                                            </h3>
                                         </div>
-                                    ))}
+
+                                        {/* FAQ-style Plus/Minus Icon */}
+                                        <div className="relative w-5 h-5 flex-shrink-0">
+                                            <span className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-[1.5px] bg-current transition-transform duration-300 ${isOpen ? "text-violet-400" : "text-neutral-600"}`} />
+                                            <span
+                                                className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1.5px] h-4 bg-current transition-transform duration-300 ${isOpen ? "rotate-90 opacity-0 text-violet-400" : "text-neutral-600"
+                                                    }`}
+                                            />
+                                        </div>
+                                    </button>
+
+                                    {/* Expanded Content — FAQ-style Animation */}
+                                    <div className={`overflow-hidden transition-all duration-500 ease-in-out ${isOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"}`}>
+                                        <div className="px-8 pb-8 border-t border-white/5 pt-6">
+                                            <p className="text-neutral-400 mb-8 leading-relaxed max-w-3xl">
+                                                {service.description}
+                                            </p>
+
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                                {service.features.map((feature) => (
+                                                    <div
+                                                        key={feature}
+                                                        className="flex items-center gap-3 text-sm text-neutral-300 bg-white/5 border border-white/10 rounded-xl px-4 py-3"
+                                                    >
+                                                        <span className="text-violet-400 font-bold shrink-0">→</span>
+                                                        {feature}
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            );
+                        })}
                     </div>
                 </div>
             </section>
@@ -241,15 +271,15 @@ export default function RecruitmentPage() {
                     <p className="mx-auto mb-10 max-w-xl text-lg text-neutral-400">
                         Partner with us to find the right talent that drives your business forward.
                     </p>
-                    <Link
-                        href="/#contact"
+                    <button
+                        onClick={openEnquiry}
                         className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-indigo-500 to-violet-500 px-10 py-4 font-bold text-white transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(139,92,246,0.4)]"
                     >
                         Start Hiring
                         <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                         </svg>
-                    </Link>
+                    </button>
                 </div>
             </section>
         </main>

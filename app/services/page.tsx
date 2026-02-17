@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useEnquiry } from "@/context/EnquiryContext";
 import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -46,6 +47,7 @@ const mainServices = [
 
 export default function ServicesPage() {
     const containerRef = useRef<HTMLDivElement>(null);
+    const { openEnquiry } = useEnquiry();
 
     useEffect(() => {
         const ctx = gsap.context(() => {
@@ -239,15 +241,15 @@ export default function ServicesPage() {
                     <p className="mx-auto mb-10 max-w-xl text-lg text-neutral-400">
                         Let&apos;s discuss how we can help transform your business with our comprehensive digital solutions.
                     </p>
-                    <Link
-                        href="/#contact"
+                    <button
+                        onClick={openEnquiry}
                         className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-indigo-500 to-violet-500 px-10 py-4 font-bold text-white transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(139,92,246,0.4)]"
                     >
                         Start Your Project
                         <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                         </svg>
-                    </Link>
+                    </button>
                 </div>
             </section>
         </main>

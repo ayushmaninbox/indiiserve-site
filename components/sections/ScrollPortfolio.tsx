@@ -3,13 +3,14 @@
 import { useRef, useEffect, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Link from "next/link";
 import { Project } from "@/lib/types";
 
 export default function ScrollPortfolio() {
     const containerRef = useRef<HTMLDivElement>(null);
     const titleRef = useRef<HTMLHeadingElement>(null);
     const gridRef = useRef<HTMLDivElement>(null);
-    const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
+    const cardsRef = useRef<(HTMLAnchorElement | null)[]>([]);
     const [projects, setProjects] = useState<Project[]>([]);
 
     const [isMobile, setIsMobile] = useState(false);
@@ -19,9 +20,14 @@ export default function ScrollPortfolio() {
         const fetchProjects = async () => {
             try {
                 const res = await fetch("/api/projects");
-                const data: Project[] = await res.json();
-                // Take only the first 8 items for homepage as requested
-                setProjects(data.slice(0, 8));
+                const data = await res.json();
+                
+                if (Array.isArray(data)) {
+                    // Take only the first 8 items for homepage as requested
+                    setProjects(data.slice(0, 8));
+                } else {
+                    console.error("Projects API returned invalid data (expected array):", data);
+                }
             } catch (error) {
                 console.error("Failed to fetch projects:", error);
             }
@@ -171,10 +177,11 @@ export default function ScrollPortfolio() {
                     className="grid gap-6 grid-cols-2 lg:grid-cols-4 lg:gap-8"
                 >
                     {projects.map((project, index) => (
-                        <div
+                        <Link
                             key={project.id}
+                            href={`/work?id=${project.id}`}
                             ref={(el) => { cardsRef.current[index] = el }}
-                            className="group relative aspect-square w-full overflow-hidden rounded-xl border border-white/10 bg-black"
+                            className="group relative aspect-square w-full overflow-hidden rounded-xl border border-white/10 bg-black block cursor-pointer"
                         >
                             <div className="absolute inset-0 z-10 bg-black/20 transition-colors duration-500 group-hover:bg-black/0" />
 
@@ -208,7 +215,7 @@ export default function ScrollPortfolio() {
                                     </h3>
                                 </div>
                             </div>
-                        </div>
+                        </Link>
                     ))}
                 </div>
             </div>

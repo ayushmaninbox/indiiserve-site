@@ -131,7 +131,7 @@ export default function PageLoader() {
                     <div
                         key={i}
                         ref={el => { if (el) shapesRef.current[i] = el }}
-                        className={`absolute w-16 h-16 md:w-24 md:h-24 opacity-0
+                        className={`absolute w-10 h-10 md:w-24 md:h-24 opacity-0
                             ${i === 0 ? "top-[20%] left-[20%]" : ""}
                             ${i === 1 ? "bottom-[30%] right-[15%]" : ""}
                             ${i === 2 ? "top-[60%] left-[10%]" : ""}
@@ -148,20 +148,20 @@ export default function PageLoader() {
                 ))}
             </div>
 
-            <div className="relative z-10 flex flex-col items-center w-full max-w-md px-8">
+            <div className="relative z-10 flex flex-col items-center w-full max-w-md px-10 md:px-8">
                 {/* Large Counter */}
                 <div className="relative mb-2">
                     <span
                         ref={numberRef}
-                        className="text-[8rem] md:text-[12rem] font-bold bg-gradient-to-r from-indigo-400 via-violet-400 to-purple-400 bg-clip-text text-transparent font-migra leading-none"
+                        className="text-[5.5rem] md:text-[12rem] font-bold bg-gradient-to-r from-indigo-400 via-violet-400 to-purple-400 bg-clip-text text-transparent font-migra leading-none"
                     >
                         0
                     </span>
-                    <span className="text-2xl md:text-4xl text-white/50 font-migra absolute top-8 -right-8">%</span>
+                    <span className="text-lg md:text-4xl text-white/50 font-migra absolute top-4 -right-6 md:top-8 md:-right-8">%</span>
                 </div>
 
                 {/* Loading Bar Container */}
-                <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden mt-8 mb-4">
+                <div className="w-full h-[2px] md:h-1 bg-white/10 rounded-full overflow-hidden mt-6 md:mt-8 mb-3 md:mb-4">
                     <div
                         ref={progressRef}
                         className="h-full bg-gradient-to-r from-indigo-500 to-violet-500 shadow-[0_0_20px_rgba(139,92,246,0.5)] w-0"
@@ -169,9 +169,9 @@ export default function PageLoader() {
                 </div>
 
                 {/* Text */}
-                <div className="loading-text flex justify-between w-full text-xs font-medium uppercase tracking-[0.2em] text-white/40">
+                <div className="loading-text flex justify-between w-full text-[9px] md:text-xs font-medium uppercase tracking-[0.2em] text-white/40">
                     <span>Loading Experience</span>
-                    <span>InDiiServe ©2026</span>
+                    <span>InDiiServe.ai ©2026</span>
                 </div>
             </div>
         </div>

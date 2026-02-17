@@ -9,7 +9,7 @@ gsap.registerPlugin(ScrollTrigger);
 const testimonials = [
     {
         quote:
-            "InDiiServe transformed our digital presence completely. Their data-driven approach and creative strategies resulted in a 300% increase in online engagement.",
+            "InDiiServe.ai transformed our digital presence completely. Their data-driven approach and creative strategies resulted in a 300% increase in online engagement.",
         name: "Sarah Mitchell",
         role: "CEO, TechFlow Commerce",
         gradient: "from-indigo-500 to-violet-500",
@@ -23,7 +23,7 @@ const testimonials = [
     },
     {
         quote:
-            "Working with InDiiServe has been transformative. Their strategic insights and flawless execution made them an invaluable extension of our team.",
+            "Working with InDiiServe.ai has been transformative. Their strategic insights and flawless execution made them an invaluable extension of our team.",
         name: "Michael Roberts",
         role: "CMO, PaySwift Finance",
         gradient: "from-purple-500 to-pink-500",

@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: Props) {
     }
 
     return {
-        title: `${post.title} | InDiiServe Blog`,
+        title: `${post.title} | InDiiServe.ai Blog`,
         description: post.excerpt,
     };
 }

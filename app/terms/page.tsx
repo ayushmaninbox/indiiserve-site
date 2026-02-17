@@ -31,22 +31,22 @@ export default function TermsPage() {
                 <div className="space-y-8 opacity-70 leading-relaxed text-lg">
                     <section>
                         <h2 className="text-2xl font-bold text-white mb-4 font-migra">1. Introduction</h2>
-                        <p>Welcome to InDiiServe. These Terms & Conditions govern your use of our website and services. By accessing or using our services, you agree to be bound by these terms.</p>
+                        <p>Welcome to InDiiServe.ai. These Terms & Conditions govern your use of our website and services. By accessing or using our services, you agree to be bound by these terms.</p>
                     </section>
 
                     <section>
                         <h2 className="text-2xl font-bold text-white mb-4 font-migra">2. Services</h2>
-                        <p>InDiiServe provides digital branding, AI automation, and recruitment consulting services. We reserve the right to modify or discontinue any service at any time without notice.</p>
+                        <p>InDiiServe.ai provides digital branding, AI automation, and recruitment consulting services. We reserve the right to modify or discontinue any service at any time without notice.</p>
                     </section>
 
                     <section>
                         <h2 className="text-2xl font-bold text-white mb-4 font-migra">3. Intellectual Property</h2>
-                        <p>All content included on this site, such as text, graphics, logos, and images, is the property of InDiiServe or its content suppliers and is protected by international copyright laws.</p>
+                        <p>All content included on this site, such as text, graphics, logos, and images, is the property of InDiiServe.ai or its content suppliers and is protected by international copyright laws.</p>
                     </section>
 
                     <section>
                         <h2 className="text-2xl font-bold text-white mb-4 font-migra">4. Limitation of Liability</h2>
-                        <p>InDiiServe will not be liable for any damages of any kind arising from the use of this site or from any information, content, materials, or services included on or otherwise made available to you through this site.</p>
+                        <p>InDiiServe.ai will not be liable for any damages of any kind arising from the use of this site or from any information, content, materials, or services included on or otherwise made available to you through this site.</p>
                     </section>
 
                     <section>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useEnquiry } from "@/context/EnquiryContext";
 import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -65,6 +66,8 @@ function IndustryIcon({ name, className = "w-6 h-6" }: { name: string; className
 export default function AIAutomationPage() {
     const containerRef = useRef<HTMLDivElement>(null);
     const [activeSection, setActiveSection] = useState<"voice" | "whatsapp">("voice");
+    const { openEnquiry } = useEnquiry();
+    const [expandedIndustryId, setExpandedIndustryId] = useState<string | null>(null);
 
     useEffect(() => {
         const ctx = gsap.context(() => {
@@ -109,6 +112,10 @@ export default function AIAutomationPage() {
         return () => ctx.revert();
     }, []);
 
+    const toggleIndustry = (id: string) => {
+        setExpandedIndustryId(expandedIndustryId === id ? null : id);
+    };
+
     const currentData = activeSection === "voice"
         ? aiAutomationData.voiceAgent
         : aiAutomationData.whatsappChatbot;
@@ -119,13 +126,13 @@ export default function AIAutomationPage() {
     return (
         <main ref={containerRef} className="min-h-screen bg-[#030014] relative z-10">
             {/* Hero */}
-            <section className="relative flex min-h-[50vh] items-center justify-center pt-32 pb-12">
+            <section className="relative flex min-h-[40vh] md:min-h-[50vh] items-center justify-center pt-24 md:pt-32 pb-10 md:pb-12">
                 <div className="hero-content container mx-auto px-4 text-center max-w-3xl">
                     <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-violet-500/20 bg-violet-500/5 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-violet-400">
                         <span className="h-1.5 w-1.5 rounded-full bg-violet-400" />
                         AI & Automation
                     </span>
-                    <h1 className="mb-5 text-4xl font-bold text-white sm:text-5xl lg:text-6xl leading-[1.1]">
+                    <h1 className="mb-5 text-[clamp(2rem,8vw,3.75rem)] font-bold text-white sm:text-5xl lg:text-6xl leading-[1.1]">
                         Intelligent Automation Solutions
                     </h1>
                     <p className="mx-auto max-w-2xl text-base text-neutral-400 leading-relaxed">
@@ -136,16 +143,25 @@ export default function AIAutomationPage() {
             </section>
 
             {/* Tab Navigation */}
-            <section className="tab-section border-t border-white/5 py-16">
-                <div className="container mx-auto px-4 sm:px-6 max-w-5xl">
+            <section className="tab-section border-t border-white/5 py-12 md:py-16">
+                <div className="container mx-auto px-6 max-w-5xl">
                     {/* Toggle */}
                     <div className="flex justify-center mb-12">
-                        <div className="inline-flex rounded-full border border-white/10 bg-white/[0.02] p-1">
+                        <div className="relative inline-flex rounded-full border border-white/10 bg-white/[0.02] p-1.5 backdrop-blur-sm">
+                            {/* Liquid Glass Pill */}
+                            <div
+                                className="absolute top-1.5 bottom-1.5 left-1.5 transition-all duration-500 ease-[cubic-bezier(0.32,0,0.07,1)] bg-violet-500 shadow-[0_4px_15px_rgba(139,92,246,0.4)] rounded-full z-0"
+                                style={{
+                                    width: "calc(50% - 6px)",
+                                    transform: activeSection === "voice" ? "translateX(0) scaleX(1)" : "translateX(calc(100% + 6px)) scaleX(1)",
+                                }}
+                            />
+                            
                             <button
                                 onClick={() => setActiveSection("voice")}
-                                className={`flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-semibold transition-all ${activeSection === "voice"
-                                    ? "bg-violet-500 text-white"
-                                    : "text-neutral-400 hover:text-white"
+                                className={`relative z-10 flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-semibold transition-colors duration-300 ${activeSection === "voice"
+                                    ? "text-white"
+                                    : "text-neutral-400 hover:text-neutral-200"
                                     }`}
                             >
                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
@@ -155,9 +171,9 @@ export default function AIAutomationPage() {
                             </button>
                             <button
                                 onClick={() => setActiveSection("whatsapp")}
-                                className={`flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-semibold transition-all ${activeSection === "whatsapp"
-                                    ? "bg-violet-500 text-white"
-                                    : "text-neutral-400 hover:text-white"
+                                className={`relative z-10 flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-semibold transition-colors duration-300 ${activeSection === "whatsapp"
+                                    ? "text-white"
+                                    : "text-neutral-400 hover:text-neutral-200"
                                     }`}
                             >
                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
@@ -201,8 +217,8 @@ export default function AIAutomationPage() {
             </section>
 
             {/* Industry Use Cases */}
-            <section className="border-t border-white/5 py-20">
-                <div className="container mx-auto px-4 sm:px-6 max-w-5xl">
+            <section className="border-t border-white/5 py-16 md:py-20">
+                <div className="container mx-auto px-6 max-w-5xl">
                     <div className="text-center mb-12">
                         <span className="mb-4 inline-block text-xs font-semibold uppercase tracking-[0.2em] text-violet-400">
                             Industry Applications
@@ -215,35 +231,60 @@ export default function AIAutomationPage() {
                         </p>
                     </div>
 
-                    <div className="industries-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {currentUseCases.map((industry) => (
-                            <div
-                                key={industry.id}
-                                className="industry-card rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 transition-colors duration-300 hover:border-violet-500/20"
-                            >
-                                <div className="flex items-center gap-3 mb-5">
-                                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-500/10 border border-violet-500/20 text-violet-400">
-                                        <IndustryIcon name={industry.icon} className="w-5 h-5" />
-                                    </div>
-                                    <h3 className="text-base font-semibold text-white">
-                                        {industry.industry}
-                                    </h3>
-                                </div>
+                    <div className="industries-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 items-start gap-4">
+                        {currentUseCases.map((industry) => {
+                            const isOpen = expandedIndustryId === industry.id;
+                            return (
+                                <div
+                                    key={industry.id}
+                                    className={`industry-card rounded-2xl border transition-all duration-300 overflow-hidden ${isOpen 
+                                        ? "border-violet-500/50 bg-violet-500/10 shadow-[0_0_30px_rgba(139,92,246,0.15)]" 
+                                        : "border-white/[0.06] bg-white/[0.02] hover:border-violet-500/20"
+                                    }`}
+                                >
+                                    <button 
+                                        onClick={() => toggleIndustry(industry.id)}
+                                        className="w-full flex items-center justify-between p-6 text-left group"
+                                    >
+                                        <div className="flex items-center gap-3">
+                                            <div className={`flex h-10 w-10 items-center justify-center rounded-xl border transition-colors duration-300 ${isOpen ? "bg-violet-500/10 border-violet-500/30 text-violet-400" : "bg-white/5 border-white/10 text-neutral-500 group-hover:text-violet-400 group-hover:border-violet-500/20"}`}>
+                                                <IndustryIcon name={industry.icon} className="w-5 h-5" />
+                                            </div>
+                                            <h3 className={`text-base font-semibold transition-colors duration-300 ${isOpen ? "text-white" : "text-neutral-200 group-hover:text-white"}`}>
+                                                {industry.industry}
+                                            </h3>
+                                        </div>
 
-                                <ul className="space-y-3">
-                                    {industry.useCases.map((useCase, idx) => (
-                                        <li key={idx} className="border-l-2 border-violet-500/20 pl-3">
-                                            <h4 className="text-sm font-semibold text-neutral-200 mb-0.5">
-                                                {useCase.title}
-                                            </h4>
-                                            <p className="text-xs text-neutral-500 leading-relaxed">
-                                                {useCase.description}
-                                            </p>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        ))}
+                                        {/* FAQ-style Plus/Minus Icon */}
+                                        <div className="relative w-5 h-5 flex-shrink-0">
+                                            <span className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-[1.5px] bg-current transition-transform duration-300 ${isOpen ? "text-violet-400" : "text-neutral-600"}`} />
+                                            <span
+                                                className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1.5px] h-4 bg-current transition-transform duration-300 ${isOpen ? "rotate-90 opacity-0 text-violet-400" : "text-neutral-600"
+                                                    }`}
+                                            />
+                                        </div>
+                                    </button>
+
+                                    {/* Expanded Content — FAQ-style Animation */}
+                                    <div className={`overflow-hidden transition-all duration-500 ease-in-out ${isOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"}`}>
+                                        <div className="px-6 pb-6 border-t border-white/5">
+                                            <ul className="space-y-4 pt-6">
+                                                {industry.useCases.map((useCase, idx) => (
+                                                    <li key={idx} className="border-l-2 border-violet-500/20 pl-4">
+                                                        <h4 className="text-sm font-semibold text-neutral-200 mb-1">
+                                                            {useCase.title}
+                                                        </h4>
+                                                        <p className="text-xs text-neutral-500 leading-relaxed">
+                                                            {useCase.description}
+                                                        </p>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        })}
                     </div>
                 </div>
             </section>
@@ -291,15 +332,15 @@ export default function AIAutomationPage() {
                     <p className="mx-auto mb-8 text-neutral-400">
                         Let&apos;s discuss how AI automation can transform your customer interactions and scale your operations.
                     </p>
-                    <Link
-                        href="/#contact"
+                    <button
+                        onClick={openEnquiry}
                         className="inline-flex items-center gap-2 rounded-full bg-violet-500 px-8 py-3.5 text-sm font-bold text-white transition-all hover:bg-violet-400 active:scale-95"
                     >
                         Schedule a Demo
                         <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                         </svg>
-                    </Link>
+                    </button>
                 </div>
             </section>
         </main>

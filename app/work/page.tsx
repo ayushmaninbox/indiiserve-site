@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -11,9 +12,14 @@ gsap.registerPlugin(ScrollTrigger);
 type MediaType = "video" | "image";
 
 import { Project } from "@/lib/types";
+import { useSearchParams as useNextSearchParams } from "next/navigation";
+import { useEnquiry } from "@/context/EnquiryContext";
 
-export default function WorkPage() {
+function WorkContent() {
     const containerRef = useRef<HTMLDivElement>(null);
+    const router = useRouter();
+    const searchParams = useNextSearchParams();
+    const { openEnquiry } = useEnquiry();
     const [works, setWorks] = useState<Project[]>([]);
     const [loading, setLoading] = useState(true);
     const [activeFilter, setActiveFilter] = useState("All");
@@ -27,6 +33,13 @@ export default function WorkPage() {
                 const res = await fetch("/api/projects");
                 const data = await res.json();
                 setWorks(data);
+
+                // Handle Deep Linking - Open modal if ID is in URL
+                const workId = searchParams.get("id");
+                if (workId) {
+                    const project = data.find((p: Project) => p.id === workId);
+                    if (project) setSelectedWork(project);
+                }
             } catch (error) {
                 console.error("Failed to fetch works:", error);
             } finally {
@@ -34,7 +47,7 @@ export default function WorkPage() {
             }
         };
         fetchWorks();
-    }, []);
+    }, [searchParams]);
 
     const categories = ["All", ...Array.from(new Set(works.map((w) => w.category)))];
     const filtered = works.filter((w) => {
@@ -248,15 +261,15 @@ export default function WorkPage() {
                     <p className="mx-auto mb-8 text-neutral-400">
                         Let&apos;s bring your vision to life with strategy, design, and cutting-edge execution.
                     </p>
-                    <Link
-                        href="/#contact"
+                    <button
+                        onClick={openEnquiry}
                         className="inline-flex items-center gap-2 rounded-full bg-violet-500 px-8 py-3.5 text-sm font-bold text-white transition-all hover:bg-violet-400 active:scale-95"
                     >
                         Start a Conversation
                         <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                         </svg>
-                    </Link>
+                    </button>
                 </div>
             </section>
 
@@ -264,19 +277,25 @@ export default function WorkPage() {
             {selectedWork && (
                 <div
                     className="fixed inset-0 z-[100] flex items-center justify-center p-4"
-                    onClick={() => setSelectedWork(null)}
+                    onClick={() => {
+                        setSelectedWork(null);
+                        router.push("/work", { scroll: false });
+                    }}
                 >
                     {/* Backdrop */}
-                    <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
+                    <div className="absolute inset-0 bg-black/80 backdrop-blur-md" />
 
                     {/* Modal Card */}
                     <div
-                        className="relative z-10 w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-2xl border border-white/10 bg-[#0a0a1a] shadow-2xl"
+                        className="relative z-10 w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-2xl border border-white/10 bg-[#0a0a1a] shadow-2xl animate-in fade-in zoom-in-95 duration-300 ease-out"
                         onClick={(e) => e.stopPropagation()}
                     >
                         {/* Close button */}
                         <button
-                            onClick={() => setSelectedWork(null)}
+                            onClick={() => {
+                                setSelectedWork(null);
+                                router.push("/work", { scroll: false });
+                            }}
                             className="absolute top-4 right-4 z-20 h-9 w-9 rounded-full bg-white/10 backdrop-blur-sm border border-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors"
                         >
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
@@ -293,7 +312,6 @@ export default function WorkPage() {
                                     loop
                                     muted
                                     playsInline
-                                    controls
                                     className="absolute inset-0 w-full h-full object-contain bg-black"
                                 />
                             ) : (
@@ -339,5 +357,13 @@ export default function WorkPage() {
                 </div>
             )}
         </main>
+    );
+}
+
+export default function WorkPage() {
+    return (
+        <Suspense fallback={<div className="min-h-screen bg-[#030014]" />}>
+            <WorkContent />
+        </Suspense>
     );
 }

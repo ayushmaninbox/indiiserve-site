@@ -5,6 +5,10 @@ import { readProjects, addProject } from "@/lib/portfolioUtils";
 export async function GET() {
     try {
         const projects = readProjects();
+        if (!Array.isArray(projects)) {
+            console.error("readProjects() did not return an array:", projects);
+            return NextResponse.json({ error: "Internal server error: Invalid data format" }, { status: 500 });
+        }
         // Sort by displayOrder or order (support both IndiiServe/Marble)
         const sorted = projects.sort((a, b) => {
             const orderA = a.displayOrder ?? a.order ?? 0;
@@ -13,8 +17,8 @@ export async function GET() {
         });
         return NextResponse.json(sorted);
     } catch (error) {
-        console.error("Failed to fetch projects:", error);
-        return NextResponse.json({ error: "Failed to fetch projects" }, { status: 500 });
+        console.error("API Error in /api/projects:", error);
+        return NextResponse.json({ error: "Failed to fetch projects", details: error instanceof Error ? error.message : String(error) }, { status: 500 });
     }
 }
 

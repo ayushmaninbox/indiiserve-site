@@ -5,10 +5,19 @@ import path from 'path';
 const PORTFOLIO_CSV_FILENAME = 'portfolio.csv';
 
 export const readProjects = (): Project[] => {
-  return readCsv<any>(PORTFOLIO_CSV_FILENAME).map(row => ({
-    ...row,
-    tags: typeof row.tags === 'string' ? JSON.parse(row.tags) : (row.tags || [])
-  })) as Project[];
+  return readCsv<any>(PORTFOLIO_CSV_FILENAME).map(row => {
+    let tags = [];
+    try {
+      tags = typeof row.tags === 'string' ? JSON.parse(row.tags) : (row.tags || []);
+    } catch (e) {
+      console.error(`Error parsing tags for project ${row.id}:`, row.tags);
+      tags = [];
+    }
+    return {
+      ...row,
+      tags
+    } as Project;
+  });
 };
 
 export const writeProjects = (projects: Project[]): void => {
