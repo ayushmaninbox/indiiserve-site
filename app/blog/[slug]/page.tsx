@@ -5,6 +5,8 @@ import { readBlogs } from "@/lib/blogUtils";
 import LikeButton from "@/components/blog/LikeButton";
 import CommentSection from "@/components/blog/CommentSection";
 
+export const dynamic = 'force-dynamic';
+
 interface Props {
     params: Promise<{ slug: string }>;
 }

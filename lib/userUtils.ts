@@ -56,7 +56,7 @@ export const findUserByEmail = (email: string): AdminUser | undefined => {
 
 export const findUserById = (id: string): AdminUser | undefined => {
   const users = readUsers();
-  return users.find(u => u.id === id);
+  return users.find(u => String(u.id) === String(id));
 };
 
 export const validatePassword = async (password: string, hash: string): Promise<boolean> => {

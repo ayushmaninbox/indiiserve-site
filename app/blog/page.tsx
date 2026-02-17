@@ -6,6 +6,8 @@ export const metadata = {
     description: "Insights, tutorials, and updates from the InDiiServe.ai team.",
 };
 
+export const dynamic = 'force-dynamic';
+
 export default function BlogPage() {
     const blogs = readBlogs();
     return (

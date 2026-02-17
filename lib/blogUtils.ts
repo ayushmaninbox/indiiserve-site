@@ -7,10 +7,17 @@ const BLOGS_CSV_FILENAME = 'blogs.csv';
 
 export const readBlogs = (): Blog[] => {
   const allComments = readComments();
-  return readCsv<any>(BLOGS_CSV_FILENAME).map(row => ({
+  const blogs = readCsv<any>(BLOGS_CSV_FILENAME).map(row => ({
     ...row,
     comments: allComments[row.slug] || []
   })) as Blog[];
+  
+  // Sort blogs by date descending (newest first)
+  return blogs.sort((a, b) => {
+    const dateA = new Date(a.date || 0).getTime();
+    const dateB = new Date(b.date || 0).getTime();
+    return dateB - dateA;
+  });
 };
 
 export const writeBlogs = (blogs: Blog[]): void => {
