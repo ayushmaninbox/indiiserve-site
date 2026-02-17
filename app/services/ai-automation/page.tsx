@@ -147,19 +147,19 @@ export default function AIAutomationPage() {
                 <div className="container mx-auto px-6 max-w-5xl">
                     {/* Toggle */}
                     <div className="flex justify-center mb-12">
-                        <div className="relative inline-flex rounded-full border border-white/10 bg-white/[0.02] p-1.5 backdrop-blur-sm">
+                        <div className="relative inline-grid grid-cols-2 rounded-full border border-white/10 bg-white/[0.02] p-1.5 backdrop-blur-sm">
                             {/* Liquid Glass Pill */}
                             <div
                                 className="absolute top-1.5 bottom-1.5 left-1.5 transition-all duration-500 ease-[cubic-bezier(0.32,0,0.07,1)] bg-violet-500 shadow-[0_4px_15px_rgba(139,92,246,0.4)] rounded-full z-0"
                                 style={{
-                                    width: "calc(50% - 6px)",
-                                    transform: activeSection === "voice" ? "translateX(0) scaleX(1)" : "translateX(calc(100% + 6px)) scaleX(1)",
+                                    width: "calc(50% - 9px)",
+                                    transform: activeSection === "voice" ? "translateX(0)" : "translateX(calc(100% + 6px))",
                                 }}
                             />
                             
                             <button
                                 onClick={() => setActiveSection("voice")}
-                                className={`relative z-10 flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-semibold transition-colors duration-300 ${activeSection === "voice"
+                                className={`relative z-10 flex items-center justify-center gap-2 px-8 py-2.5 rounded-full text-sm font-semibold transition-colors duration-300 whitespace-nowrap ${activeSection === "voice"
                                     ? "text-white"
                                     : "text-neutral-400 hover:text-neutral-200"
                                     }`}
@@ -171,7 +171,7 @@ export default function AIAutomationPage() {
                             </button>
                             <button
                                 onClick={() => setActiveSection("whatsapp")}
-                                className={`relative z-10 flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-semibold transition-colors duration-300 ${activeSection === "whatsapp"
+                                className={`relative z-10 flex items-center justify-center gap-2 px-8 py-2.5 rounded-full text-sm font-semibold transition-colors duration-300 whitespace-nowrap ${activeSection === "whatsapp"
                                     ? "text-white"
                                     : "text-neutral-400 hover:text-neutral-200"
                                     }`}
