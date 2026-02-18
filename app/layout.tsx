@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import Script from "next/script";
+
 import localFont from "next/font/local";
 import { Poppins } from "next/font/google";
 import "./globals.css";
@@ -80,6 +82,19 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${migra.variable} ${poppins.variable} antialiased selection:bg-violet-500 selection:text-white font-migra bg-black`}>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-PPH7Z62608"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-PPH7Z62608');
+          `}
+        </Script>
         <FloatingGradients />
         <LoaderProvider>
           <EnquiryProvider>
