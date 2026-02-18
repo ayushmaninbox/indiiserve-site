@@ -111,9 +111,20 @@ export interface AIService {
     industries: AIUseCase[];
 }
 
-export interface RecruitmentService {
-    id: string;
+export interface BPMService {
+    tagline: string;
     title: string;
     description: string;
-    features: string[];
+    mainFeatures: string[];
+    services: {
+        id: string;
+        title: string;
+        description: string;
+        features: string[];
+    }[];
+    industries: string[];
+    stats: {
+        value: string;
+        label: string;
+    }[];
 }

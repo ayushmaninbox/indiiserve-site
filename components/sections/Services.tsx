@@ -27,11 +27,11 @@ const services = [
     },
     {
         number: "03",
-        title: "Recruitment",
+        title: "BPM",
         description:
-            "End-to-end recruitment services that help you find, attract, and hire the best talent for your organization across industries.",
-        features: ["Permanent Staffing", "Contract Staffing", "Executive Search", "Bulk Hiring", "HR Consulting"],
-        href: "/services/recruitment",
+            "Redesign and automate your core business processes using AI, automation, and performance intelligence to scale faster.",
+        features: ["IPA", "Lead & Sales Mgmt", "Customer Experience", "Data Analytics", "Process Audit"],
+        href: "/services/bpm",
     },
 ];
 

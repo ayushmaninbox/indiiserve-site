@@ -14,6 +14,7 @@ export default function Work() {
     const headerRef = useRef<HTMLDivElement>(null);
     const horizontalWrapperRef = useRef<HTMLDivElement>(null);
     const [projects, setProjects] = useState<Project[]>([]);
+    const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
 
     useEffect(() => {
         // Load projects from API
@@ -30,6 +31,32 @@ export default function Work() {
         };
         loadProjects();
     }, []);
+
+    // Smart Video Playback with Intersection Observer
+    useEffect(() => {
+        if (projects.length === 0) return;
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    const video = entry.target as HTMLVideoElement;
+                    if (entry.isIntersecting) {
+                        video.load(); // Explicitly trigger load
+                        video.play().catch(() => {});
+                    } else {
+                        video.pause();
+                    }
+                });
+            },
+            { threshold: 0.2 }
+        );
+
+        videoRefs.current.forEach((video) => {
+            if (video) observer.observe(video);
+        });
+
+        return () => observer.disconnect();
+    }, [projects]);
 
     useEffect(() => {
         const section = sectionRef.current;
@@ -147,11 +174,12 @@ export default function Work() {
                                 <div className="absolute inset-0">
                                     {project.type === "video" ? (
                                         <video
+                                            ref={(el) => { videoRefs.current[index] = el }}
                                             src={project.preview || project.media}
-                                            autoPlay
                                             loop
                                             muted
                                             playsInline
+                                            preload="metadata"
                                             className="absolute inset-0 w-full h-full object-cover"
                                         />
                                     ) : (

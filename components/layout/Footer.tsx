@@ -11,7 +11,7 @@ const siteLinks = [
 const serviceLinks = [
     { href: "/services/digital-branding", label: "Digital Branding" },
     { href: "/services/ai-automation", label: "AI & Automation" },
-    { href: "/services/recruitment", label: "Recruitment" },
+    { href: "/services/bpm", label: "BPM" },
     { href: "/services", label: "All Services" },
 ];
 

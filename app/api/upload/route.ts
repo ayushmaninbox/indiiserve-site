@@ -8,7 +8,7 @@ const ALLOWED_TYPES = [
   'image/jpeg', 'image/png', 'image/webp', 'image/gif',
   'video/mp4', 'video/webm', 'video/quicktime'
 ];
-const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+const MAX_FILE_SIZE = 15 * 1024 * 1024; // 15MB
 
 export async function POST(request: NextRequest) {
   try {
@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
     // Validate file size
     if (file.size > MAX_FILE_SIZE) {
       return NextResponse.json(
-        { error: 'File too large. Maximum size: 5MB' },
+        { error: 'File too large. Maximum size: 15MB' },
         { status: 400 }
       );
     }

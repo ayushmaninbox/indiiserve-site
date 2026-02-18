@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 import Lenis from "@studio-freight/lenis";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -13,6 +14,7 @@ interface SmoothScrollProps {
 
 export default function SmoothScroll({ children }: SmoothScrollProps) {
     const lenisRef = useRef<Lenis | null>(null);
+    const pathname = usePathname();
 
     useEffect(() => {
         // Initialize Lenis smooth scroll
@@ -67,6 +69,13 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
             });
         };
     }, []);
+
+    // Scroll to top on route change
+    useEffect(() => {
+        if (lenisRef.current) {
+            lenisRef.current.scrollTo(0, { immediate: true });
+        }
+    }, [pathname]);
 
     return <>{children}</>;
 }

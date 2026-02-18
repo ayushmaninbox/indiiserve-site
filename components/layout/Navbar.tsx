@@ -5,14 +5,14 @@ import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useEnquiry } from "@/context/EnquiryContext";
-import { LayoutGrid, Bot, Users, ChevronDown, Menu, X, ArrowUpRight } from "lucide-react";
+import { LayoutGrid, Bot, Activity, ChevronDown, Menu, X, ArrowUpRight } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const serviceDropdownItems = [
     { href: "/services/digital-branding", label: "Digital Branding", icon: <LayoutGrid className="w-4 h-4" /> },
     { href: "/services/ai-automation", label: "AI & Automation", icon: <Bot className="w-4 h-4" /> },
-    { href: "/services/recruitment", label: "Recruitment", icon: <Users className="w-4 h-4" /> },
+    { href: "/services/bpm", label: "BPM", icon: <Activity className="w-4 h-4" /> },
 ];
 
 const navLinks = [
@@ -150,7 +150,7 @@ export default function Navbar() {
                         </Link>
 
                         {/* Desktop Links */}
-                        <div className="hidden md:flex items-center gap-9">
+                        <div className="hidden lg:flex items-center gap-9">
                             {/* Services Dropdown */}
                             <div
                                 className="relative py-4"
@@ -201,7 +201,7 @@ export default function Navbar() {
                         <div className="flex items-center gap-4 ml-8">
                             <button
                                 onClick={openEnquiry}
-                                className="hidden md:flex items-center gap-3 relative overflow-hidden rounded-full bg-white px-8 py-3 text-[11px] font-black uppercase tracking-[0.2em] text-black transition-all hover:bg-violet-500 hover:text-white group/cta"
+                                className="hidden lg:flex items-center gap-3 relative overflow-hidden rounded-full bg-white px-8 py-3 text-[11px] font-black uppercase tracking-[0.2em] text-black transition-all hover:bg-violet-500 hover:text-white group/cta"
                             >
                                 <span className="relative z-10">Start Project</span>
                                 <Send className="w-3.5 h-3.5 relative z-10 group-hover/cta:translate-x-1 group-hover/cta:-translate-y-1 transition-transform" />
@@ -209,7 +209,7 @@ export default function Navbar() {
 
                             {/* Mobile Toggle */}
                             <button
-                                className="md:hidden p-2 text-white hover:text-violet-400 transition-colors"
+                                className="lg:hidden p-2 text-white hover:text-violet-400 transition-colors"
                                 onClick={() => setIsOpen(!isOpen)}
                             >
                                 {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}

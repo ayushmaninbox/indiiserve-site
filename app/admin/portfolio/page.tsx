@@ -442,9 +442,9 @@ function ProjectModal({
         const file = e.target.files?.[0];
         if (!file) return;
 
-        // Check 5MB limit
-        if (file.size > 5 * 1024 * 1024) {
-            (window as any).showToast?.("File too large. Maximum size: 5MB", "error");
+        // Check 15MB limit
+        if (file.size > 15 * 1024 * 1024) {
+            (window as any).showToast?.("File too large. Maximum size: 15MB", "error");
             return;
         }
 
@@ -546,7 +546,7 @@ function ProjectModal({
                         </div>
 
                         <div className="col-span-1">
-                            <label className="mb-2 block text-[10px] font-semibold uppercase tracking-[0.4em] text-slate-500 ml-1">Main Media (Max 5MB)</label>
+                            <label className="mb-2 block text-[10px] font-semibold uppercase tracking-[0.4em] text-slate-500 ml-1">Main Media (Max 15MB)</label>
                             <div className="space-y-4">
                                 {media && (
                                     <div className="relative h-24 w-40 rounded-2xl border border-white/10 overflow-hidden bg-white/[0.03] group shadow-xl">

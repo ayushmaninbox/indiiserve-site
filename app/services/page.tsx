@@ -6,7 +6,7 @@ import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { digitalBrandingServices } from "@/lib/serviceData";
-import { Sparkles, Bot, Users } from "lucide-react";
+import { Sparkles, Bot, Activity } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -34,15 +34,15 @@ const mainServices = [
         subServices: ["Voice Agent AI", "WhatsApp Chatbots", "Lead Qualification", "Customer Support", "Appointment Booking", "Order Tracking"],
     },
     {
-        id: "recruitment",
+        id: "bpm",
         number: "03",
-        title: "Recruitment",
-        tagline: "Find the Right Talent",
-        description: "End-to-end recruitment services that help you find, attract, and hire the best talent for your organization across industries.",
-        href: "/services/recruitment",
-        icon: Users,
+        title: "BPM",
+        tagline: "Transform Operations. Maximize ROI.",
+        description: "Redesign and automate your core business processes using AI, automation, and performance intelligence — helping you scale faster while reducing costs.",
+        href: "/services/bpm",
+        icon: Activity,
         color: "from-purple-500/20 to-pink-500/20",
-        subServices: ["Permanent Staffing", "Contract Staffing", "Executive Search", "Bulk Hiring", "HR Consulting"],
+        subServices: ["IPA", "Lead & Sales Mgmt", "Customer Experience", "Data Analytics", "Process Audit", "Scale Support"],
     },
 ];
 

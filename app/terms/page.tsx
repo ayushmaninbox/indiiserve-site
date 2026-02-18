@@ -36,7 +36,7 @@ export default function TermsPage() {
 
                     <section>
                         <h2 className="text-2xl font-bold text-white mb-4 font-migra">2. Services</h2>
-                        <p>InDiiServe.ai provides digital branding, AI automation, and recruitment consulting services. We reserve the right to modify or discontinue any service at any time without notice.</p>
+                        <p>InDiiServe.ai provides digital branding, AI automation, and Business Process Management (BPM) services. We reserve the right to modify or discontinue any service at any time without notice.</p>
                     </section>
 
                     <section>

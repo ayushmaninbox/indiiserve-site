@@ -42,13 +42,14 @@ export default function ScrollPortfolio() {
 
     // Smart Video Playback with Intersection Observer
     useEffect(() => {
-        if (!isMobile || projects.length === 0) return;
+        if (projects.length === 0) return;
 
         const observer = new IntersectionObserver(
             (entries) => {
                 entries.forEach((entry) => {
                     const video = entry.target as HTMLVideoElement;
                     if (entry.isIntersecting) {
+                        video.load(); // Explicitly trigger load
                         video.play().catch(() => {});
                     } else {
                         video.pause();
@@ -190,10 +191,10 @@ export default function ScrollPortfolio() {
                                 <video
                                     ref={(el) => { videoRefs.current[index] = el }}
                                     src={project.preview || project.media}
-                                    autoPlay={!isMobile}
                                     loop
                                     muted
                                     playsInline
+                                    preload="metadata"
                                     className="absolute inset-0 w-full h-full object-cover"
                                 />
                             ) : (

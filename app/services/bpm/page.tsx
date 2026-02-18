@@ -5,11 +5,11 @@ import { useEnquiry } from "@/context/EnquiryContext";
 import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { recruitmentData } from "@/lib/serviceData";
+import { bpmData } from "@/lib/serviceData";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function RecruitmentPage() {
+export default function BPMPage() {
     const containerRef = useRef<HTMLDivElement>(null);
     const [expandedServiceId, setExpandedServiceId] = useState<string | null>(null);
     const { openEnquiry } = useEnquiry();
@@ -37,7 +37,7 @@ export default function RecruitmentPage() {
                     ease: "power3.out",
                     scrollTrigger: {
                         trigger: ".stats-grid",
-                        start: "top 80%",
+                        start: "top 95%", // Fire earlier on mobile
                     },
                 }
             );
@@ -53,7 +53,7 @@ export default function RecruitmentPage() {
                     ease: "power3.out",
                     scrollTrigger: {
                         trigger: ".services-section",
-                        start: "top 80%",
+                        start: "top 95%", // Fire earlier on mobile
                     },
                 }
             );
@@ -73,6 +73,9 @@ export default function RecruitmentPage() {
                     },
                 }
             );
+
+            // Force refresh to ensure positions are correct
+            ScrollTrigger.refresh();
         }, containerRef);
 
         return () => ctx.revert();
@@ -81,25 +84,25 @@ export default function RecruitmentPage() {
     return (
         <main ref={containerRef} className="min-h-screen bg-transparent">
             {/* Hero Section */}
-            <section className="relative flex min-h-[40vh] md:min-h-[70vh] items-center justify-center overflow-hidden pt-24 md:pt-32 pb-12 md:pb-20">
+            <section className="relative flex min-h-[40vh] md:min-h-[70vh] items-center justify-center overflow-hidden pt-36 md:pt-32 pb-12 md:pb-20">
                 <div className="hero-content container mx-auto px-4 text-center sm:px-6">
                     <span className="mb-4 inline-block text-sm font-medium uppercase tracking-[0.2em] text-violet-400">
-                        {recruitmentData.tagline}
+                        {bpmData.tagline}
                     </span>
-                    <h1 className="mb-6 text-[clamp(2rem,8vw,4.5rem)] font-bold text-white sm:text-5xl lg:text-7xl">
-                        {recruitmentData.title.split(" ")[0]}{" "}
-                        <span className="bg-gradient-to-r from-indigo-400 via-violet-400 to-purple-400 bg-clip-text text-transparent">{recruitmentData.title.split(" ").slice(1).join(" ")}</span>
+                    <h1 className="mb-6 text-[clamp(1.5rem,8vw,4.5rem)] font-bold text-white sm:text-5xl lg:text-7xl leading-[1.2] md:leading-[1.1]">
+                        {bpmData.title.split(" ").slice(0, 2).join(" ")}{" "}
+                        <span className="bg-gradient-to-r from-indigo-400 via-violet-400 to-purple-400 bg-clip-text text-transparent">{bpmData.title.split(" ").slice(2).join(" ")}</span>
                     </h1>
-                    <p className="mx-auto max-w-3xl text-lg text-neutral-400 leading-relaxed">
-                        {recruitmentData.description}
+                    <p className="mx-auto max-w-3xl text-base md:text-lg text-neutral-400 leading-relaxed">
+                        {bpmData.description}
                     </p>
 
                     {/* Main Features */}
-                    <div className="mt-10 flex flex-wrap justify-center gap-4">
-                        {recruitmentData.mainFeatures.map((feature) => (
+                    <div className="mt-10 flex flex-wrap justify-center gap-3 md:gap-4 max-w-4xl mx-auto">
+                        {bpmData.mainFeatures.map((feature) => (
                             <span
                                 key={feature}
-                                className="inline-flex items-center gap-2 rounded-full border border-violet-500/30 bg-violet-500/10 px-5 py-2 text-sm text-violet-400"
+                                className="inline-flex items-center gap-2 rounded-full border border-violet-500/30 bg-violet-500/10 px-4 md:px-5 py-2 text-xs md:text-sm text-violet-400"
                             >
                                 <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
@@ -115,7 +118,7 @@ export default function RecruitmentPage() {
             <section className="border-t border-violet-500/20 py-12 md:py-16">
                 <div className="container mx-auto px-6 max-w-7xl">
                     <div className="stats-grid grid grid-cols-2 md:grid-cols-4 gap-8">
-                        {recruitmentData.stats.map((stat) => (
+                        {bpmData.stats.map((stat) => (
                             <div key={stat.label} className="stat-item text-center">
                                 <div className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-indigo-400 via-violet-400 to-purple-400 bg-clip-text text-transparent mb-2">
                                     {stat.value}
@@ -134,15 +137,15 @@ export default function RecruitmentPage() {
                 <div className="container mx-auto px-6 max-w-7xl">
                     <div className="text-center mb-16">
                         <span className="mb-4 inline-block text-sm font-medium uppercase tracking-[0.2em] text-violet-400">
-                            Our Services
+                            Our BPM Services
                         </span>
                         <h2 className="text-3xl font-bold text-white lg:text-4xl">
-                            Comprehensive Staffing Solutions
+                            Transforming Operations with AI
                         </h2>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 items-start gap-8">
-                        {recruitmentData.services.map((service, index) => {
+                        {bpmData.services.map((service, index) => {
                             const isOpen = expandedServiceId === service.id;
                             return (
                                 <div
@@ -215,7 +218,7 @@ export default function RecruitmentPage() {
                     </div>
 
                     <div className="flex flex-wrap justify-center gap-4 max-w-4xl mx-auto">
-                        {recruitmentData.industries.map((industry) => (
+                        {bpmData.industries.map((industry) => (
                             <span
                                 key={industry}
                                 className="industry-tag inline-block rounded-full glass-card px-6 py-3 text-neutral-300 hover:border-violet-500/30 hover:text-violet-400 transition-all cursor-default"
@@ -239,15 +242,15 @@ export default function RecruitmentPage() {
                         </h2>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-5 gap-6 max-w-6xl mx-auto">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8 md:gap-6 max-w-6xl mx-auto">
                         {[
-                            { step: "01", title: "Requirement Analysis", desc: "Understand your hiring needs and culture" },
-                            { step: "02", title: "Sourcing", desc: "Tap into our talent pool and networks" },
-                            { step: "03", title: "Screening", desc: "Rigorous assessment and shortlisting" },
-                            { step: "04", title: "Interviews", desc: "Coordinate and manage interview process" },
-                            { step: "05", title: "Onboarding", desc: "Support smooth candidate integration" },
+                            { step: "01", title: "Process Audit", desc: "Identify bottlenecks and automation potential" },
+                            { step: "02", title: "Strategy Design", desc: "Blueprint your AI-first transformation" },
+                            { step: "03", title: "Implementation", desc: "Deploy bots and intelligent workflows" },
+                            { step: "04", title: "Optimization", desc: "Fine-tune for maximum ROI and efficiency" },
+                            { step: "05", title: "Scale", desc: "Rapidly expand your automated operations" },
                         ].map((item, idx) => (
-                            <div key={item.step} className="relative text-center">
+                            <div key={item.step} className="relative text-center mb-4 md:mb-0">
                                 {idx < 4 && (
                                     <div className="hidden md:block absolute top-8 left-[60%] w-[80%] h-px bg-gradient-to-r from-violet-500/50 to-transparent" />
                                 )}
@@ -266,16 +269,16 @@ export default function RecruitmentPage() {
             <section className="border-t border-violet-500/20 py-24 lg:py-32">
                 <div className="container mx-auto px-4 text-center sm:px-6">
                     <h2 className="mb-6 text-3xl font-bold text-white lg:text-5xl">
-                        Ready to Build Your <span className="bg-gradient-to-r from-indigo-400 via-violet-400 to-purple-400 bg-clip-text text-transparent">Dream Team?</span>
+                        Ready to <span className="bg-gradient-to-r from-indigo-400 via-violet-400 to-purple-400 bg-clip-text text-transparent">Scale Smarter?</span>
                     </h2>
                     <p className="mx-auto mb-10 max-w-xl text-lg text-neutral-400">
-                        Partner with us to find the right talent that drives your business forward.
+                        Transform your operations today with our AI-driven BPM solutions.
                     </p>
                     <button
                         onClick={openEnquiry}
                         className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-indigo-500 to-violet-500 px-10 py-4 font-bold text-white transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(139,92,246,0.4)]"
                     >
-                        Start Hiring
+                        Optimize My Business
                         <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                         </svg>
