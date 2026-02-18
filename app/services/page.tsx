@@ -36,7 +36,7 @@ const mainServices = [
     {
         id: "bpm",
         number: "03",
-        title: "BPM",
+        title: "BPM Services",
         tagline: "Transform Operations. Maximize ROI.",
         description: "Redesign and automate your core business processes using AI, automation, and performance intelligence — helping you scale faster while reducing costs.",
         href: "/services/bpm",

@@ -12,7 +12,7 @@ gsap.registerPlugin(ScrollTrigger);
 const serviceDropdownItems = [
     { href: "/services/digital-branding", label: "Digital Branding", icon: <LayoutGrid className="w-4 h-4" /> },
     { href: "/services/ai-automation", label: "AI & Automation", icon: <Bot className="w-4 h-4" /> },
-    { href: "/services/bpm", label: "BPM", icon: <Activity className="w-4 h-4" /> },
+    { href: "/services/bpm", label: "BPM Services", icon: <Activity className="w-4 h-4" /> },
 ];
 
 const navLinks = [
