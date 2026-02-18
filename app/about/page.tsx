@@ -28,16 +28,16 @@ export default function AboutPage() {
             {/* Simple Hero Section */}
             <div ref={headerRef} className="max-w-[1400px] mx-auto px-6 md:px-20 mb-12 md:mb-20 text-center relative z-10">
                 <span className="inline-block text-sm font-medium tracking-[0.25em] uppercase text-violet-400 mb-6">
-                    InDiiServe.ai Stories
+                    InDiiServe SOLUTIONS
                 </span>
-                <h1 className="text-[clamp(2.5rem,10vw,7rem)] font-bold font-migra leading-[0.95] mb-8">
-                    Crafting Narratives <br />
+                <h1 className="text-[clamp(2.5rem,8vw,6rem)] font-bold font-migra leading-[0.95] mb-8">
+                    Beyond Service, <br />
                     <span className="bg-gradient-to-r from-indigo-400 via-violet-400 to-purple-400 bg-clip-text text-transparent italic">
-                        That Resonate.
+                        We Deliver Transformation.
                     </span>
                 </h1>
-                <p className="text-lg md:text-2xl opacity-70 max-w-[800px] mx-auto leading-relaxed">
-                    We don&apos;t just build brands; we build legacies. Every business has a story, and we make sure yours is the one people remember.
+                <p className="text-lg md:text-2xl opacity-70 max-w-[900px] mx-auto leading-relaxed">
+                    We are not a service provider; we are your strategic growth partner and dedicated problem-solvers. Built on the bedrock of over 60+ years of collective, hands-on experience, we turn your operational roadblocks into runways for growth.
                 </p>
             </div>
 

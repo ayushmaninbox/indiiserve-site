@@ -127,12 +127,12 @@ export default function About() {
                 floatingShapesRef.current.forEach((el, i) => {
                     if (!el) return;
                     const pos = staticPositions[i];
-                    
+
                     // Simple entrance: Fall from top then stay static
                     gsap.fromTo(el,
-                        { 
-                            x: `${pos.x}%`, 
-                            y: -200, 
+                        {
+                            x: `${pos.x}%`,
+                            y: -200,
                             opacity: 0,
                             rotation: Math.random() * 360
                         },
@@ -322,7 +322,7 @@ export default function About() {
                 <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-8 md:gap-20 items-start">
                     <div ref={labelRef}>
                         <span className="inline-block text-sm font-medium tracking-[0.15em] uppercase text-violet-400 mb-6">
-                            OUR STORY PHILOSOPHY
+                            OUR MISSION
                         </span>
                     </div>
 
@@ -331,30 +331,39 @@ export default function About() {
                             ref={titleRef}
                             className="text-[clamp(2rem,4vw,3.5rem)] font-semibold mb-10 font-migra leading-[1.2] text-white"
                         >
-                            Storytelling Is Not Content. <br className="hidden md:block" />
+                            Beyond Service, <br className="hidden md:block" />
                             <span className="bg-gradient-to-r from-indigo-400 via-violet-400 to-purple-400 bg-clip-text text-transparent">
-                                It’s Connection.
+                                We Deliver Transformation.
                             </span>
                         </h2>
 
                         <div className="space-y-6 text-lg md:text-xl leading-relaxed opacity-80 text-white mb-16">
                             <p ref={text1Ref}>
-                                Storytelling is the difference between being seen and being felt. It turns facts into emotions, and emotions into memory. In today’s noisy digital world, anyone can fill space. Very few can create meaning.
+                                We are not a service provider; we are your strategic growth partner and dedicated problem-solvers. Built on the bedrock of over 60+ years of collective, hands-on experience from our four visionary founders and directors, we know that success in today&apos;s complex landscape demands more than just advice—it demands actionable, integrated solutions.
                             </p>
-                            <p ref={text2Ref}>
-                                That’s where we come in. We don’t start with formats or platforms. We start with a simple question: What’s the story your brand is really trying to tell, and why should anyone care? Because when stories connect, trust follows. And when trust follows, growth doesn’t need to be forced.
-                            </p>
+                            <div ref={text2Ref} className="space-y-4">
+                                <p>Our comprehensive suite of expertise spans the critical needs of modern business:</p>
+                                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3 text-violet-300 font-medium">
+                                    <li>• Business Consultation</li>
+                                    <li>• Talent Acquisition</li>
+                                    <li>• Company Compliance</li>
+                                    <li>• Digital Marketing</li>
+                                    <li>• Learning Solutions</li>
+                                    <li>• BPM</li>
+                                    <li>• AI & Automation</li>
+                                </ul>
+                            </div>
                         </div>
 
                         <div className="pt-12 border-t border-violet-500/20 mb-16">
                             <span className="inline-block text-sm font-medium tracking-[0.15em] uppercase text-violet-400 mb-6">
-                                OUR BELIEF
+                                OUR APPROACH
                             </span>
                             <h3 className="text-2xl md:text-3xl font-semibold mb-6 font-migra text-white">
-                                When Our Clients’ Stories Win, <span className="text-violet-400">We Win.</span>
+                                Turning Roadblocks into <span className="text-violet-400">Runways for Growth.</span>
                             </h3>
                             <p className="text-lg opacity-70 leading-relaxed text-white max-w-[800px]">
-                                We are, and always will be, a storytelling-first company. Our job isn’t to chase trends or sell formats. It’s to challenge ideas, sharpen narratives, and act in the best interest of your brand’s long-term story. Because great brands aren’t built overnight. They’re built chapter by chapter.
+                                We immerse ourselves in your world, identifying the root causes of stagnation and crafting custom strategies that lead to tangible, measurable results. When you partner with us, you gain a team committed to your long-term prosperity.
                             </p>
                         </div>
 
